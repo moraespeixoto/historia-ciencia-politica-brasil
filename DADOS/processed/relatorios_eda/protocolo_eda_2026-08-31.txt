@@ -1,0 +1,136 @@
+================================================================================
+PROTOCOLO EXPLORATÓRIO OBRIGATÓRIO — CAMADA 2
+Projeto: História, Expansão e Institucionalização da Ciência Política no Brasil
+Data: 2026-08-31 
+================================================================================
+--- 1. UNIVARIADA POR SAFRA (ano) ---
+# A tibble: 13 × 2
+   an_base     n
+   <chr>   <int>
+ 1 2013      484
+ 2 2014      468
+ 3 2015      542
+ 4 2016      610
+ 5 2017      635
+ 6 2018      811
+ 7 2019      969
+ 8 2020      701
+ 9 2021      778
+10 2022      816
+11 2023      871
+12 2024     1002
+13 <NA>     4047
+--- 2. FALTANTES (NA) POR VARIÁVEL E SAFRA ---
+# A tibble: 156 × 3
+   an_base variavel             pct_na
+   <chr>   <chr>                 <dbl>
+ 1 2013    nm_programa               0
+ 2 2013    nm_area_avaliacao         0
+ 3 2013    nm_area_conhecimento      0
+ 4 2013    nm_orientador             0
+ 5 2013    nm_discente               0
+ 6 2013    dt_titulacao              0
+ 7 2013    nr_paginas                0
+ 8 2013    sg_entidade_ensino        0
+ 9 2013    nm_entidade_ensino        0
+10 2013    sg_uf_ies                 0
+# ℹ 146 more rows
+--- 3. UNICIDADE DE CHAVE ---
+Chave: cd_programa | Duplicatas: 68 | Total: 12734 
+Chave: id_producao_intelectual | Duplicatas: 3 | Total: 12734 
+Chave: id_add_producao_intelectual | Duplicatas: 1 | Total: 12734 
+--- 4. SENTINELAS E CAUDAS ---
+Páginas: min= 0  max= 2016  median= 125  Q1= 86  Q3= 175 
+--- 5. BIVARIADA ANO x ÁREA ---
+# A tibble: 5 × 14
+  nm_area_avaliacao      `2013` `2014` `2015` `2016` `2017` `2018` `2019` `2020`
+  <chr>                   <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>
+1 "CIÊNCIA POLÍTICA E R…    481    467    541    610    634    808    961    699
+2 "HISTÓRIA"                  3      0      0      0      0      0      0      0
+3 "DIREITO"                   0      1      1      0      1      2      8      2
+4 ""                          0      0      0      0      0      1      0      0
+5 "EDUCAÇÃO"                  0      0      0      0      0      0      0      0
+# ℹ 5 more variables: `2021` <int>, `2022` <int>, `2023` <int>, `2024` <int>,
+#   `NA` <int>
+--- 6. DENOMINADORES EXPLÍCITOS ---
+Total de registros: 12734 
+Anos cobertos: 13 ( 2013 - 2024 )
+Programas únicos: 70 
+IES únicas: 49 
+Orientadores únicos: 1198 
+Discentes únicos: 8014 
+--- 1. UNIVARIADA POR ANO ---
+# A tibble: 50 × 2
+     ano     n
+   <int> <int>
+ 1  1977    15
+ 2  1978    26
+ 3  1979    14
+ 4  1980    25
+ 5  1981    18
+ 6  1982    15
+ 7  1983    14
+ 8  1984    85
+ 9  1985   106
+10  1986    52
+# ℹ 40 more rows
+--- 2. FALTANTES ---
+# A tibble: 9 × 2
+  variavel  pct_na
+  <chr>      <dbl>
+1 titulo    0     
+2 doi       0.0911
+3 ano       0     
+4 periodico 0     
+5 issn      0     
+6 idioma    0.0148
+7 citacoes  0     
+8 fwci      0.0196
+9 resumo    0.187 
+--- 3. UNICIDADE DOI ---
+DOIs duplicados: 1 de 5005 
+--- 4. SENTINELAS (citações, FWCI) ---
+Citações: min= 0  max= 547  median= 3 
+FWCI: min= 0  max= 143,8613  median= 0 
+--- 5. PERIÓDICO x ANO ---
+# A tibble: 6 × 51
+  periodico       `2007` `2008` `2009` `2010` `2011` `2012` `2013` `2014` `2015`
+  <chr>            <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>  <int>
+1 Brazilian_Poli…     23     23     13     14     19     12     24     24     27
+2 DADOS_Revista_…     28     34     31     32     27     31     32     35     33
+3 Lua_Nova            21     25     27     25     30     25     35     29     33
+4 Opiniao_Publica     16     19     19     21     19     25     20     25     26
+5 RBCP_Revista_B…      0      0     20     18     32     38     30     35     36
+6 Revista_de_Soc…     40     49     47     42     53     52     42     37     30
+# ℹ 41 more variables: `2016` <int>, `2017` <int>, `2018` <int>, `2019` <int>,
+#   `2020` <int>, `2021` <int>, `2022` <int>, `2023` <int>, `2024` <int>,
+#   `2025` <int>, `2026` <int>, `1977` <int>, `1978` <int>, `1979` <int>,
+#   `1980` <int>, `1981` <int>, `1982` <int>, `1983` <int>, `1984` <int>,
+#   `1985` <int>, `1986` <int>, `1987` <int>, `1988` <int>, `1992` <int>,
+#   `1993` <int>, `1994` <int>, `1995` <int>, `1996` <int>, `1997` <int>,
+#   `1998` <int>, `1999` <int>, `2000` <int>, `2001` <int>, `2002` <int>, …
+--- 6. DENOMINADORES ---
+Artigos únicos: 5005 
+Periódicos: 6 
+Anos: 50 
+--- PROGRAMAS ---
+Anos: 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 
+Programas únicos (CD_PROGRAMA_IES): 69 
+IES únicas: 50 
+Estados: 16 
+Conceitos: 2, 3, 4, 5, 6, 7, A 
+Graus: DOUTORADO, DOUTORADO PROFISSIONAL, MESTRADO, MESTRADO PROFISSIONAL, MESTRADO PROFISSIONAL/DOUTORADO PROFISSIONAL, MESTRADO/DOUTORADO 
+Situação: EM DESATIVACAO, EM FUNCIONAMENTO 
+# A tibble: 1 × 6
+  nm_programa_ies nm_area_avaliacao cd_conceito_programa ano_inicio_programa
+            <dbl>             <dbl>                <dbl>               <dbl>
+1               0                 0                    0                0.75
+# ℹ 2 more variables: sg_uf_programa <dbl>, nm_grau_programa <dbl>
+--- DOCENTES ---
+Anos: 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 
+Docentes únicos: 1695 
+Instituições: 59 
+Categorias: COLABORADOR, PERMANENTE, VISITANTE 
+
+
+FIM DO RELATÓRIO.

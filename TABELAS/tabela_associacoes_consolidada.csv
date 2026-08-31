@@ -1,0 +1,155 @@
+associacao,area,ano,edicao,local,participantes,trabalhos,trabalhos_aprovados,gt,fonte
+ANPEGE,Geografia,1995,I,Aracaju (SE),23,114,NA,10,Teixeira 2019 (Rev. Tamoios)
+ANPEGE,Geografia,1997,II,Rio de Janeiro (RJ),NA,93,NA,5,Teixeira 2019; Inaba 2009
+ANPEGE,Geografia,1999,III,São Paulo (SP),NA,NA,NA,NA,Teixeira 2019 (encontro administrativo)
+ANPEGE,Geografia,2002,IV,São Paulo (SP),NA,NA,NA,NA,Teixeira 2019; Inaba 2009
+ANPEGE,Geografia,2003,V,Florianópolis (SC),NA,364,NA,5,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2005,VI,Fortaleza (CE),567,408,NA,8,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2007,VII,Niterói (RJ),1033,696,NA,19,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2009,VIII,Curitiba (PR),634,613,NA,22,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2011,IX,Goiânia (GO),NA,856,NA,30,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2013,X,Campinas (SP),1455,903,NA,31,Teixeira 2019; Barros 2024; FAPESP
+ANPEGE,Geografia,2015,XI,Presidente Prudente (SP),973,989,NA,41,Teixeira 2019; Barros 2024
+ANPEGE,Geografia,2017,XII,Porto Alegre (RS),NA,NA,NA,49,Barros 2024 (sem dados); dissertação UFU
+ANPEGE,Geografia,2019,XIII,São Paulo (SP),3000,1642,NA,55,IGU 2019; Barros 2024
+ANPEGE,Geografia,2021,XIV,João Pessoa (PB) on-line,2535,1451,NA,72,Barros 2024; Anais Realize
+ANPEGE,Geografia,2023,XV,Palmas (TO),1695,2074,NA,75,Barros 2024; Anais Realize
+ANPEGE,Geografia,2025,XVI,Macapá (AP),3000,NA,NA,63,Amapá Digital; Unifap
+ANPEC,Economia,2001,29º,NA,NA,NA,108,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2002,30º,NA,NA,NA,116,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2003,31º,NA,NA,NA,150,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2004,32º,NA,NA,NA,158,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2005,33º,NA,NA,NA,174,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2006,34º,NA,NA,NA,183,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2007,35º,NA,NA,829,177,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2008,36º,NA,NA,672,210,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2009,37º,NA,NA,624,233,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2010,38º,NA,NA,618,165,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2011,39º,NA,NA,626,237,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2012,40º,NA,NA,794,243,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2013,41º,NA,NA,703,241,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2014,42º,NA,NA,780,240,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2015,43º,NA,NA,958,239,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2016,44º,NA,NA,638,240,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2017,45º,NA,NA,748,240,NA,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2018,46º,NA,NA,NA,240,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2019,47º,NA,NA,NA,240,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2020,48º,NA,NA,NA,270,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2021,49º,NA,NA,NA,264,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2022,50º,NA,NA,NA,308,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2023,51º,NA,NA,NA,320,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2024,52º,NA,NA,NA,321,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2025,53º,NA,NA,NA,303,NA,Contagem das listas oficiais (en.anpec.org.br)
+ANPOCS,Ciências Sociais (guarda-chuva),1977,1º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1978,2º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1979,3º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1980,4º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1981,5º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1982,6º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1983,7º,NA,NA,NA,NA,NA,participantes 1977-83 agregados (294 no periodo);relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1984,8º,NA,NA,NA,NA,35,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1985,9º,NA,NA,NA,NA,363,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1986,10º,NA,NA,NA,NA,356,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1987,11º,NA,NA,NA,NA,346,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1988,12º,NA,NA,NA,NA,319,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1989,13º,NA,NA,NA,NA,336,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1990,14º,NA,NA,NA,NA,267,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1991,15º,NA,NA,NA,NA,323,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1992,16º,NA,NA,NA,NA,330,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1993,17º,NA,NA,NA,NA,262,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1994,18º,NA,NA,NA,NA,457,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1995,19º,NA,NA,NA,NA,474,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1996,20º,NA,NA,NA,NA,497,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1997,21º,NA,NA,NA,NA,288,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1998,22º,NA,NA,NA,NA,446,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),1999,23º,NA,NA,NA,NA,465,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),2000,24º,NA,NA,NA,NA,499,;relatorio_gestao_2007_2008_Quadro5
+ANPOCS,Ciências Sociais (guarda-chuva),2001,25º,NA,774,NA,NA,NA,inscritos=presentes;relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2002,26º,NA,1063,NA,NA,NA,;relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2003,27º,NA,1161,NA,NA,NA,Quadro5 diz 542;relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2004,28º,NA,1320,NA,NA,NA,Quadro5 diz 592;relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2005,29º,NA,1282,2065,324,NA,relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2006,30º,NA,1461,1755,588,NA,relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2007,31º,NA,1634,1659,602,35,relatorio_gestao_2007_2008
+ANPOCS,Ciências Sociais (guarda-chuva),2008,32º,NA,1641,2141,807,41,relatorio_gestao_2007_2008
+ANPOCS,Ciências Sociais (guarda-chuva),2009,33º,NA,1602,2078,692,41,relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2010,34º,NA,1487,1731,627,37,relatorio_estatistico_2010
+ANPOCS,Ciências Sociais (guarda-chuva),2011,35º,NA,1352,2218,464,NA,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2012,36º,NA,1377,2000,756,NA,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2013,37º,NA,1208,1996,523,37,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2014,38º,NA,1241,2234,745,NA,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2015,39º,NA,1277,1937,772,42,relatorio_estatistico_2015
+ANPOCS,Ciências Sociais (guarda-chuva),2016,40º,NA,1374,1982,880,NA,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2017,41º,NA,1206,1976,807,35,relatorio_estatistico_2017
+ANPOCS,Ciências Sociais (guarda-chuva),2018,42º,NA,NA,NA,NA,NA,";GTs (bienio 2017-2018, sem contagem publicada);edital_42"
+ANPOCS,Ciências Sociais (guarda-chuva),2019,43º,NA,NA,NA,NA,NA,;STs (sem contagem publicada);edital_43
+ANPOCS,Ciências Sociais (guarda-chuva),2020,44º,NA,NA,NA,NA,NA,contagem derivada do hub oficial;hub_44
+ANPOCS,Ciências Sociais (guarda-chuva),2021,45º,NA,NA,NA,NA,NA,contagem derivada do hub oficial;hub_45
+ANPOCS,Ciências Sociais (guarda-chuva),2022,46º,NA,NA,NA,NA,NA,contagem derivada dos hubs oficiais;hub_46
+ANPOCS,Ciências Sociais (guarda-chuva),2023,47º,NA,NA,NA,NA,NA,contagem derivada dos hubs oficiais;hub_47
+ANPOCS,Ciências Sociais (guarda-chuva),2024,48º,NA,1193,NA,NA,NA,noticia IFCH/Unicamp;ifch_unicamp
+ANPOCS,Ciências Sociais (guarda-chuva),2025,49º,Campinas (SP) Unicamp,1200,NA,NA,68,IFCH/Unicamp ~1.200 previstos (pré-evento); 68 GTs + 29 SPGs (contagem dos hubs); balanço final não publicado
+ANPOCS,Ciências Sociais (guarda-chuva),2026,50º,Campinas (SP) Unicamp — híbrido (setembro-outubro de 2026),NA,NA,NA,NA,Edital e site oficial (encontro2026.anpocs.org.br); ainda não realizado
+ABCP,Ciência Política,2008,6º,Campinas (SP) UNICAMP,NA,764,NA,NA,Agência FAPESP (trabalhos inscritos)
+ABCP,Ciência Política,2012,8º,Gramado (RS),756,963,502,12,Boletim ABCP ago-set 2012 (963 submetidos; 502 aprovados; 12 ATs)
+ABCP,Ciência Política,2020,12º,online (João Pessoa-PB),1270,NA,NA,17,Relatório de Gestão ABCP 2018-2020 (2.231 cadastrados; 1.270 ativos; 17 ATs)
+ABCP,Ciência Política,2024,14º,Salvador (BA) UFBA,1722,1068,NA,NA,Relatório de Gestão ABCP 2022-24 (1.722 inscritos; 1.068 trabalhos recebidos)
+ABCP,Ciência Política,2026,15º,Belém (PA) UFPA — híbrido,NA,NA,NA,18,ABCP (abcp2026.sinteseeventos.com.br); 18 áreas temáticas (contagem própria); balanço de trabalhos e inscritos não publicado até 31/08/2026
+ANPUH,História,1961,I,Marília (SP),NA,NA,NA,NA,Café História (tabela compiladora)
+ANPUH,História,1965,III,Franca (SP),NA,18,NA,NA,Anais SNH (45 inscritas; 18 apresentadas)
+ANPUH,História,1967,IV,Porto Alegre (RS),181,26,NA,NA,Anais SNH
+ANPUH,História,1969,V,Campinas (SP),394,55,NA,NA,Anais SNH
+ANPUH,História,1971,VI,Goiânia (GO),774,72,NA,NA,Anais SNH
+ANPUH,História,1973,VII,Belo Horizonte (MG),772,93,NA,NA,Anais SNH
+ANPUH,História,1975,VIII,Aracaju (SE),700,72,NA,NA,Anais SNH
+ANPUH,História,1979,X,Niterói (RJ),NA,60,NA,NA,Santos 2009 (UEL)
+ANPUH,História,1981,XI,João Pessoa (PB),NA,68,NA,NA,Santos 2009
+ANPUH,História,1985,XIII,Curitiba (PR),NA,93,NA,NA,Santos 2009
+ANPUH,História,1987,XIV,Brasília (DF),NA,206,NA,NA,Santos 2009
+ANPUH,História,1989,XV,Belém (PA),NA,85,NA,NA,Santos 2009
+ANPUH,História,1991,XVI,Rio de Janeiro (RJ),3000,108,NA,NA,Anais SNH; Santos 2009
+ANPUH,História,1993,XVII,São Paulo (SP),1200,650,NA,NA,Anais SNH
+ANPUH,História,1995,XVIII,Recife (PE),NA,591,NA,NA,Santos 2009
+ANPUH,História,1997,XIX,Belo Horizonte (MG),2000,1400,NA,NA,Anais SNH (2.300 inscritos; 1.400 apresentados)
+ANPUH,História,1999,XX,Florianópolis (SC),NA,2105,NA,NA,Anais SNH (inscritos)
+ANPUH,História,2001,XXI,Niterói (RJ),NA,2500,NA,18,Anais SNH (2.500 títulos inscritos; 18 GTs)
+ANPUH,História,2003,XXII,João Pessoa (PB),NA,1800,NA,61,Santos 2009 (61 ST; ~1.800 inscritos)
+ANPUH,História,2005,XXIII,Londrina (PR),4000,2400,NA,75,Santos 2009 (2.400 apresentados; 75 ST)
+ANPUH,História,2007,XXIV,São Leopoldo (RS),5000,2700,NA,76,Santos 2009; Oikos (2.700 apresentados; 76 ST)
+ANPUH,História,2009,XXV,Fortaleza (CE),6000,NA,NA,NA,Página oficial XXVII SNH
+ANPUH,História,2011,XXVI,São Paulo (SP),8000,NA,NA,130,Página oficial; imprensa
+ANPUH,História,2013,XXVII,Natal (RN),8000,NA,NA,141,Página oficial (prev.)
+ANPUH,História,2015,XXVIII,Florianópolis (SC),5500,NA,NA,113,FloripaManha (prev.); contagem ST
+ANPUH,História,2017,XXIX,Brasília (DF),NA,NA,NA,107,Site do evento (contagem ST)
+ANPUH,História,2019,XXX,Recife (PE),NA,NA,NA,113,Site do evento (contagem ST)
+ANPUH,História,2021,XXXI,Virtual,NA,NA,NA,NA,Site fora do ar (sem dados)
+ANPUH,História,2023,XXXII,São Luís (MA),3800,NA,NA,86,UEMASUL (3.800 inscritos); contagem ST
+ANPUH,História,2025,XXXIII,Belo Horizonte (MG),NA,NA,NA,162,"snh2025.anpuh.org/apresentacao (público estimado ~5.000, pré-evento); contagem de STs do site oficial (162); balanço final não publicado em fonte acessível (31/08/2026)"
+SBS,Sociologia,1997,8º,Brasília (DF),250,130,NA,NA,Site SBS – Histórico
+SBS,Sociologia,1999,9º,Porto Alegre (RS),600,NA,NA,NA,Site SBS – Histórico (~600 participantes e trabalhos)
+SBS,Sociologia,2003,11º,Campinas (SP),1200,NA,NA,NA,Site SBS – Histórico (mais de 1.200)
+SBS,Sociologia,2005,12º,Belo Horizonte (MG),1400,NA,NA,NA,Site SBS – Histórico
+SBS,Sociologia,2007,13º,Recife (PE),2600,NA,NA,NA,Site SBS – Histórico (mais de 2.600 credenciados)
+SBS,Sociologia,2009,14º,Rio de Janeiro (RJ),5371,NA,NA,NA,Site SBS – Histórico (2.607 local + 2.764 site)
+SBS,Sociologia,2011,15º,Curitiba (PR),1825,NA,NA,32,Site SBS – Histórico (32 GTs)
+SBS,Sociologia,2013,16º,Salvador (BA),NA,1493,NA,37,Site SBS – Histórico (1.493 papers aceitos; 37 GTs)
+SBS,Sociologia,2015,17º,Porto Alegre (RS),2360,NA,NA,NA,Site SBS – Histórico
+SBS,Sociologia,2017,18º,Brasília (DF),1199,NA,NA,40,Site SBS – Histórico; editorial RBS (40 GTs)
+SBS,Sociologia,2019,19º,Florianópolis (SC),2306,NA,NA,NA,Site SBS – Histórico (2.306 pessoas; 3.824 inscrições)
+SBS,Sociologia,2021,20º,Belém (PA) virtual,2977,NA,NA,NA,UFPA (2.977 inscrições pré-evento)
+SBS,Sociologia,2023,21º,Belém (PA),1700,NA,NA,NA,Blog pessoal (não institucional; mais de 1.700 inscritos)
+SBS,Sociologia,2025,22º,São Paulo (SP) — FFLCH/USP,NA,NA,NA,NA,Site do 22º Congresso (sbs2025.sbsociologia.com.br); balanço não publicado em fonte acessível (31/08/2026)
+ABA,Antropologia,1953,1ª,Rio de Janeiro (RJ),22,NA,NA,NA,"Livro 70 anos RBA (ABA, 2024)"
+ABA,Antropologia,1955,2ª,Salvador (BA),47,31,NA,NA,Livro 70 anos RBA
+ABA,Antropologia,1958,3ª,Recife (PE),25,NA,NA,NA,Livro 70 anos RBA
+ABA,Antropologia,1990,17ª,Florianópolis (SC),500,NA,NA,20,Livro 70 anos RBA
+ABA,Antropologia,2006,25ª,Goiânia (GO),2000,NA,NA,NA,Livro 70 anos RBA
+ABA,Antropologia,2010,27ª,Belém (PA),1117,NA,NA,NA,Relatório ABA 2015/2016
+ABA,Antropologia,2012,28ª,São Paulo (SP),2524,NA,NA,160,Relatório ABA 2015/2016; FAPESP
+ABA,Antropologia,2014,29ª,Natal (RN),3761,NA,NA,83,Relatório ABA 2015/2016; livro 70 anos
+ABA,Antropologia,2016,30ª,João Pessoa (PB),1812,NA,NA,NA,Informativo ABA 19/2016
+ABA,Antropologia,2018,31ª,Brasília (DF),2700,NA,NA,66,UnB; Relatório ABA 2017/2018
+ABA,Antropologia,2020,32ª,virtual (UERJ),3402,2707,1933,81,Relatório ABA 2019/2020 (2.707 propostas; 1.933 aprovadas; 81 GTs)
+ABA,Antropologia,2022,33ª,remota (UFPR),2771,NA,NA,78,Informativo ABA 17/2022
+ABA,Antropologia,2024,34ª,Belo Horizonte (MG),2792,NA,NA,104,O Tempo; Relatório ABA 2023/2024
+ABA,Antropologia,2026,35ª,Goiânia (GO) — UFG,NA,NA,NA,115,plataforma9.com/congressos/35-reuniao-brasileira-de-antropologia.htm; 35rba.abant.org.br (GTs = contagem própria do hub; balanço de participantes/trabalhos não publicado)

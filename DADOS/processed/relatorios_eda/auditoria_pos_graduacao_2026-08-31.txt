@@ -1,0 +1,26 @@
+================================================================
+SEGUNDA AUDITORIA — DADOS DE PÓS-GRADUAÇÃO (2026-08-31)
+================================================================
+
+--- 1. Reconciliação: série CP/RI (comparada) x série principal ---
+  Anos com divergência > 5%: 10 de 38
+  Anos divergentes: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+  (2003-2012 é resíduo conhecido e não investigado a fundo — ver AUDITORIA.md §9;
+   qualquer divergência em 1987-1995 ou 2013+ voltaria a indicar o bug do sentinela.)
+
+--- 2. Parser de dt_titulacao (layout 2013-2024) ---
+  % de NA após parser explícito: 0% (era ~76% com tryFormats() genérico)
+  % com ano de defesa != AN_BASE: 0%
+
+--- 3. Registros com grau 'Profissionalizante' (layout 1987-2012) ---
+  N = 269 (reclassificados como Mestrado em 05_analise_temporal.R)
+  'Grau não informado' após correção: 0 (deve ser 0)
+
+--- 4. Filtro área 39, layout novo: área de avaliação x crosswalk ---
+  Via área de avaliação: 8662 | via crosswalk Sucupira: 8663
+  Discordância: 1 registro(s) de 8687
+
+--- 5. Duplicatas remanescentes (CAPES) ---
+  Duplicatas em id_producao_intelectual: 2 grupo(s)
+
+>>> AUDITORIA CONCLUÍDA. Achados completos e ações tomadas em AUDITORIA.md §9.

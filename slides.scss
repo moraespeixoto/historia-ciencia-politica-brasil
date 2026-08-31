@@ -1,0 +1,30 @@
+/*-- scss:defaults --*/
+$body-bg: #FCFCFA;
+$body-color: #1A1A1A;
+$link-color: #0072B2;
+$presentation-heading-color: #0B1E33;
+$presentation-font-size-root: 30px;
+$code-block-bg: #F2F1EC;
+
+/*-- scss:rules --*/
+.reveal h1, .reveal h2 {
+  font-weight: 700;
+}
+.reveal h2 {
+  font-size: 1.35em;
+  margin-bottom: 0.3em;
+}
+.reveal .slide-number {
+  color: #9a9a92;
+}
+.reveal .footer {
+  color: #9a9a92;
+  font-size: 0.4em;
+}
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+.reveal .smaller {
+  font-size: 0.82em;
+}

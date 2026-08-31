@@ -1,0 +1,29 @@
+# R & RStudio
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Dados brutos (baixados de fontes públicas — CAPES, Sucupira, OpenAlex; ver
+# README.md para instruções de reobtenção). Não versionados por volume (~1,4 GB).
+DADOS/raw/*
+!DADOS/raw/.gitkeep
+# Dados processados (.rds/.csv, ~35 MB) SÃO versionados: são as bases que o
+# artigo e a apresentação de fato leem, e permitem reproduzir figuras/tabelas
+# sem precisar rebaixar e reprocessar os brutos.
+
+# Render & build artifacts Quarto / LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*_files/
+*_cache/
+.quarto/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
