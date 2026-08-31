@@ -38,21 +38,21 @@ comp_metricas <- read_csv(here::here("TABELAS", "tabela_comparacao_metricas_cape
 grau_ano <- readRDS(here::here("DADOS", "processed", "capes_titulos_por_grau_ano.rds"))
 ```
 
-## A Trajetória da Ciência Política no Brasil {background-color="#0B1E33"}
-
-::: {style="color:#F2F2F2;"}
-**Institucionalização, expansão da pós-graduação e diversificação temática**
-
-Vitor Peixoto — UENF · `r format(Sys.Date(), "%B de %Y")`
-
-Fontes: Catálogo CAPES (1987–2024) · Plataforma Sucupira (2013–2024) · OpenAlex (1977–2024)
-:::
-
-## O sistema cresceu quase 39 vezes em quatro décadas {.big-title}
+## Sessenta anos depois, quanto do que chamamos de "expansão da Ciência Política" é, de fato, Ciência Política? {.big-title}
 
 ::: {style="margin-top:8%;"}
-![](FIGURAS/slides/slide_01_titulos_grau.png){width=92%}
+A Área 39 da CAPES também abriga Relações Internacionais, Políticas Públicas e Defesa e Segurança.
+
+Este é um retrato empírico do sistema de pós-graduação da área — sem transformar crescimento observado em efeito causal de nenhuma política específica.
 :::
+
+::: {.notes}
+Slide de abertura conceitual. O ponto a plantar: a narrativa corrente de expansão pode estar, em boa parte, contando a história de campos limítrofes.
+:::
+
+## O sistema cresceu quase 39 vezes em quatro décadas
+
+![](FIGURAS/slides/slide_01_titulos_grau.png){width=92%}
 
 ::: {.notes}
 26 títulos em 1987 → 1.002 em 2024. A queda de 2019 para 2020 (961 → 699) é provavelmente efeito da pandemia sobre o calendário de defesas e de registro, não uma reversão da tendência — a série se recupera nos anos seguintes.
