@@ -45,6 +45,18 @@ historia_ciencia_politica_brasil/
 Artefato canônico da área 39: `DADOS/processed/capes_cp_area39.rds` (gerado pelo script 08,
 já filtrado). Os scripts 06, 07 e 10 leem esse arquivo em vez de reimplementar o filtro.
 
+## 📦 Dados brutos (não incluídos no repositório)
+
+`DADOS/raw/` não é versionado (fontes públicas, ~1,4 GB). `DADOS/processed/` **é**
+versionado (~35 MB) — as bases que o artigo e a apresentação de fato leem já
+estão no repositório, então figuras/tabelas/números são reprodutíveis sem
+rebaixar nada. Para reobter os brutos e refazer o pipeline desde a coleta:
+
+- **CAPES — Catálogo de Teses e Dissertações**: [dadosabertos.capes.gov.br](https://dadosabertos.capes.gov.br/) (safras 1987–2024, dois layouts históricos — ver `SCRIPTS/01_coleta_capes_teses.R` e `SCRIPTS/12_coleta_capes_comparada.R`).
+- **Plataforma Sucupira — Cursos e Docentes**: [dadosabertos.capes.gov.br](https://dadosabertos.capes.gov.br/) (`SCRIPTS/02_coleta_sucupira_ppgs.R`).
+- **OpenAlex** (metadados de artigos por periódico, via API): `SCRIPTS/03_coleta_openalex_artigos.R`.
+- **Associações científicas**: relatórios-fonte já reunidos em `PESQUISA_ASSOCIACOES/` (`SCRIPTS/15_associacoes_cientificas.R`).
+
 ## 🚀 Como Reproduzir
 
 1. Abra o projeto no RStudio através do arquivo `historia_ciencia_politica_brasil.Rproj` ou no terminal via R.
