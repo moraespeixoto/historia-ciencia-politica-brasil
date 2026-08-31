@@ -48,19 +48,11 @@ Vitor Peixoto — UENF · `r format(Sys.Date(), "%B de %Y")`
 Fontes: Catálogo CAPES (1987–2024) · Plataforma Sucupira (2013–2024) · OpenAlex (1977–2024)
 :::
 
-## Sessenta anos depois, quanto do que chamamos de "expansão da Ciência Política" é, de fato, Ciência Política?
+## O sistema cresceu quase 39 vezes em quatro décadas {.big-title}
 
-A Área 39 da CAPES também abriga Relações Internacionais, Políticas Públicas e Defesa e Segurança.
-
-Este é um retrato empírico do sistema de pós-graduação da área — sem transformar crescimento observado em efeito causal de nenhuma política específica.
-
-::: {.notes}
-Slide de abertura conceitual. O ponto a plantar: a narrativa corrente de expansão pode estar, em boa parte, contando a história de campos limítrofes.
-:::
-
-## O sistema cresceu quase 39 vezes em quatro décadas
-
+::: {style="margin-top:8%;"}
 ![](FIGURAS/slides/slide_01_titulos_grau.png){width=92%}
+:::
 
 ::: {.notes}
 26 títulos em 1987 → 1.002 em 2024. A queda de 2019 para 2020 (961 → 699) é provavelmente efeito da pandemia sobre o calendário de defesas e de registro, não uma reversão da tendência — a série se recupera nos anos seguintes.
