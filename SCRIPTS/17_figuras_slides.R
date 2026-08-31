@@ -35,8 +35,7 @@ p1 <- ggplot(grau_ano, aes(ano, titulos, colour = grau)) +
   scale_colour_manual(values = c("Mestrado" = cor_cp_ri, "Doutorado" = cor_destaque2)) +
   scale_x_continuous(breaks = seq(1990, 2024, 5), limits = c(1987, 2034), expand = expansion(mult = c(0.02, 0))) +
   scale_y_continuous(labels = num_ptbr_slide(), expand = expansion(mult = c(0.03, 0.08))) +
-  labs(title = "O sistema cresceu quase 39 vezes em quatro décadas",
-       subtitle = "Títulos de mestrado e doutorado em Ciência Política/RI, 1987–2024",
+  labs(subtitle = "Títulos de mestrado e doutorado em Ciência Política/RI, 1987–2024",
        x = NULL, y = "Títulos concedidos")
 salva_fig_slide(p1, file.path(dir_slides, "slide_01_titulos_grau.png"), largura = 9, altura = 5)
 salva_fig_slide(p1, file.path(dir_slides, "slide_01_titulos_grau.pdf"), largura = 9, altura = 5)
@@ -53,8 +52,7 @@ p2 <- ggplot(comp_2024, aes(programas_ativos, area_nome, fill = area_nome)) +
   geom_text(aes(label = num_ptbr_slide()(programas_ativos)), hjust = -0.25, size = 5.5, fontface = "bold", colour = "grey15") +
   scale_fill_manual(values = cores_areas_slides) +
   scale_x_continuous(expand = expansion(mult = c(0, 0.14))) +
-  labs(title = "O menor sistema de pós-graduação das ciências sociais",
-       subtitle = "Programas ativos na Plataforma Sucupira por área de avaliação, 2024",
+  labs(subtitle = "Programas ativos na Plataforma Sucupira por área de avaliação, 2024",
        x = NULL, y = NULL)
 salva_fig_slide(p2, file.path(dir_slides, "slide_05_programas_area.png"), largura = 9, altura = 5)
 salva_fig_slide(p2, file.path(dir_slides, "slide_05_programas_area.pdf"), largura = 9, altura = 5)
@@ -80,8 +78,7 @@ p3 <- ggplot(titulos_comp, aes(ano, titulos, colour = area_nome, linewidth = des
   scale_linewidth_manual(values = c(`TRUE` = 1.7, `FALSE` = 0.9), guide = "none") +
   scale_x_continuous(breaks = seq(1990, 2020, 10), limits = c(1987, 2034), expand = expansion(mult = c(0.01, 0))) +
   scale_y_continuous(labels = num_ptbr_slide()) +
-  labs(title = "Em volume, a Ciência Política segue a menor área",
-       subtitle = "Títulos de mestrado e doutorado por área de avaliação, 1987–2024",
+  labs(subtitle = "Títulos de mestrado e doutorado por área de avaliação, 1987–2024",
        x = NULL, y = "Títulos/ano")
 salva_fig_slide(p3, file.path(dir_slides, "slide_06_comparacao_titulos.png"), largura = 9.5, altura = 5.2)
 salva_fig_slide(p3, file.path(dir_slides, "slide_06_comparacao_titulos.pdf"), largura = 9.5, altura = 5.2)
@@ -97,8 +94,7 @@ p4 <- ggplot(disp, aes(programas_ativos, titulos_por_programa, colour = area_nom
   scale_colour_manual(values = cores_areas_slides) +
   scale_x_continuous(labels = num_ptbr_slide(), expand = expansion(mult = 0.12)) +
   scale_y_continuous(labels = num_ptbr_slide(accuracy = 0.1), expand = expansion(mult = 0.12)) +
-  labs(title = "Pequena em escala, intensa na formação",
-       subtitle = "Programas ativos (eixo x) versus títulos por programa (eixo y), 2024",
+  labs(subtitle = "Programas ativos (eixo x) versus títulos por programa (eixo y), 2024",
        x = "Programas ativos (Sucupira, 2024)", y = "Títulos por programa (CAPES, 2024)")
 salva_fig_slide(p4, file.path(dir_slides, "slide_07_escala_intensidade.png"), largura = 9, altura = 5.5)
 salva_fig_slide(p4, file.path(dir_slides, "slide_07_escala_intensidade.pdf"), largura = 9, altura = 5.5)
@@ -122,8 +118,7 @@ p5 <- ggplot(sub_serie, aes(ano, pct, fill = subarea_nome)) +
   scale_fill_manual(values = cores_sub, guide = "none") +
   scale_x_continuous(breaks = seq(1995, 2024, 5), expand = expansion(mult = c(0.01, 0.42))) +
   scale_y_continuous(labels = pct_ptbr_slide(accuracy = 1), expand = expansion(mult = c(0, 0.02))) +
-  labs(title = "A Área 39 não é só Ciência Política",
-       subtitle = "Composição percentual dos títulos por subárea, 1995–2024",
+  labs(subtitle = "Composição percentual dos títulos por subárea, 1995–2024",
        x = NULL, y = "% dos títulos do ano")
 
 # rótulos diretos no fim das faixas (posição = ponto médio acumulado de cada faixa em 2024)
@@ -154,9 +149,13 @@ rotulos_curtos <- c(
 stm_dec <- readRDS(file.path(dir_processed, "stm_evolucao_decada.rds")) %>%
   filter(decada %in% c("1980-1999", "2020-2024")) %>%
   mutate(decada = factor(decada, levels = c("1980-1999", "2020-2024")),
-         artefato = grepl("artefato de idioma|Corpus em inglês", topico),
+         status = case_when(
+           grepl("artefato de idioma|Corpus em inglês", topico) ~ "artefato",
+           grepl("Teoria Política", topico) ~ "queda",
+           TRUE ~ "outros"
+         ),
          rotulo = unname(rotulos_curtos[topico]))
-p6 <- ggplot(stm_dec, aes(decada, prevalencia, group = topico, colour = artefato)) +
+p6 <- ggplot(stm_dec, aes(decada, prevalencia, group = topico, colour = status)) +
   geom_line(linewidth = 1.1, alpha = 0.85) +
   geom_point(size = 3.2) +
   ggrepel::geom_text_repel(data = stm_dec %>% filter(decada == "2020-2024"),
@@ -164,11 +163,10 @@ p6 <- ggplot(stm_dec, aes(decada, prevalencia, group = topico, colour = artefato
                             hjust = 0, nudge_x = 0.12, direction = "y", size = 4.6,
                             segment.size = 0.3, show.legend = FALSE, min.segment.length = 0,
                             box.padding = 0.3, force = 2) +
-  scale_colour_manual(values = c(`FALSE` = cor_cp_ri, `TRUE` = "grey75"), guide = "none") +
+  scale_colour_manual(values = c(outros = cor_cp_ri, queda = "#D42B2B", artefato = "grey75"), guide = "none") +
   scale_y_continuous(labels = pct_ptbr_slide(accuracy = 1)) +
   scale_x_discrete(expand = expansion(mult = c(0.08, 0.85))) +
-  labs(title = "A agenda de pesquisa mudou",
-       subtitle = "Prevalência média dos 8 tópicos do STM, 1980–1999 vs. 2020–2024 (cinza = artefato de idioma)",
+  labs(subtitle = "Prevalência média dos 8 tópicos do STM, 1980–1999 vs. 2020–2024\nVermelho = única categoria em queda · Cinza = artefato de idioma",
        x = NULL, y = "Prevalência média") +
   coord_cartesian(clip = "off")
 salva_fig_slide(p6, file.path(dir_slides, "slide_10_evolucao_tematica.png"), largura = 12.5, altura = 6.2)
@@ -189,8 +187,7 @@ p7 <- ggplot(assoc, aes(participantes, rotulo, fill = destaque)) +
   geom_text(aes(label = num_ptbr_slide()(participantes)), hjust = -0.2, size = 5.2, fontface = "bold", colour = "grey15") +
   scale_fill_manual(values = c(`TRUE` = cor_cp_ri, `FALSE` = "grey72"), guide = "none") +
   scale_x_continuous(labels = num_ptbr_slide(), expand = expansion(mult = c(0, 0.16))) +
-  labs(title = "Os encontros acompanham a escala do sistema",
-       subtitle = "Participantes no encontro mais recente com dado disponível, por associação",
+  labs(subtitle = "Participantes no encontro mais recente com dado disponível, por associação",
        x = NULL, y = NULL)
 salva_fig_slide(p7, file.path(dir_slides, "slide_11_associacoes.png"), largura = 9.5, altura = 5.5)
 salva_fig_slide(p7, file.path(dir_slides, "slide_11_associacoes.pdf"), largura = 9.5, altura = 5.5)
@@ -217,7 +214,6 @@ if (file.exists(mapa_cache_path)) {
     facet_wrap(~ ano, ncol = 2, labeller = labeller(ano = setNames(mc$tot_ano$lab, mc$tot_ano$ano))) +
     coord_sf(crs = mc$crs_albers) +
     labs(x = NULL, y = NULL,
-         title = "A pós-graduação em Ciência Política se espalhou pelo território",
          subtitle = "Programas ativos por município, 2013 vs. 2024 (círculo proporcional ao número de programas)") +
     theme_slides_mapa() +
     theme(
