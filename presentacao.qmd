@@ -167,6 +167,26 @@ A ABCP (1996) chegou quatro décadas depois de associações como a ANPUH (1961)
 A data de defesa está presente em todos os registros do layout 2013+ e é usada como referência do ano da série.
 :::
 
+## Conclusão
+
+1. **Escala pequena, ritmo alto.** A Área 39 segue o menor sistema de pós-graduação das ciências sociais em 2024 — mas cresceu mais rápido que todas as áreas irmãs desde 1987, partindo de uma base quase nula.
+2. **A área é híbrida.** Só `r fmt_num(v_sub$pct_cp_2024)`% dos títulos de 2024 vêm de Ciência Política estrita; o resto é Relações Internacionais, Políticas Públicas e um campo novo — Defesa e Segurança — que não existia como categoria até `r v_sub$primeiro_ano_def`.
+3. **A agenda mudou.** Teoria Política perdeu espaço; políticas públicas, relações internacionais, direitos e opinião pública ganharam.
+
+Sessenta anos depois da criação dos primeiros programas, o retrato é de uma disciplina pequena, mas em expansão consistente e cada vez mais diversa — sem que isso permita atribuir o crescimento a uma política específica.
+
+::: {.notes}
+Fechamento: reforçar que os três achados são descritivos, não causais, e que a comparação institucional é uma leitura complementar entre si (nenhuma substitui a outra).
+:::
+
+## {background-color="#0B1E33"}
+
+::: {style="color:#F2F2F2; text-align:center; padding-top:18%;"}
+### Obrigado
+
+**Vitor Peixoto — UENF**
+:::
+
 ## Reprodutibilidade
 
 - **Repositório:** `/dados/historia_ciencia_politica_brasil`
