@@ -14,6 +14,9 @@ format:
     footer: "CAPES · Sucupira · OpenAlex · 1987–2024 · artigo_historia_cp_brasil.qmd"
     bibliography: referencias.bib
     link-citations: true
+    embed-resources: true
+    standalone: true
+    html-math-method: plain
 execute:
   echo: false
   warning: false
