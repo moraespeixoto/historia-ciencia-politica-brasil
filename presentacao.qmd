@@ -14,6 +14,7 @@ format:
     footer: "CAPES · Sucupira · OpenAlex · 1987–2024 · artigo_historia_cp_brasil.qmd"
     bibliography: referencias.bib
     link-citations: true
+    suppress-bibliography: true
     embed-resources: true
     standalone: true
     html-math-method: plain
@@ -43,26 +44,16 @@ grau_ano <- readRDS(here::here("DADOS", "processed", "capes_titulos_por_grau_ano
 
 ## Sessenta anos depois, quanto do que chamamos de "expansão da Ciência Política" é, de fato, Ciência Política? {.big-title}
 
-::: {style="margin-top:8%;"}
-A Área 39 da CAPES também abriga Relações Internacionais, Políticas Públicas e Defesa e Segurança.
-
-Este é um retrato empírico do sistema de pós-graduação da área — sem transformar crescimento observado em efeito causal de nenhuma política específica.
+::: {style="margin-top:3%;"}
+![](FIGURAS/slides/slide_03_tres_idades.png){width=92%}
 :::
 
 ::: {.notes}
-Slide de abertura conceitual. O ponto a plantar: a narrativa corrente de expansão pode estar, em boa parte, contando a história de campos limítrofes.
-:::
+Slide de abertura conceitual, fundido com a linha do tempo. O ponto a plantar: a narrativa corrente de expansão pode estar, em boa parte, contando a história de campos limítrofes — a Área 39 da CAPES também abriga Relações Internacionais, Políticas Públicas e Defesa e Segurança. Este é um retrato empírico do sistema de pós-graduação da área, sem transformar crescimento observado em efeito causal de nenhuma política específica.
 
-## Três idades da Ciência Política brasileira
+Três idades sintetizadas de Forjaz (1997) e Lamounier (1989), como no Referencial Teórico do artigo (§2.1): (1) Criação e Filiação (anos 1960-70) — primeiros programas, foco no autoritarismo, na estrutura corporativa do Estado e na transição democrática; (2) Expansão Institucional (anos 1980-90) — novos programas e canais (ANPOCS, ABCP), agenda desloca-se para as instituições da Nova República (eleições, partidos, Congresso, federalismo); (3) Profissionalização e Internacionalização (século XXI) — diversificação temática, sofisticação analítica, inserção internacional.
 
-![](FIGURAS/slides/slide_03_tres_idades.png){width=96%}
-
-- **Criação e Filiação** (anos 1960–70): primeiros programas — foco no autoritarismo, na estrutura corporativa do Estado e na transição democrática [@forjaz1997emergencia]
-- **Expansão Institucional** (anos 1980–90): novos programas e canais (ANPOCS, ABCP) — agenda desloca-se para as instituições da Nova República: eleições, partidos, Congresso, federalismo [@lamounier1989anos70]
-- **Profissionalização e Internacionalização** (século XXI): diversificação temática, sofisticação analítica, inserção internacional
-
-::: {.notes}
-Síntese de Forjaz (1997) e Lamounier (1989), como no Referencial Teórico do artigo (§2.1). As datas de fundação dos programas foram conferidas na auditoria de dados do projeto. Nota sobre a UFMG: organizou-se institucionalmente em 1966 (após a Resolução 11 de dez/1965, que criou o Departamento de Ciência Política), mas só recebeu a primeira turma do mestrado em março de 1967; o credenciamento efetivo na CAPES só veio em 1973 (fonte: página oficial do PPGCP-UFMG).
+Datas conferidas na auditoria de dados do projeto. UFMG: organizou-se institucionalmente em 1966 (após a Resolução 11 de dez/1965, que criou o Departamento de Ciência Política), mas só recebeu a primeira turma do mestrado em março de 1967; o credenciamento efetivo na CAPES só veio em 1973 (fonte: página oficial do PPGCP-UFMG). Revista DADOS: fundada em 1966 pelo IUPERJ (fonte: dados.iesp.uerj.br).
 :::
 
 ## A pós-graduação como motor de autonomização

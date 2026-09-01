@@ -27,3 +27,4 @@ DADOS/raw/*
 # Sistema operacional
 .DS_Store
 Thumbs.db
+.claude/

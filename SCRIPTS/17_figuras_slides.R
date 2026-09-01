@@ -247,39 +247,38 @@ eras <- tribble(
   "Expansão Institucional",                 1980, 1999, "#E69F00",
   "Profissionalização e\nInternacionalização", 2000, 2025, "#009E73"
 )
+# Alturas escalonadas (tier 1 = perto do eixo, tier 2 = longe) em vez de
+# deslocamento horizontal: garante linhas de chamada retas (verticais),
+# alternando a distância dentro de cada lado para marcos próximos no tempo
+# não colidirem.
 marcos <- tribble(
-  ~ano, ~rotulo,                          ~lado,
-  1966, "UFMG",                           1,
-  1966, "DADOS\n(revista)",                -1,
-  1969, "IUPERJ",                         -1,
-  1971, "USP",                            1,
-  1973, "UFRGS",                          -1,
-  1977, "ANPOCS",                         1,
-  1984, "UnB\n(mestrado CP/RI)",          -1,
-  1996, "ABCP",                           1,
-  2007, "BPSR\n(internacionalização)",    -1
-)
+  ~ano, ~rotulo,                          ~lado, ~tier,
+  1966, "UFMG",                           1,     1,
+  1966, "DADOS\n(revista)",                -1,    1,
+  1969, "IUPERJ",                         -1,    2,
+  1971, "USP",                            1,     2,
+  1973, "UFRGS",                          -1,    1,
+  1977, "ANPOCS",                         1,     1,
+  1984, "UnB\n(mestrado CP/RI)",          -1,    2,
+  1996, "ABCP",                           1,     2,
+  2007, "BPSR\n(internacionalização)",    -1,    1
+) %>% mutate(dist = if_else(tier == 1, 0.42, 0.85), y_lab = lado * dist)
 
 p9 <- ggplot() +
-  geom_rect(data = eras, aes(xmin = inicio, xmax = fim, ymin = -1, ymax = 1, fill = cor),
+  geom_rect(data = eras, aes(xmin = inicio, xmax = fim, ymin = -1.35, ymax = 1.35, fill = cor),
             alpha = 0.13, colour = NA) +
   geom_hline(yintercept = 0, colour = "grey55", linewidth = 0.6) +
+  geom_segment(data = marcos, aes(x = ano, xend = ano, y = 0, yend = y_lab),
+               colour = "grey55", linewidth = 0.35) +
   geom_point(data = marcos, aes(x = ano, y = 0), size = 3, colour = "#0B1E33") +
-  ggrepel::geom_text_repel(data = marcos %>% filter(lado > 0),
-                            aes(x = ano, y = 0, label = paste0(ano, "\n", rotulo)),
-                            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9,
-                            direction = "x", nudge_y = 0.45, force = 4, box.padding = 0.25,
-                            min.segment.length = 0, segment.size = 0.4, segment.colour = "grey45") +
-  ggrepel::geom_text_repel(data = marcos %>% filter(lado < 0),
-                            aes(x = ano, y = 0, label = paste0(ano, "\n", rotulo)),
-                            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9,
-                            direction = "x", nudge_y = -0.45, force = 4, box.padding = 0.25,
-                            min.segment.length = 0, segment.size = 0.4, segment.colour = "grey45") +
-  geom_text(data = eras, aes(x = (inicio + fim) / 2, y = 0.92, label = era, colour = cor),
+  geom_text(data = marcos, aes(x = ano, y = y_lab, label = paste0(ano, "\n", rotulo),
+                                vjust = ifelse(lado > 0, 0, 1)),
+            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9) +
+  geom_text(data = eras, aes(x = (inicio + fim) / 2, y = 1.25, label = era, colour = cor),
             size = 5, fontface = "bold") +
   scale_fill_identity() + scale_colour_identity() +
   scale_x_continuous(breaks = seq(1965, 2025, 10), limits = c(1964, 2027)) +
-  scale_y_continuous(limits = c(-1, 1.05)) +
+  scale_y_continuous(limits = c(-1.4, 1.4)) +
   labs(x = NULL, y = NULL, subtitle = "Marcos institucionais citados no Referencial Teórico, 1966–2025") +
   theme_slides() +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.line.y = element_blank(),
