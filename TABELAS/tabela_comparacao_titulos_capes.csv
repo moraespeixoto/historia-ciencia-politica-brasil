@@ -6,16 +6,16 @@ ano,area_nome,nivel,titulos
 1987,Ciência Política / RI,Mestrado,20
 1987,Ciência Política / RI,Não informado,0
 1987,Economia,Doutorado,15
-1987,Economia,Mestrado,95
+1987,Economia,Mestrado,92
 1987,Economia,Não informado,0
 1987,Geografia,Doutorado,14
 1987,Geografia,Mestrado,28
 1987,Geografia,Não informado,0
 1987,História,Doutorado,3
-1987,História,Mestrado,49
+1987,História,Mestrado,47
 1987,História,Não informado,0
 1987,Não identificado,Doutorado,44
-1987,Não identificado,Mestrado,182
+1987,Não identificado,Mestrado,187
 1987,Não identificado,Não informado,0
 1987,Sociologia,Doutorado,18
 1987,Sociologia,Mestrado,72
@@ -27,7 +27,7 @@ ano,area_nome,nivel,titulos
 1988,Ciência Política / RI,Mestrado,19
 1988,Ciência Política / RI,Não informado,0
 1988,Economia,Doutorado,13
-1988,Economia,Mestrado,88
+1988,Economia,Mestrado,83
 1988,Economia,Não informado,0
 1988,Geografia,Doutorado,4
 1988,Geografia,Mestrado,19
@@ -36,7 +36,7 @@ ano,area_nome,nivel,titulos
 1988,História,Mestrado,84
 1988,História,Não informado,0
 1988,Não identificado,Doutorado,32
-1988,Não identificado,Mestrado,171
+1988,Não identificado,Mestrado,176
 1988,Não identificado,Não informado,0
 1988,Sociologia,Doutorado,13
 1988,Sociologia,Mestrado,85
@@ -48,16 +48,16 @@ ano,area_nome,nivel,titulos
 1989,Ciência Política / RI,Mestrado,18
 1989,Ciência Política / RI,Não informado,0
 1989,Economia,Doutorado,13
-1989,Economia,Mestrado,115
+1989,Economia,Mestrado,103
 1989,Economia,Não informado,0
 1989,Geografia,Doutorado,9
 1989,Geografia,Mestrado,28
 1989,Geografia,Não informado,0
-1989,História,Doutorado,23
-1989,História,Mestrado,82
+1989,História,Doutorado,21
+1989,História,Mestrado,77
 1989,História,Não informado,0
-1989,Não identificado,Doutorado,50
-1989,Não identificado,Mestrado,219
+1989,Não identificado,Doutorado,52
+1989,Não identificado,Mestrado,236
 1989,Não identificado,Não informado,0
 1989,Sociologia,Doutorado,16
 1989,Sociologia,Mestrado,80
@@ -69,16 +69,16 @@ ano,area_nome,nivel,titulos
 1990,Ciência Política / RI,Mestrado,26
 1990,Ciência Política / RI,Não informado,0
 1990,Economia,Doutorado,19
-1990,Economia,Mestrado,147
+1990,Economia,Mestrado,137
 1990,Economia,Não informado,0
 1990,Geografia,Doutorado,14
 1990,Geografia,Mestrado,47
 1990,Geografia,Não informado,0
-1990,História,Doutorado,20
-1990,História,Mestrado,115
+1990,História,Doutorado,19
+1990,História,Mestrado,110
 1990,História,Não informado,0
-1990,Não identificado,Doutorado,49
-1990,Não identificado,Mestrado,270
+1990,Não identificado,Doutorado,50
+1990,Não identificado,Mestrado,285
 1990,Não identificado,Não informado,0
 1990,Sociologia,Doutorado,14
 1990,Sociologia,Mestrado,118
@@ -90,16 +90,16 @@ ano,area_nome,nivel,titulos
 1991,Ciência Política / RI,Mestrado,53
 1991,Ciência Política / RI,Não informado,0
 1991,Economia,Doutorado,24
-1991,Economia,Mestrado,156
+1991,Economia,Mestrado,149
 1991,Economia,Não informado,0
 1991,Geografia,Doutorado,16
 1991,Geografia,Mestrado,77
 1991,Geografia,Não informado,0
-1991,História,Doutorado,36
-1991,História,Mestrado,121
+1991,História,Doutorado,35
+1991,História,Mestrado,113
 1991,História,Não informado,0
-1991,Não identificado,Doutorado,66
-1991,Não identificado,Mestrado,310
+1991,Não identificado,Doutorado,67
+1991,Não identificado,Mestrado,325
 1991,Não identificado,Não informado,0
 1991,Sociologia,Doutorado,27
 1991,Sociologia,Mestrado,125
@@ -111,16 +111,16 @@ ano,area_nome,nivel,titulos
 1992,Ciência Política / RI,Mestrado,69
 1992,Ciência Política / RI,Não informado,0
 1992,Economia,Doutorado,40
-1992,Economia,Mestrado,196
+1992,Economia,Mestrado,187
 1992,Economia,Não informado,0
 1992,Geografia,Doutorado,12
 1992,Geografia,Mestrado,61
 1992,Geografia,Não informado,0
-1992,História,Doutorado,40
-1992,História,Mestrado,198
+1992,História,Doutorado,36
+1992,História,Mestrado,193
 1992,História,Não informado,0
-1992,Não identificado,Doutorado,80
-1992,Não identificado,Mestrado,425
+1992,Não identificado,Doutorado,84
+1992,Não identificado,Mestrado,439
 1992,Não identificado,Não informado,0
 1992,Sociologia,Doutorado,37
 1992,Sociologia,Mestrado,182
@@ -132,19 +132,19 @@ ano,area_nome,nivel,titulos
 1993,Ciência Política / RI,Mestrado,32
 1993,Ciência Política / RI,Não informado,0
 1993,Economia,Doutorado,32
-1993,Economia,Mestrado,185
+1993,Economia,Mestrado,177
 1993,Economia,Não informado,0
 1993,Geografia,Doutorado,13
 1993,Geografia,Mestrado,78
 1993,Geografia,Não informado,0
-1993,História,Doutorado,36
-1993,História,Mestrado,188
+1993,História,Doutorado,32
+1993,História,Mestrado,183
 1993,História,Não informado,0
-1993,Não identificado,Doutorado,73
-1993,Não identificado,Mestrado,434
+1993,Não identificado,Doutorado,77
+1993,Não identificado,Mestrado,451
 1993,Não identificado,Não informado,0
 1993,Sociologia,Doutorado,34
-1993,Sociologia,Mestrado,168
+1993,Sociologia,Mestrado,164
 1993,Sociologia,Não informado,0
 1994,Antropologia / Arqueologia,Doutorado,10
 1994,Antropologia / Arqueologia,Mestrado,61
@@ -153,19 +153,19 @@ ano,area_nome,nivel,titulos
 1994,Ciência Política / RI,Mestrado,60
 1994,Ciência Política / RI,Não informado,0
 1994,Economia,Doutorado,63
-1994,Economia,Mestrado,178
+1994,Economia,Mestrado,168
 1994,Economia,Não informado,0
 1994,Geografia,Doutorado,22
 1994,Geografia,Mestrado,70
 1994,Geografia,Não informado,0
 1994,História,Doutorado,39
-1994,História,Mestrado,186
+1994,História,Mestrado,183
 1994,História,Não informado,0
 1994,Não identificado,Doutorado,119
-1994,Não identificado,Mestrado,437
+1994,Não identificado,Mestrado,458
 1994,Não identificado,Não informado,0
 1994,Sociologia,Doutorado,43
-1994,Sociologia,Mestrado,193
+1994,Sociologia,Mestrado,185
 1994,Sociologia,Não informado,0
 1995,Antropologia / Arqueologia,Doutorado,16
 1995,Antropologia / Arqueologia,Mestrado,65
@@ -174,19 +174,19 @@ ano,area_nome,nivel,titulos
 1995,Ciência Política / RI,Mestrado,68
 1995,Ciência Política / RI,Não informado,0
 1995,Economia,Doutorado,45
-1995,Economia,Mestrado,191
+1995,Economia,Mestrado,178
 1995,Economia,Não informado,0
 1995,Geografia,Doutorado,20
 1995,Geografia,Mestrado,109
 1995,Geografia,Não informado,0
-1995,História,Doutorado,52
-1995,História,Mestrado,290
+1995,História,Doutorado,51
+1995,História,Mestrado,287
 1995,História,Não informado,0
-1995,Não identificado,Doutorado,137
-1995,Não identificado,Mestrado,601
+1995,Não identificado,Doutorado,138
+1995,Não identificado,Mestrado,622
 1995,Não identificado,Não informado,0
 1995,Sociologia,Doutorado,46
-1995,Sociologia,Mestrado,204
+1995,Sociologia,Mestrado,199
 1995,Sociologia,Não informado,0
 1996,Antropologia / Arqueologia,Doutorado,17
 1996,Antropologia / Arqueologia,Mestrado,86
@@ -195,19 +195,19 @@ ano,area_nome,nivel,titulos
 1996,Ciência Política / RI,Mestrado,86
 1996,Ciência Política / RI,Não informado,0
 1996,Economia,Doutorado,42
-1996,Economia,Mestrado,187
+1996,Economia,Mestrado,171
 1996,Economia,Não informado,0
 1996,Geografia,Doutorado,35
 1996,Geografia,Mestrado,112
 1996,Geografia,Não informado,0
 1996,História,Doutorado,76
-1996,História,Mestrado,298
+1996,História,Mestrado,296
 1996,História,Não informado,0
 1996,Não identificado,Doutorado,88
-1996,Não identificado,Mestrado,301
+1996,Não identificado,Mestrado,324
 1996,Não identificado,Não informado,0
 1996,Sociologia,Doutorado,58
-1996,Sociologia,Mestrado,252
+1996,Sociologia,Mestrado,246
 1996,Sociologia,Não informado,0
 1997,Antropologia / Arqueologia,Doutorado,25
 1997,Antropologia / Arqueologia,Mestrado,76
@@ -216,19 +216,19 @@ ano,area_nome,nivel,titulos
 1997,Ciência Política / RI,Mestrado,89
 1997,Ciência Política / RI,Não informado,0
 1997,Economia,Doutorado,51
-1997,Economia,Mestrado,240
+1997,Economia,Mestrado,214
 1997,Economia,Não informado,0
 1997,Geografia,Doutorado,45
 1997,Geografia,Mestrado,115
 1997,Geografia,Não informado,0
 1997,História,Doutorado,112
-1997,História,Mestrado,276
+1997,História,Mestrado,273
 1997,História,Não informado,0
 1997,Não identificado,Doutorado,101
-1997,Não identificado,Mestrado,331
+1997,Não identificado,Mestrado,368
 1997,Não identificado,Não informado,0
 1997,Sociologia,Doutorado,74
-1997,Sociologia,Mestrado,261
+1997,Sociologia,Mestrado,253
 1997,Sociologia,Não informado,0
 1998,Antropologia / Arqueologia,Doutorado,34
 1998,Antropologia / Arqueologia,Mestrado,79
@@ -237,19 +237,19 @@ ano,area_nome,nivel,titulos
 1998,Ciência Política / RI,Mestrado,84
 1998,Ciência Política / RI,Não informado,0
 1998,Economia,Doutorado,58
-1998,Economia,Mestrado,225
+1998,Economia,Mestrado,208
 1998,Economia,Não informado,0
 1998,Geografia,Doutorado,47
 1998,Geografia,Mestrado,120
 1998,Geografia,Não informado,0
-1998,História,Doutorado,132
-1998,História,Mestrado,277
+1998,História,Doutorado,127
+1998,História,Mestrado,272
 1998,História,Não informado,0
-1998,Não identificado,Doutorado,113
-1998,Não identificado,Mestrado,394
+1998,Não identificado,Doutorado,118
+1998,Não identificado,Mestrado,420
 1998,Não identificado,Não informado,0
 1998,Sociologia,Doutorado,105
-1998,Sociologia,Mestrado,228
+1998,Sociologia,Mestrado,224
 1998,Sociologia,Não informado,0
 1999,Antropologia / Arqueologia,Doutorado,32
 1999,Antropologia / Arqueologia,Mestrado,92
@@ -258,19 +258,19 @@ ano,area_nome,nivel,titulos
 1999,Ciência Política / RI,Mestrado,93
 1999,Ciência Política / RI,Não informado,0
 1999,Economia,Doutorado,55
-1999,Economia,Mestrado,303
+1999,Economia,Mestrado,280
 1999,Economia,Não informado,8
 1999,Geografia,Doutorado,54
 1999,Geografia,Mestrado,167
 1999,Geografia,Não informado,0
 1999,História,Doutorado,121
-1999,História,Mestrado,306
+1999,História,Mestrado,301
 1999,História,Não informado,0
 1999,Não identificado,Doutorado,152
-1999,Não identificado,Mestrado,507
+1999,Não identificado,Mestrado,542
 1999,Não identificado,Não informado,1
 1999,Sociologia,Doutorado,135
-1999,Sociologia,Mestrado,270
+1999,Sociologia,Mestrado,263
 1999,Sociologia,Não informado,0
 2000,Antropologia / Arqueologia,Doutorado,25
 2000,Antropologia / Arqueologia,Mestrado,112
@@ -279,19 +279,19 @@ ano,area_nome,nivel,titulos
 2000,Ciência Política / RI,Mestrado,91
 2000,Ciência Política / RI,Não informado,0
 2000,Economia,Doutorado,74
-2000,Economia,Mestrado,362
+2000,Economia,Mestrado,342
 2000,Economia,Não informado,28
 2000,Geografia,Doutorado,78
 2000,Geografia,Mestrado,195
 2000,Geografia,Não informado,0
-2000,História,Doutorado,124
-2000,História,Mestrado,372
+2000,História,Doutorado,120
+2000,História,Mestrado,370
 2000,História,Não informado,0
-2000,Não identificado,Doutorado,206
-2000,Não identificado,Mestrado,646
+2000,Não identificado,Doutorado,210
+2000,Não identificado,Mestrado,679
 2000,Não identificado,Não informado,24
 2000,Sociologia,Doutorado,139
-2000,Sociologia,Mestrado,284
+2000,Sociologia,Mestrado,273
 2000,Sociologia,Não informado,0
 2001,Antropologia / Arqueologia,Doutorado,31
 2001,Antropologia / Arqueologia,Mestrado,105
@@ -300,19 +300,19 @@ ano,area_nome,nivel,titulos
 2001,Ciência Política / RI,Mestrado,111
 2001,Ciência Política / RI,Não informado,0
 2001,Economia,Doutorado,74
-2001,Economia,Mestrado,397
+2001,Economia,Mestrado,363
 2001,Economia,Não informado,38
 2001,Geografia,Doutorado,58
 2001,Geografia,Mestrado,297
 2001,Geografia,Não informado,0
-2001,História,Doutorado,175
-2001,História,Mestrado,415
+2001,História,Doutorado,173
+2001,História,Mestrado,406
 2001,História,Não informado,0
-2001,Não identificado,Doutorado,186
-2001,Não identificado,Mestrado,597
+2001,Não identificado,Doutorado,188
+2001,Não identificado,Mestrado,652
 2001,Não identificado,Não informado,27
 2001,Sociologia,Doutorado,150
-2001,Sociologia,Mestrado,276
+2001,Sociologia,Mestrado,264
 2001,Sociologia,Não informado,0
 2002,Antropologia / Arqueologia,Doutorado,33
 2002,Antropologia / Arqueologia,Mestrado,118
@@ -321,19 +321,19 @@ ano,area_nome,nivel,titulos
 2002,Ciência Política / RI,Mestrado,101
 2002,Ciência Política / RI,Não informado,1
 2002,Economia,Doutorado,93
-2002,Economia,Mestrado,410
-2002,Economia,Não informado,102
+2002,Economia,Mestrado,389
+2002,Economia,Não informado,89
 2002,Geografia,Doutorado,92
 2002,Geografia,Mestrado,355
 2002,Geografia,Não informado,0
-2002,História,Doutorado,203
-2002,História,Mestrado,556
+2002,História,Doutorado,200
+2002,História,Mestrado,547
 2002,História,Não informado,0
-2002,Não identificado,Doutorado,210
-2002,Não identificado,Mestrado,831
-2002,Não identificado,Não informado,62
+2002,Não identificado,Doutorado,213
+2002,Não identificado,Mestrado,877
+2002,Não identificado,Não informado,75
 2002,Sociologia,Doutorado,161
-2002,Sociologia,Mestrado,439
+2002,Sociologia,Mestrado,422
 2002,Sociologia,Não informado,10
 2003,Antropologia / Arqueologia,Doutorado,34
 2003,Antropologia / Arqueologia,Mestrado,107
@@ -342,19 +342,19 @@ ano,area_nome,nivel,titulos
 2003,Ciência Política / RI,Mestrado,119
 2003,Ciência Política / RI,Não informado,36
 2003,Economia,Doutorado,100
-2003,Economia,Mestrado,432
-2003,Economia,Não informado,207
+2003,Economia,Mestrado,421
+2003,Economia,Não informado,201
 2003,Geografia,Doutorado,75
 2003,Geografia,Mestrado,322
 2003,Geografia,Não informado,0
-2003,História,Doutorado,198
-2003,História,Mestrado,435
+2003,História,Doutorado,191
+2003,História,Mestrado,431
 2003,História,Não informado,0
-2003,Não identificado,Doutorado,286
-2003,Não identificado,Mestrado,991
-2003,Não identificado,Não informado,140
-2003,Sociologia,Doutorado,206
-2003,Sociologia,Mestrado,446
+2003,Não identificado,Doutorado,294
+2003,Não identificado,Mestrado,1037
+2003,Não identificado,Não informado,146
+2003,Sociologia,Doutorado,205
+2003,Sociologia,Mestrado,415
 2003,Sociologia,Não informado,12
 2004,Antropologia / Arqueologia,Doutorado,43
 2004,Antropologia / Arqueologia,Mestrado,120
@@ -363,19 +363,19 @@ ano,area_nome,nivel,titulos
 2004,Ciência Política / RI,Mestrado,168
 2004,Ciência Política / RI,Não informado,24
 2004,Economia,Doutorado,75
-2004,Economia,Mestrado,393
-2004,Economia,Não informado,150
+2004,Economia,Mestrado,383
+2004,Economia,Não informado,147
 2004,Geografia,Doutorado,75
 2004,Geografia,Mestrado,366
 2004,Geografia,Não informado,0
-2004,História,Doutorado,205
-2004,História,Mestrado,432
+2004,História,Doutorado,204
+2004,História,Mestrado,429
 2004,História,Não informado,0
-2004,Não identificado,Doutorado,313
-2004,Não identificado,Mestrado,954
-2004,Não identificado,Não informado,197
-2004,Sociologia,Doutorado,239
-2004,Sociologia,Mestrado,399
+2004,Não identificado,Doutorado,315
+2004,Não identificado,Mestrado,989
+2004,Não identificado,Não informado,200
+2004,Sociologia,Doutorado,238
+2004,Sociologia,Mestrado,376
 2004,Sociologia,Não informado,14
 2005,Antropologia / Arqueologia,Doutorado,57
 2005,Antropologia / Arqueologia,Mestrado,116
@@ -384,19 +384,19 @@ ano,area_nome,nivel,titulos
 2005,Ciência Política / RI,Mestrado,210
 2005,Ciência Política / RI,Não informado,26
 2005,Economia,Doutorado,92
-2005,Economia,Mestrado,390
-2005,Economia,Não informado,159
+2005,Economia,Mestrado,381
+2005,Economia,Não informado,158
 2005,Geografia,Doutorado,86
 2005,Geografia,Mestrado,443
 2005,Geografia,Não informado,0
-2005,História,Doutorado,244
-2005,História,Mestrado,494
+2005,História,Doutorado,238
+2005,História,Mestrado,483
 2005,História,Não informado,9
-2005,Não identificado,Doutorado,324
-2005,Não identificado,Mestrado,1099
-2005,Não identificado,Não informado,194
-2005,Sociologia,Doutorado,232
-2005,Sociologia,Mestrado,487
+2005,Não identificado,Doutorado,334
+2005,Não identificado,Mestrado,1146
+2005,Não identificado,Não informado,195
+2005,Sociologia,Doutorado,228
+2005,Sociologia,Mestrado,459
 2005,Sociologia,Não informado,11
 2006,Antropologia / Arqueologia,Doutorado,59
 2006,Antropologia / Arqueologia,Mestrado,149
@@ -405,19 +405,19 @@ ano,area_nome,nivel,titulos
 2006,Ciência Política / RI,Mestrado,213
 2006,Ciência Política / RI,Não informado,22
 2006,Economia,Doutorado,109
-2006,Economia,Mestrado,409
-2006,Economia,Não informado,211
+2006,Economia,Mestrado,396
+2006,Economia,Não informado,207
 2006,Geografia,Doutorado,98
 2006,Geografia,Mestrado,490
 2006,Geografia,Não informado,0
-2006,História,Doutorado,217
-2006,História,Mestrado,611
+2006,História,Doutorado,208
+2006,História,Mestrado,599
 2006,História,Não informado,30
-2006,Não identificado,Doutorado,311
-2006,Não identificado,Mestrado,1121
-2006,Não identificado,Não informado,219
-2006,Sociologia,Doutorado,251
-2006,Sociologia,Mestrado,449
+2006,Não identificado,Doutorado,323
+2006,Não identificado,Mestrado,1176
+2006,Não identificado,Não informado,223
+2006,Sociologia,Doutorado,246
+2006,Sociologia,Mestrado,420
 2006,Sociologia,Não informado,42
 2007,Antropologia / Arqueologia,Doutorado,66
 2007,Antropologia / Arqueologia,Mestrado,138
@@ -426,19 +426,19 @@ ano,area_nome,nivel,titulos
 2007,Ciência Política / RI,Mestrado,149
 2007,Ciência Política / RI,Não informado,21
 2007,Economia,Doutorado,94
-2007,Economia,Mestrado,383
-2007,Economia,Não informado,252
+2007,Economia,Mestrado,372
+2007,Economia,Não informado,247
 2007,Geografia,Doutorado,154
 2007,Geografia,Mestrado,463
 2007,Geografia,Não informado,0
-2007,História,Doutorado,214
-2007,História,Mestrado,650
+2007,História,Doutorado,210
+2007,História,Mestrado,638
 2007,História,Não informado,14
-2007,Não identificado,Doutorado,383
-2007,Não identificado,Mestrado,1175
-2007,Não identificado,Não informado,169
-2007,Sociologia,Doutorado,231
-2007,Sociologia,Mestrado,523
+2007,Não identificado,Doutorado,396
+2007,Não identificado,Mestrado,1227
+2007,Não identificado,Não informado,174
+2007,Sociologia,Doutorado,222
+2007,Sociologia,Mestrado,493
 2007,Sociologia,Não informado,39
 2008,Antropologia / Arqueologia,Doutorado,56
 2008,Antropologia / Arqueologia,Mestrado,157
@@ -447,124 +447,124 @@ ano,area_nome,nivel,titulos
 2008,Ciência Política / RI,Mestrado,166
 2008,Ciência Política / RI,Não informado,13
 2008,Economia,Doutorado,110
-2008,Economia,Mestrado,424
-2008,Economia,Não informado,290
+2008,Economia,Mestrado,405
+2008,Economia,Não informado,287
 2008,Geografia,Doutorado,136
 2008,Geografia,Mestrado,595
 2008,Geografia,Não informado,0
-2008,História,Doutorado,280
-2008,História,Mestrado,748
+2008,História,Doutorado,279
+2008,História,Mestrado,737
 2008,História,Não informado,18
-2008,Não identificado,Doutorado,426
-2008,Não identificado,Mestrado,1340
-2008,Não identificado,Não informado,174
-2008,Sociologia,Doutorado,269
-2008,Sociologia,Mestrado,540
+2008,Não identificado,Doutorado,430
+2008,Não identificado,Mestrado,1399
+2008,Não identificado,Não informado,176
+2008,Sociologia,Doutorado,266
+2008,Sociologia,Mestrado,510
 2008,Sociologia,Não informado,19
 2009,Antropologia / Arqueologia,Doutorado,71
 2009,Antropologia / Arqueologia,Mestrado,164
 2009,Antropologia / Arqueologia,Não informado,12
 2009,Ciência Política / RI,Doutorado,56
-2009,Ciência Política / RI,Mestrado,208
+2009,Ciência Política / RI,Mestrado,207
 2009,Ciência Política / RI,Não informado,19
 2009,Economia,Doutorado,142
-2009,Economia,Mestrado,471
-2009,Economia,Não informado,345
+2009,Economia,Mestrado,461
+2009,Economia,Não informado,342
 2009,Geografia,Doutorado,160
 2009,Geografia,Mestrado,575
 2009,Geografia,Não informado,0
-2009,História,Doutorado,271
-2009,História,Mestrado,836
+2009,História,Doutorado,260
+2009,História,Mestrado,820
 2009,História,Não informado,23
-2009,Não identificado,Doutorado,417
-2009,Não identificado,Mestrado,1335
-2009,Não identificado,Não informado,192
-2009,Sociologia,Doutorado,264
-2009,Sociologia,Mestrado,588
+2009,Não identificado,Doutorado,430
+2009,Não identificado,Mestrado,1396
+2009,Não identificado,Não informado,194
+2009,Sociologia,Doutorado,262
+2009,Sociologia,Mestrado,553
 2009,Sociologia,Não informado,37
 2010,Antropologia / Arqueologia,Doutorado,91
 2010,Antropologia / Arqueologia,Mestrado,182
 2010,Antropologia / Arqueologia,Não informado,0
 2010,Ciência Política / RI,Doutorado,60
-2010,Ciência Política / RI,Mestrado,223
+2010,Ciência Política / RI,Mestrado,219
 2010,Ciência Política / RI,Não informado,26
 2010,Economia,Doutorado,147
-2010,Economia,Mestrado,447
-2010,Economia,Não informado,339
+2010,Economia,Mestrado,437
+2010,Economia,Não informado,340
 2010,Geografia,Doutorado,169
 2010,Geografia,Mestrado,627
 2010,Geografia,Não informado,0
-2010,História,Doutorado,220
-2010,História,Mestrado,869
+2010,História,Doutorado,218
+2010,História,Mestrado,858
 2010,História,Não informado,12
-2010,Não identificado,Doutorado,437
-2010,Não identificado,Mestrado,1367
+2010,Não identificado,Doutorado,448
+2010,Não identificado,Mestrado,1410
 2010,Não identificado,Não informado,215
-2010,Sociologia,Doutorado,282
-2010,Sociologia,Mestrado,583
+2010,Sociologia,Doutorado,273
+2010,Sociologia,Mestrado,565
 2010,Sociologia,Não informado,54
 2011,Antropologia / Arqueologia,Doutorado,70
 2011,Antropologia / Arqueologia,Mestrado,177
 2011,Antropologia / Arqueologia,Não informado,0
 2011,Ciência Política / RI,Doutorado,82
-2011,Ciência Política / RI,Mestrado,246
+2011,Ciência Política / RI,Mestrado,243
 2011,Ciência Política / RI,Não informado,48
 2011,Economia,Doutorado,131
-2011,Economia,Mestrado,470
+2011,Economia,Mestrado,445
 2011,Economia,Não informado,381
 2011,Geografia,Doutorado,225
 2011,Geografia,Mestrado,686
 2011,Geografia,Não informado,0
-2011,História,Doutorado,278
-2011,História,Mestrado,903
+2011,História,Doutorado,274
+2011,História,Mestrado,890
 2011,História,Não informado,14
-2011,Não identificado,Doutorado,516
-2011,Não identificado,Mestrado,1578
+2011,Não identificado,Doutorado,527
+2011,Não identificado,Mestrado,1648
 2011,Não identificado,Não informado,207
-2011,Sociologia,Doutorado,294
-2011,Sociologia,Mestrado,576
+2011,Sociologia,Doutorado,286
+2011,Sociologia,Mestrado,547
 2011,Sociologia,Não informado,12
 2012,Antropologia / Arqueologia,Doutorado,81
 2012,Antropologia / Arqueologia,Mestrado,273
 2012,Antropologia / Arqueologia,Não informado,0
 2012,Ciência Política / RI,Doutorado,87
-2012,Ciência Política / RI,Mestrado,300
+2012,Ciência Política / RI,Mestrado,299
 2012,Ciência Política / RI,Não informado,29
 2012,Economia,Doutorado,149
-2012,Economia,Mestrado,538
+2012,Economia,Mestrado,520
 2012,Economia,Não informado,341
 2012,Geografia,Doutorado,258
 2012,Geografia,Mestrado,673
 2012,Geografia,Não informado,0
-2012,História,Doutorado,291
-2012,História,Mestrado,915
+2012,História,Doutorado,286
+2012,História,Mestrado,902
 2012,História,Não informado,15
-2012,Não identificado,Doutorado,576
-2012,Não identificado,Mestrado,1645
+2012,Não identificado,Doutorado,589
+2012,Não identificado,Mestrado,1703
 2012,Não identificado,Não informado,230
-2012,Sociologia,Doutorado,302
-2012,Sociologia,Mestrado,676
+2012,Sociologia,Doutorado,294
+2012,Sociologia,Mestrado,647
 2012,Sociologia,Não informado,26
 2013,Antropologia / Arqueologia,Doutorado,87
 2013,Antropologia / Arqueologia,Mestrado,283
 2013,Antropologia / Arqueologia,Não informado,0
 2013,Ciência Política / RI,Doutorado,101
-2013,Ciência Política / RI,Mestrado,381
+2013,Ciência Política / RI,Mestrado,380
 2013,Ciência Política / RI,Não informado,0
 2013,Economia,Doutorado,146
-2013,Economia,Mestrado,835
+2013,Economia,Mestrado,825
 2013,Economia,Não informado,0
 2013,Geografia,Doutorado,290
 2013,Geografia,Mestrado,752
 2013,Geografia,Não informado,0
-2013,História,Doutorado,329
-2013,História,Mestrado,993
+2013,História,Doutorado,321
+2013,História,Mestrado,978
 2013,História,Não informado,0
-2013,Não identificado,Doutorado,778
-2013,Não identificado,Mestrado,2254
+2013,Não identificado,Doutorado,808
+2013,Não identificado,Mestrado,2330
 2013,Não identificado,Não informado,0
-2013,Sociologia,Doutorado,335
-2013,Sociologia,Mestrado,748
+2013,Sociologia,Doutorado,313
+2013,Sociologia,Mestrado,698
 2013,Sociologia,Não informado,0
 2014,Antropologia / Arqueologia,Doutorado,105
 2014,Antropologia / Arqueologia,Mestrado,293
@@ -573,19 +573,19 @@ ano,area_nome,nivel,titulos
 2014,Ciência Política / RI,Mestrado,369
 2014,Ciência Política / RI,Não informado,0
 2014,Economia,Doutorado,169
-2014,Economia,Mestrado,898
+2014,Economia,Mestrado,871
 2014,Economia,Não informado,0
 2014,Geografia,Doutorado,240
 2014,Geografia,Mestrado,804
 2014,Geografia,Não informado,0
-2014,História,Doutorado,322
-2014,História,Mestrado,1045
+2014,História,Doutorado,313
+2014,História,Mestrado,1029
 2014,História,Não informado,0
-2014,Não identificado,Doutorado,845
-2014,Não identificado,Mestrado,2410
+2014,Não identificado,Doutorado,876
+2014,Não identificado,Mestrado,2487
 2014,Não identificado,Não informado,0
-2014,Sociologia,Doutorado,396
-2014,Sociologia,Mestrado,714
+2014,Sociologia,Doutorado,374
+2014,Sociologia,Mestrado,680
 2014,Sociologia,Não informado,0
 2015,Antropologia / Arqueologia,Doutorado,117
 2015,Antropologia / Arqueologia,Mestrado,335
@@ -594,19 +594,19 @@ ano,area_nome,nivel,titulos
 2015,Ciência Política / RI,Mestrado,397
 2015,Ciência Política / RI,Não informado,0
 2015,Economia,Doutorado,166
-2015,Economia,Mestrado,900
+2015,Economia,Mestrado,866
 2015,Economia,Não informado,0
 2015,Geografia,Doutorado,364
 2015,Geografia,Mestrado,817
 2015,Geografia,Não informado,0
-2015,História,Doutorado,411
-2015,História,Mestrado,1168
+2015,História,Doutorado,401
+2015,História,Mestrado,1148
 2015,História,Não informado,0
-2015,Não identificado,Doutorado,936
-2015,Não identificado,Mestrado,2742
+2015,Não identificado,Doutorado,964
+2015,Não identificado,Mestrado,2836
 2015,Não identificado,Não informado,0
-2015,Sociologia,Doutorado,363
-2015,Sociologia,Mestrado,811
+2015,Sociologia,Doutorado,345
+2015,Sociologia,Mestrado,771
 2015,Sociologia,Não informado,0
 2016,Antropologia / Arqueologia,Doutorado,122
 2016,Antropologia / Arqueologia,Mestrado,310
@@ -615,19 +615,19 @@ ano,area_nome,nivel,titulos
 2016,Ciência Política / RI,Mestrado,476
 2016,Ciência Política / RI,Não informado,0
 2016,Economia,Doutorado,175
-2016,Economia,Mestrado,979
+2016,Economia,Mestrado,908
 2016,Economia,Não informado,0
 2016,Geografia,Doutorado,342
 2016,Geografia,Mestrado,867
 2016,Geografia,Não informado,0
-2016,História,Doutorado,449
-2016,História,Mestrado,1251
+2016,História,Doutorado,440
+2016,História,Mestrado,1241
 2016,História,Não informado,0
-2016,Não identificado,Doutorado,1012
-2016,Não identificado,Mestrado,2840
+2016,Não identificado,Doutorado,1033
+2016,Não identificado,Mestrado,2944
 2016,Não identificado,Não informado,0
-2016,Sociologia,Doutorado,457
-2016,Sociologia,Mestrado,775
+2016,Sociologia,Doutorado,445
+2016,Sociologia,Mestrado,752
 2016,Sociologia,Não informado,0
 2017,Antropologia / Arqueologia,Doutorado,121
 2017,Antropologia / Arqueologia,Mestrado,324
@@ -636,19 +636,19 @@ ano,area_nome,nivel,titulos
 2017,Ciência Política / RI,Mestrado,485
 2017,Ciência Política / RI,Não informado,0
 2017,Economia,Doutorado,221
-2017,Economia,Mestrado,1079
+2017,Economia,Mestrado,1018
 2017,Economia,Não informado,0
 2017,Geografia,Doutorado,410
 2017,Geografia,Mestrado,929
 2017,Geografia,Não informado,0
-2017,História,Doutorado,415
-2017,História,Mestrado,1147
+2017,História,Doutorado,407
+2017,História,Mestrado,1134
 2017,História,Não informado,0
-2017,Não identificado,Doutorado,1142
-2017,Não identificado,Mestrado,3173
+2017,Não identificado,Doutorado,1183
+2017,Não identificado,Mestrado,3298
 2017,Não identificado,Não informado,0
-2017,Sociologia,Doutorado,436
-2017,Sociologia,Mestrado,787
+2017,Sociologia,Doutorado,403
+2017,Sociologia,Mestrado,736
 2017,Sociologia,Não informado,0
 2018,Antropologia / Arqueologia,Doutorado,157
 2018,Antropologia / Arqueologia,Mestrado,293
@@ -656,20 +656,20 @@ ano,area_nome,nivel,titulos
 2018,Ciência Política / RI,Doutorado,199
 2018,Ciência Política / RI,Mestrado,595
 2018,Ciência Política / RI,Não informado,0
-2018,Economia,Doutorado,213
-2018,Economia,Mestrado,983
+2018,Economia,Doutorado,208
+2018,Economia,Mestrado,920
 2018,Economia,Não informado,0
 2018,Geografia,Doutorado,368
 2018,Geografia,Mestrado,897
 2018,Geografia,Não informado,0
-2018,História,Doutorado,506
-2018,História,Mestrado,1327
+2018,História,Doutorado,498
+2018,História,Mestrado,1314
 2018,História,Não informado,0
-2018,Não identificado,Doutorado,1183
-2018,Não identificado,Mestrado,3316
+2018,Não identificado,Doutorado,1202
+2018,Não identificado,Mestrado,3406
 2018,Não identificado,Não informado,1
-2018,Sociologia,Doutorado,395
-2018,Sociologia,Mestrado,693
+2018,Sociologia,Doutorado,389
+2018,Sociologia,Mestrado,679
 2018,Sociologia,Não informado,0
 2019,Antropologia / Arqueologia,Doutorado,176
 2019,Antropologia / Arqueologia,Mestrado,368
@@ -677,20 +677,20 @@ ano,area_nome,nivel,titulos
 2019,Ciência Política / RI,Doutorado,214
 2019,Ciência Política / RI,Mestrado,747
 2019,Ciência Política / RI,Não informado,0
-2019,Economia,Doutorado,254
-2019,Economia,Mestrado,1042
+2019,Economia,Doutorado,244
+2019,Economia,Mestrado,970
 2019,Economia,Não informado,0
 2019,Geografia,Doutorado,450
 2019,Geografia,Mestrado,891
 2019,Geografia,Não informado,0
-2019,História,Doutorado,522
-2019,História,Mestrado,1253
+2019,História,Doutorado,509
+2019,História,Mestrado,1239
 2019,História,Não informado,0
-2019,Não identificado,Doutorado,1277
-2019,Não identificado,Mestrado,3473
+2019,Não identificado,Doutorado,1335
+2019,Não identificado,Mestrado,3595
 2019,Não identificado,Não informado,0
-2019,Sociologia,Doutorado,446
-2019,Sociologia,Mestrado,722
+2019,Sociologia,Doutorado,411
+2019,Sociologia,Mestrado,686
 2019,Sociologia,Não informado,0
 2020,Antropologia / Arqueologia,Doutorado,125
 2020,Antropologia / Arqueologia,Mestrado,305
@@ -698,20 +698,20 @@ ano,area_nome,nivel,titulos
 2020,Ciência Política / RI,Doutorado,153
 2020,Ciência Política / RI,Mestrado,545
 2020,Ciência Política / RI,Não informado,0
-2020,Economia,Doutorado,226
-2020,Economia,Mestrado,905
+2020,Economia,Doutorado,219
+2020,Economia,Mestrado,856
 2020,Economia,Não informado,0
 2020,Geografia,Doutorado,297
 2020,Geografia,Mestrado,734
 2020,Geografia,Não informado,0
-2020,História,Doutorado,453
-2020,História,Mestrado,1288
+2020,História,Doutorado,445
+2020,História,Mestrado,1274
 2020,História,Não informado,0
-2020,Não identificado,Doutorado,1130
-2020,Não identificado,Mestrado,3126
+2020,Não identificado,Doutorado,1182
+2020,Não identificado,Mestrado,3217
 2020,Não identificado,Não informado,0
-2020,Sociologia,Doutorado,347
-2020,Sociologia,Mestrado,724
+2020,Sociologia,Doutorado,310
+2020,Sociologia,Mestrado,696
 2020,Sociologia,Não informado,0
 2021,Antropologia / Arqueologia,Doutorado,121
 2021,Antropologia / Arqueologia,Mestrado,345
@@ -719,20 +719,20 @@ ano,area_nome,nivel,titulos
 2021,Ciência Política / RI,Doutorado,154
 2021,Ciência Política / RI,Mestrado,622
 2021,Ciência Política / RI,Não informado,0
-2021,Economia,Doutorado,222
-2021,Economia,Mestrado,1012
+2021,Economia,Doutorado,216
+2021,Economia,Mestrado,934
 2021,Economia,Não informado,0
 2021,Geografia,Doutorado,346
 2021,Geografia,Mestrado,842
 2021,Geografia,Não informado,0
-2021,História,Doutorado,487
-2021,História,Mestrado,1357
+2021,História,Doutorado,479
+2021,História,Mestrado,1349
 2021,História,Não informado,0
-2021,Não identificado,Doutorado,1199
-2021,Não identificado,Mestrado,3366
+2021,Não identificado,Doutorado,1243
+2021,Não identificado,Mestrado,3489
 2021,Não identificado,Não informado,0
-2021,Sociologia,Doutorado,378
-2021,Sociologia,Mestrado,670
+2021,Sociologia,Doutorado,348
+2021,Sociologia,Mestrado,633
 2021,Sociologia,Não informado,0
 2022,Antropologia / Arqueologia,Doutorado,161
 2022,Antropologia / Arqueologia,Mestrado,326
@@ -740,20 +740,20 @@ ano,area_nome,nivel,titulos
 2022,Ciência Política / RI,Doutorado,162
 2022,Ciência Política / RI,Mestrado,653
 2022,Ciência Política / RI,Não informado,0
-2022,Economia,Doutorado,224
-2022,Economia,Mestrado,993
+2022,Economia,Doutorado,220
+2022,Economia,Mestrado,915
 2022,Economia,Não informado,0
 2022,Geografia,Doutorado,348
 2022,Geografia,Mestrado,922
 2022,Geografia,Não informado,0
-2022,História,Doutorado,483
-2022,História,Mestrado,1503
+2022,História,Doutorado,474
+2022,História,Mestrado,1493
 2022,História,Não informado,0
-2022,Não identificado,Doutorado,1339
-2022,Não identificado,Mestrado,3188
+2022,Não identificado,Doutorado,1382
+2022,Não identificado,Mestrado,3314
 2022,Não identificado,Não informado,0
-2022,Sociologia,Doutorado,339
-2022,Sociologia,Mestrado,600
+2022,Sociologia,Doutorado,309
+2022,Sociologia,Mestrado,562
 2022,Sociologia,Não informado,0
 2023,Antropologia / Arqueologia,Doutorado,137
 2023,Antropologia / Arqueologia,Mestrado,388
@@ -761,20 +761,20 @@ ano,area_nome,nivel,titulos
 2023,Ciência Política / RI,Doutorado,177
 2023,Ciência Política / RI,Mestrado,691
 2023,Ciência Política / RI,Não informado,0
-2023,Economia,Doutorado,277
-2023,Economia,Mestrado,1075
+2023,Economia,Doutorado,272
+2023,Economia,Mestrado,975
 2023,Economia,Não informado,0
 2023,Geografia,Doutorado,418
 2023,Geografia,Mestrado,982
 2023,Geografia,Não informado,0
-2023,História,Doutorado,592
-2023,História,Mestrado,1321
+2023,História,Doutorado,582
+2023,História,Mestrado,1308
 2023,História,Não informado,0
-2023,Não identificado,Doutorado,1625
-2023,Não identificado,Mestrado,3653
+2023,Não identificado,Doutorado,1668
+2023,Não identificado,Mestrado,3801
 2023,Não identificado,Não informado,0
-2023,Sociologia,Doutorado,414
-2023,Sociologia,Mestrado,704
+2023,Sociologia,Doutorado,386
+2023,Sociologia,Mestrado,669
 2023,Sociologia,Não informado,0
 2024,Antropologia / Arqueologia,Doutorado,187
 2024,Antropologia / Arqueologia,Mestrado,398
@@ -782,18 +782,18 @@ ano,area_nome,nivel,titulos
 2024,Ciência Política / RI,Doutorado,216
 2024,Ciência Política / RI,Mestrado,786
 2024,Ciência Política / RI,Não informado,0
-2024,Economia,Doutorado,264
-2024,Economia,Mestrado,996
+2024,Economia,Doutorado,257
+2024,Economia,Mestrado,908
 2024,Economia,Não informado,0
 2024,Geografia,Doutorado,398
-2024,Geografia,Mestrado,1111
+2024,Geografia,Mestrado,1042
 2024,Geografia,Não informado,0
-2024,História,Doutorado,527
-2024,História,Mestrado,1334
+2024,História,Doutorado,521
+2024,História,Mestrado,1274
 2024,História,Não informado,0
-2024,Não identificado,Doutorado,1555
-2024,Não identificado,Mestrado,3397
+2024,Não identificado,Doutorado,1603
+2024,Não identificado,Mestrado,3713
 2024,Não identificado,Não informado,0
-2024,Sociologia,Doutorado,429
-2024,Sociologia,Mestrado,755
+2024,Sociologia,Doutorado,394
+2024,Sociologia,Mestrado,656
 2024,Sociologia,Não informado,0

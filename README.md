@@ -35,6 +35,7 @@ historia_ciencia_politica_brasil/
 │   ├── 16_auditoria_pos_graduacao.R        # Segunda auditoria: microdados de pós-graduação
 │   ├── 17_figuras_slides.R                 # Figuras redesenhadas para a apresentação
 │   ├── 18_comparacao_marenco.R             # Validação externa: comparação com Marenco (2014)
+│   ├── 19_linha_tempo_tres_idades.R        # Figura das Três Idades (versão paper)
 │   ├── tema_artigo.R                       # Estilo visual ggplot2 padronizado (paper)
 │   └── tema_slides.R                       # Estilo visual ggplot2 padronizado (slides)
 ├── PESQUISA_ASSOCIACOES/                   # Relatórios-fontes da coleta de associações

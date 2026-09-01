@@ -233,7 +233,13 @@ if (file.exists(mapa_cache_path)) {
 #    (Referencial Teórico do artigo, §2.1). Marcos institucionais citados no
 #    texto, sintetizados de Forjaz (1997) e Lamounier (1989); datas de
 #    fundação dos programas conferidas no ciclo de auditoria de 29/08/2026
-#    (ver AUDITORIA.md, seção de cronologia).
+#    (ver AUDITORIA.md, seção de cronologia). UFMG: organizou-se
+#    institucionalmente em 1966 (Resolução 11, dez/1965), 1ª turma do
+#    mestrado em mar/1967, credenciamento CAPES efetivo só em 1973 (fonte:
+#    página oficial do PPGCP-UFMG, ppgcp.fafich.ufmg.br/apres.php).
+#    Revista DADOS: fundada em 1966 pelo IUPERJ, uma das publicações mais
+#    longevas de ciências sociais do país (fonte: dados.iesp.uerj.br,
+#    "60 anos da Revista DADOS").
 # -----------------------------------------------------------------------------
 eras <- tribble(
   ~era, ~inicio, ~fim, ~cor,
@@ -243,7 +249,8 @@ eras <- tribble(
 )
 marcos <- tribble(
   ~ano, ~rotulo,                          ~lado,
-  1967, "UFMG\n(1ª metade)",              1,
+  1966, "UFMG",                           1,
+  1966, "DADOS\n(revista)",                -1,
   1969, "IUPERJ",                         -1,
   1971, "USP",                            1,
   1973, "UFRGS",                          -1,
@@ -257,12 +264,17 @@ p9 <- ggplot() +
   geom_rect(data = eras, aes(xmin = inicio, xmax = fim, ymin = -1, ymax = 1, fill = cor),
             alpha = 0.13, colour = NA) +
   geom_hline(yintercept = 0, colour = "grey55", linewidth = 0.6) +
-  geom_segment(data = marcos, aes(x = ano, xend = ano, y = 0, yend = lado * 0.35),
-               colour = "grey45", linewidth = 0.4) +
   geom_point(data = marcos, aes(x = ano, y = 0), size = 3, colour = "#0B1E33") +
-  geom_text(data = marcos, aes(x = ano, y = lado * 0.42, label = paste0(ano, "\n", rotulo),
-                                vjust = ifelse(lado > 0, 0, 1)),
-            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9) +
+  ggrepel::geom_text_repel(data = marcos %>% filter(lado > 0),
+                            aes(x = ano, y = 0, label = paste0(ano, "\n", rotulo)),
+                            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9,
+                            direction = "x", nudge_y = 0.45, force = 4, box.padding = 0.25,
+                            min.segment.length = 0, segment.size = 0.4, segment.colour = "grey45") +
+  ggrepel::geom_text_repel(data = marcos %>% filter(lado < 0),
+                            aes(x = ano, y = 0, label = paste0(ano, "\n", rotulo)),
+                            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9,
+                            direction = "x", nudge_y = -0.45, force = 4, box.padding = 0.25,
+                            min.segment.length = 0, segment.size = 0.4, segment.colour = "grey45") +
   geom_text(data = eras, aes(x = (inicio + fim) / 2, y = 0.92, label = era, colour = cor),
             size = 5, fontface = "bold") +
   scale_fill_identity() + scale_colour_identity() +

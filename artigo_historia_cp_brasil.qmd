@@ -91,11 +91,13 @@ A literatura especializada na história da Ciência Política no Brasil identifi
 
 ## As Três Idades da Ciência Política Brasileira
 
-Sintetizando os marcos de Forjaz [@forjaz1997emergencia] e de Lamounier [@lamounier1989anos70], a trajetória da disciplina pode ser organizada em três ciclos analíticos.
+Sintetizando os marcos de Forjaz [@forjaz1997emergencia] e de Lamounier [@lamounier1989anos70], a trajetória da disciplina pode ser organizada em três ciclos analíticos (@fig-tres-idades).
 
-* **A Idade da Criação e da Filiação (décadas de 1960 e 1970):** estabelecimento dos primeiros programas de pós-graduação, com o programa da UFMG criado na segunda metade dos anos 1960, seguido pelo IUPERJ (1969), pela USP (1971) e pela UFRGS (1973). O foco analítico centrava-se na compreensão do autoritarismo, na estrutura corporativa do Estado e nas condições de transição democrática [@forjaz1997emergencia].
+* **A Idade da Criação e da Filiação (décadas de 1960 e 1970):** estabelecimento dos primeiros programas de pós-graduação, com o programa da UFMG organizado institucionalmente em 1966 (recebendo a primeira turma do mestrado em 1967), seguido pelo IUPERJ (1969), pela USP (1971) e pela UFRGS (1973). O mesmo ano de 1966 viu o lançamento da revista *DADOS*, um dos periódicos de ciências sociais mais longevos do país. O foco analítico centrava-se na compreensão do autoritarismo, na estrutura corporativa do Estado e nas condições de transição democrática [@forjaz1997emergencia].
 * **A Idade da Expansão Institucional (décadas de 1980 e 1990):** criação de novos programas, como o mestrado em ciência política e relações internacionais da UnB, iniciado em 1984, e consolidação dos canais institucionais com a ANPOCS (1977) e a Associação Brasileira de Ciência Política (ABCP, 1996). A agenda de pesquisa deslocou-se para as instituições representativas da Nova República: sistemas eleitorais, partidos, processo decisório no Congresso Nacional e federalismo [@lamounier1989anos70; @amorimneto2003executivo].
 * **A Idade da Profissionalização e Internacionalização (século XXI):** diversificação temática, crescente sofisticação analítica, busca por inserção internacional (marcada pelo lançamento da *BPSR* em 2007) e expansão para além das metrópoles tradicionais.
+
+![As Três Idades da Ciência Política Brasileira](FIGURAS/fig20_tres_idades.png){#fig-tres-idades width=95%}
 
 ## A Pós-Graduação como Motor de Autonomização e o Contraste com Áreas Irmãs
 

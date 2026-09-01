@@ -31,7 +31,14 @@ classifica_area <- function(df) {
     TRUE ~ NA_character_
   )
   # No layout novo, AreaAvaliacao é a âncora administrativa. O nome do
-  # programa só resolve registros sem área preenchida.
+  # programa só resolve registros SEM área preenchida (`area == ""`) --
+  # quando a área de avaliação é conhecida mas está fora do escopo
+  # comparado (ex.: "PSICOLOGIA", "INTERDISCIPLINAR"), o registro fica como
+  # "Não identificado", nunca é reclassificado pelo nome do programa. Sem
+  # essa guarda, `grepl("SOCIOLOGIA", programa)` casava com substrings como
+  # "PSICOSSOCIOLOGIA" (área real: Psicologia) e "SOCIOLOGIA E DIREITO"
+  # (área real: Interdisciplinar), inflando indevidamente a Sociologia
+  # (75 registros em 2024; ver AUDITORIA.md).
   case_when(
     !is.na(codigo_area) ~ codigo_area,
     grepl("SOCIOLOGIA", area) ~ "Sociologia",
@@ -40,6 +47,7 @@ classifica_area <- function(df) {
     grepl("GEOGRAFIA", area) ~ "Geografia",
     grepl("ECONOMIA", area) ~ "Economia",
     grepl("CIENCIA POLITICA|RELACOES INTERNACIONAIS", area) ~ "Ciência Política / RI",
+    area != "" ~ "Não identificado",
     grepl("SOCIOLOGIA", programa) & !grepl("CIENCIA POLITICA", programa) ~ "Sociologia",
     grepl("ANTROPOLOGIA", programa) ~ "Antropologia / Arqueologia",
     grepl("HISTORIA", programa) & !grepl("GEOGRAFIA|SOCIOLOGIA|FILOSOFIA", programa) ~ "História",
