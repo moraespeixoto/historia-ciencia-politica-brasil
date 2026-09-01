@@ -228,4 +228,51 @@ if (file.exists(mapa_cache_path)) {
   warning("mapa_evolucao_ppg_cache.rds não encontrado — rode 07_analise_geografica_redes.R antes.")
 }
 
+# -----------------------------------------------------------------------------
+# 9. Linha do tempo — "As Três Idades da Ciência Política Brasileira"
+#    (Referencial Teórico do artigo, §2.1). Marcos institucionais citados no
+#    texto, sintetizados de Forjaz (1997) e Lamounier (1989); datas de
+#    fundação dos programas conferidas no ciclo de auditoria de 29/08/2026
+#    (ver AUDITORIA.md, seção de cronologia).
+# -----------------------------------------------------------------------------
+eras <- tribble(
+  ~era, ~inicio, ~fim, ~cor,
+  "Criação e Filiação",                     1966, 1979, "#0072B2",
+  "Expansão Institucional",                 1980, 1999, "#E69F00",
+  "Profissionalização e\nInternacionalização", 2000, 2025, "#009E73"
+)
+marcos <- tribble(
+  ~ano, ~rotulo,                          ~lado,
+  1967, "UFMG\n(1ª metade)",              1,
+  1969, "IUPERJ",                         -1,
+  1971, "USP",                            1,
+  1973, "UFRGS",                          -1,
+  1977, "ANPOCS",                         1,
+  1984, "UnB\n(mestrado CP/RI)",          -1,
+  1996, "ABCP",                           1,
+  2007, "BPSR\n(internacionalização)",    -1
+)
+
+p9 <- ggplot() +
+  geom_rect(data = eras, aes(xmin = inicio, xmax = fim, ymin = -1, ymax = 1, fill = cor),
+            alpha = 0.13, colour = NA) +
+  geom_hline(yintercept = 0, colour = "grey55", linewidth = 0.6) +
+  geom_segment(data = marcos, aes(x = ano, xend = ano, y = 0, yend = lado * 0.35),
+               colour = "grey45", linewidth = 0.4) +
+  geom_point(data = marcos, aes(x = ano, y = 0), size = 3, colour = "#0B1E33") +
+  geom_text(data = marcos, aes(x = ano, y = lado * 0.42, label = paste0(ano, "\n", rotulo),
+                                vjust = ifelse(lado > 0, 0, 1)),
+            size = 4.4, fontface = "bold", colour = "#0B1E33", lineheight = 0.9) +
+  geom_text(data = eras, aes(x = (inicio + fim) / 2, y = 0.92, label = era, colour = cor),
+            size = 5, fontface = "bold") +
+  scale_fill_identity() + scale_colour_identity() +
+  scale_x_continuous(breaks = seq(1965, 2025, 10), limits = c(1964, 2027)) +
+  scale_y_continuous(limits = c(-1, 1.05)) +
+  labs(x = NULL, y = NULL, subtitle = "Marcos institucionais citados no Referencial Teórico, 1966–2025") +
+  theme_slides() +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.line.y = element_blank(),
+        panel.grid.major.y = element_blank(), panel.grid.major.x = element_line(colour = "grey90", linewidth = 0.3))
+salva_fig_slide(p9, file.path(dir_slides, "slide_03_tres_idades.png"), largura = 13, altura = 5.8)
+salva_fig_slide(p9, file.path(dir_slides, "slide_03_tres_idades.pdf"), largura = 13, altura = 5.8)
+
 cat(">>> figuras de slide geradas em", dir_slides, "\n")

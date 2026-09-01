@@ -53,6 +53,29 @@ Este é um retrato empírico do sistema de pós-graduação da área — sem tra
 Slide de abertura conceitual. O ponto a plantar: a narrativa corrente de expansão pode estar, em boa parte, contando a história de campos limítrofes.
 :::
 
+## Três idades da Ciência Política brasileira
+
+![](FIGURAS/slides/slide_03_tres_idades.png){width=96%}
+
+- **Criação e Filiação** (anos 1960–70): primeiros programas — foco no autoritarismo, na estrutura corporativa do Estado e na transição democrática [@forjaz1997emergencia]
+- **Expansão Institucional** (anos 1980–90): novos programas e canais (ANPOCS, ABCP) — agenda desloca-se para as instituições da Nova República: eleições, partidos, Congresso, federalismo [@lamounier1989anos70]
+- **Profissionalização e Internacionalização** (século XXI): diversificação temática, sofisticação analítica, inserção internacional
+
+::: {.notes}
+Síntese de Forjaz (1997) e Lamounier (1989), como no Referencial Teórico do artigo (§2.1). As datas de fundação dos programas foram conferidas na auditoria de dados do projeto.
+:::
+
+## A pós-graduação como motor de autonomização
+
+- A institucionalização da Ciência Política no Brasil não veio da graduação: foi puxada de cima para baixo pelo sistema de avaliação e fomento da CAPES [@leite2013autonomizacao]
+- A criação da Área 39 deu ao campo critérios próprios de produtividade (Qualis Periódicos) e metas de titulação
+- Mas a expansão foi mais lenta que a das áreas irmãs: até a virada do milênio, um "déficit de doutores" atrasou a criação de novos centros fora do eixo Sudeste [@marenco2014heels]
+- Diferença de origem: Geografia e História cresceram puxadas pela demanda de professores para a educação básica; a Ciência Política nasceu voltada à pesquisa avançada — daí sua menor capilaridade inicial
+
+::: {.notes}
+Ponte para os dados: o restante da apresentação testa empiricamente essa leitura institucional — quanto a Área 39 de fato se expandiu, e a que ritmo em relação às áreas irmãs.
+:::
+
 ## O sistema cresceu quase 39 vezes em quatro décadas
 
 ![](FIGURAS/slides/slide_01_titulos_grau.png){width=92%}
@@ -191,6 +214,9 @@ Fechamento: reforçar que os três achados são descritivos, não causais, e que
 
 ### Referências citadas nesta apresentação
 
+- Forjaz, M. C. S. (1997). *A emergência da Ciência Política acadêmica no Brasil: aspectos institucionais*. RBCS. [@forjaz1997emergencia]
+- Lamounier, B. (1989). *A ciência política nos anos 70*. Em: *História das Ciências Sociais no Brasil*. [@lamounier1989anos70]
+- Leite, F. & Codato, A. (2013). *Autonomização e institucionalização da Ciência Política brasileira: o papel do sistema Qualis-Capes*. [@leite2013autonomizacao]
 - Marenco, A. (2014). *The Three Achilles' Heels of Brazilian Political Science*. BPSR. [@marenco2014heels]
 - Roberts, M. E. et al. (2014). *Structural Topic Models for Open-Ended Survey Responses*. AJPS. [@roberts2014stm]
 
