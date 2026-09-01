@@ -37,7 +37,12 @@ capes_unif <- capes_ok %>% mutate(ano_unificado = as.integer(coalesce(an_base, a
 # arquivo, já filtrado pela área 39, em vez de reimplementar o filtro.
 saveRDS(capes_ok, file.path(dir_processed, "capes_cp_area39.rds"))
 capes_serie <- capes_unif %>% filter(!is.na(ano_unificado)) %>% count(ano = ano_unificado, name = "titulos") %>% arrange(ano) %>% mutate(titulos_acum = cumsum(titulos))
-prog_serie <- prog %>% filter(!is.na(an_base)) %>% group_by(ano = as.integer(an_base)) %>% summarise(programas_unicos = n_distinct(cd_programa_ies), ies_unicas = n_distinct(cd_entidade_capes), .groups = "drop") %>% arrange(ano)
+# Exclui programas com DS_SITUACAO_PROGRAMA == "EM DESATIVACAO" (impacto
+# mínimo -- no máximo 2 programas em um único ano, zero em 2024 -- mas
+# fecha o item de auditoria sobre programas em desativação sendo contados
+# como ativos; ver AUDITORIA.md §9).
+prog_serie <- prog %>% filter(!is.na(an_base), is.na(ds_situacao_programa) | ds_situacao_programa != "EM DESATIVACAO") %>%
+  group_by(ano = as.integer(an_base)) %>% summarise(programas_unicos = n_distinct(cd_programa_ies), ies_unicas = n_distinct(cd_entidade_capes), .groups = "drop") %>% arrange(ano)
 
 # OpenAlex: apenas artigos de pesquisa (type == "article") e sem front matter,
 # com corte em 2024 (anos 2025-2026 têm indexação incompleta).

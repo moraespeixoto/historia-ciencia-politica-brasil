@@ -102,6 +102,9 @@ docentes <- purrr::map(anos, padronizar_docentes) %>% compact() %>% bind_rows()
 
 if (nrow(programas) == 0L) stop("Não foi possível ler programas Sucupira.")
 
+# Exclui programas com situação "EM DESATIVACAO" (impacto mínimo, mas
+# fecha o item de auditoria sobre desativação contada como ativa).
+programas <- programas %>% filter(is.na(situacao) | situacao != "EM DESATIVACAO")
 programas <- programas %>% mutate(area_nome = factor(area_nome, levels = ordem_areas))
 docentes <- docentes %>% mutate(area_nome = factor(area_nome, levels = ordem_areas))
 

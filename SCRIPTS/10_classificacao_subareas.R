@@ -95,7 +95,8 @@ saveRDS(serie_subarea, file.path(dir_processed, "tabela_titulos_subareas.rds"))
 # -----------------------------------------------------------------------------
 # 3. Programas Sucupira por subárea (2013-2024)
 # -----------------------------------------------------------------------------
-prog <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds"))
+prog <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds")) %>%
+  filter(is.na(ds_situacao_programa) | ds_situacao_programa != "EM DESATIVACAO")
 prog_sub <- prog %>%
   distinct(cd_programa_ies, .keep_all = TRUE) %>%
   mutate(subarea = classificar_programa(nm_programa_ies))

@@ -70,8 +70,13 @@ marenco_estados_phd <- tribble(
 write_csv(marenco_estados_phd, file.path(dir_tabelas, "tabela_marenco_estados_phd.csv"))
 
 # Comparação com nossos dados: UFs com doutorado na Área 39 completa em 2013
-prog <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds"))
-p13_doc <- prog %>% filter(ano_base == "2013", grepl("DOUTORADO", toupper(nm_grau_programa)))
+# (exclui programas "EM DESATIVACAO"; ver AUDITORIA.md §9)
+prog <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds")) %>%
+  filter(is.na(ds_situacao_programa) | ds_situacao_programa != "EM DESATIVACAO")
+p13 <- prog %>% filter(ano_base == "2013")
+n_ma_area39_2013 <- n_distinct(p13$cd_programa_ies)
+p13_doc <- p13 %>% filter(grepl("DOUTORADO", toupper(nm_grau_programa)))
+n_phd_area39_2013 <- n_distinct(p13_doc$cd_programa_ies)
 n_estados_area39_2013 <- n_distinct(p13_doc$sg_uf_programa)
 cat("Área 39 completa (Sucupira), UFs com doutorado em 2013:", n_estados_area39_2013,
     "—", paste(sort(unique(p13_doc$sg_uf_programa)), collapse = ", "), "\n")
@@ -148,7 +153,7 @@ ggsave(file.path(dir_figuras, "fig19_marenco_continuidade_razao_doutores.pdf"), 
 # -----------------------------------------------------------------------------
 v_marenco <- list(
   marenco_ma_2013 = 38, marenco_phd_2013 = 17,
-  area39_ma_2013 = 34, area39_phd_2013 = 21,
+  area39_ma_2013 = n_ma_area39_2013, area39_phd_2013 = n_phd_area39_2013,
   marenco_estados_phd_2010 = 6, area39_estados_phd_2013 = n_estados_area39_2013,
   marenco_ratio_2004 = 0.11, marenco_ratio_2012 = 0.21,
   area39_ratio_2013 = round(razao_area39$ratio[razao_area39$ano == 2013], 2),

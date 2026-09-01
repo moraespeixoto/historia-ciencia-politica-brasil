@@ -19,7 +19,8 @@ dir.create(dir_figuras, recursive = TRUE, showWarnings = FALSE)
 dir.create(dir_tabelas, recursive = TRUE, showWarnings = FALSE)
 
 message(">>> Carregando dados para análise geográfica e de redes...")
-prog  <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds"))
+prog  <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds")) %>%
+  filter(is.na(ds_situacao_programa) | ds_situacao_programa != "EM DESATIVACAO")
 docs  <- readRDS(file.path(dir_processed, "sucupira_docentes_cp_2013_2024.rds"))
 # Artefato canônico já filtrado pela área 39 (gerado por 08_auditoria_series_temporais.R).
 capes <- readRDS(file.path(dir_processed, "capes_cp_area39.rds"))
