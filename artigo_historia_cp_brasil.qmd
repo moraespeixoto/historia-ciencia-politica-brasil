@@ -47,6 +47,7 @@ tab_temp <- readRDS(here::here("DADOS", "processed", "tabela_series_temporais.rd
 comp_ind <- read_csv(here::here("TABELAS", "tabela_comparacao_painel_integrado.csv"), show_col_types = FALSE)
 comp_2024 <- comp_ind %>% filter(ano == max(ano, na.rm = TRUE))
 comp_metricas <- read_csv(here::here("TABELAS", "tabela_comparacao_metricas_capes.csv"), show_col_types = FALSE)
+v_marenco <- readRDS(here::here("DADOS", "processed", "valores_inline_marenco.rds"))
 topicos_nomes <- readRDS(here::here("DADOS", "processed", "stm_topicos_nomes.rds"))
 ```
 
@@ -177,6 +178,12 @@ A comparação por nível ajuda a distinguir a expansão dos programas do simple
 ![Intensidade de Titulação por Programa](FIGURAS/fig16_comparacao_intensidade_titulacao.png){#fig-intensidade-comparada width=95%}
 
 A utilidade desses indicadores é comparativa e não classificatória: uma área pode apresentar mais títulos por programa porque possui maior participação de mestrados profissionais, maior fluxo de estudantes ou diferentes durações e padrões de registro. Eles informam a escala e a estrutura da formação, enquanto a avaliação de qualidade requer dados de trajetória dos egressos, produção, financiamento e critérios da avaliação quadrienal.
+
+### Validação Externa: Continuidade com Marenco (2014)
+
+Os dados deste estudo podem ser cotejados com os apresentados por @marenco2014heels, que documentou a expansão da pós-graduação em Ciência Política a partir de relatórios da CAPES até 2012-2013. As séries não são diretamente substituíveis: o escopo de @marenco2014heels é a Ciência Política estrita, com contagens cumulativas de cursos aprovados historicamente, enquanto este estudo cobre a Área 39 completa (incluindo Relações Internacionais, Políticas Públicas e Defesa e Segurança) com programas ativos em cada ano, segundo a Plataforma Sucupira. Ainda assim, três pontos de contato sustentam a validade externa dos dados aqui reunidos. Primeiro, em 2013, @marenco2014heels reporta 38 cursos de mestrado e 17 de doutorado aprovados cumulativamente em Ciência Política estrita, contra `r fmt_int(v_marenco$area39_ma_2013)` programas de mestrado e `r fmt_int(v_marenco$area39_phd_2013)` de doutorado ativos na Área 39 completa segundo a Sucupira, valores da mesma ordem de grandeza e na direção esperada (mais doutorado pela área mais ampla, menos mestrado pelo critério de "ativo" em vez de "aprovado historicamente"). Segundo, o número de unidades federativas com doutorado é praticamente idêntico: 6 em 2010 (Ciência Política estrita, Marenco) contra `r fmt_int(v_marenco$area39_estados_phd_2013)` em 2013 (Área 39 completa, este estudo) — os mesmos seis estados mais o Paraná. Terceiro, e mais informativo, a razão entre doutores titulados e docentes permanentes, que @marenco2014heels reporta subindo de `r fmt_num(v_marenco$marenco_ratio_2004)` em 2004 para `r fmt_num(v_marenco$marenco_ratio_2012)` em 2012, emenda quase sem descontinuidade com a mesma razão calculada para a Área 39 completa a partir de 2013 (`r fmt_num(v_marenco$area39_ratio_2013)`), que segue oscilando na mesma faixa até `r fmt_num(v_marenco$area39_ratio_2024)` em 2024 (@fig-marenco-continuidade). A convergência de duas bases construídas com fontes e recortes distintos é um teste de robustez que os dados administrativos usados aqui superam.
+
+![Razão entre Doutores Titulados e Docentes Permanentes: Continuidade com Marenco (2014)](FIGURAS/fig19_marenco_continuidade_razao_doutores.png){#fig-marenco-continuidade width=95%}
 
 ## As Associações Científicas e a Escala dos Encontros
 
