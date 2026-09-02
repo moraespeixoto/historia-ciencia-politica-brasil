@@ -21,9 +21,12 @@ classifica_area <- function(df) {
   # Códigos CNPq do layout 1987--2012: 7020 Sociologia, 7030
   # Antropologia, 7050 História, 7060 Geografia, 6030 Economia e
   # 7090 Ciência Política/RI. O prefixo é usado para acomodar subníveis.
+  # F32: 7040 é Arqueologia na tabela CNPq e integra a área de avaliação
+  # "Antropologia / Arqueologia" — estava ausente, subestimando a área no
+  # layout 1987-2012.
   codigo_area <- case_when(
     grepl("^7020", codigo) ~ "Sociologia",
-    grepl("^7030", codigo) ~ "Antropologia / Arqueologia",
+    grepl("^7030|^7040", codigo) ~ "Antropologia / Arqueologia",
     grepl("^7050", codigo) ~ "História",
     grepl("^7060", codigo) ~ "Geografia",
     grepl("^6030", codigo) ~ "Economia",
@@ -163,6 +166,10 @@ resumo <- tidyr::complete(
   nivel = c("Mestrado", "Doutorado", "Não informado"),
   fill = list(titulos = 0)
 )
+# Base título-a-título preservada: 20_concentracao.R e 21_quebras_estruturais.R
+# precisam dela (IES e UF por título), e reimplementar o leitor nesses scripts
+# criaria uma segunda definição de "área" no projeto.
+saveRDS(base, file.path(dir_processed, "base_comparada_titulos.rds"))
 write_csv(resumo, file.path(dir_tabelas, "tabela_comparacao_titulos_capes.csv"))
 saveRDS(resumo, file.path(dir_processed, "tabela_comparacao_titulos_capes.rds"))
 
@@ -179,7 +186,80 @@ metricas <- base %>%
     crescimento_relativo = titulos_ultimo_ano / titulos_primeiro_ano - 1,
     .groups = "drop"
   ) %>% arrange(desc(total_1987_2024))
+
+# F09: o "crescimento relativo desde 1987" parte de uma base de 26 títulos num
+# ano em que o Catálogo é reconhecidamente incompleto — o índice mede o
+# denominador, não a expansão. Substituído por CAGR em janelas de dez anos e
+# pela participação da área no total das seis, ano a ano.
+serie_area <- base %>%
+  filter(area_nome != "Não identificado") %>%
+  count(ano, area_nome, name = "titulos")
+
+cagr <- function(v0, v1, n) if (is.na(v0) || v0 <= 0 || is.na(v1) || v1 <= 0) NA_real_ else (v1 / v0)^(1 / n) - 1
+janelas <- tribble(~janela, ~a0, ~a1,
+                   "1995-2004", 1995, 2004,
+                   "2005-2014", 2005, 2014,
+                   "2015-2024", 2015, 2024)
+metricas_cagr <- purrr::pmap_dfr(janelas, function(janela, a0, a1) {
+  serie_area %>%
+    group_by(area_nome) %>%
+    summarise(
+      janela = janela,
+      titulos_inicio = sum(titulos[ano == a0]),
+      titulos_fim = sum(titulos[ano == a1]),
+      cagr = cagr(sum(titulos[ano == a0]), sum(titulos[ano == a1]), a1 - a0),
+      .groups = "drop"
+    )
+}) %>% arrange(janela, desc(cagr))
+write_csv(metricas_cagr, file.path(dir_tabelas, "tabela_comparacao_cagr.csv"))
+
+participacao <- serie_area %>%
+  group_by(ano) %>%
+  mutate(participacao = titulos / sum(titulos)) %>%
+  ungroup()
+write_csv(participacao, file.path(dir_tabelas, "tabela_comparacao_participacao.csv"))
+
+metricas <- metricas %>%
+  left_join(participacao %>% filter(ano == max(ano)) %>%
+              select(area_nome, participacao_ultimo_ano = participacao),
+            by = "area_nome")
 write_csv(metricas, file.path(dir_tabelas, "tabela_comparacao_metricas_capes.csv"))
+
+# C10/F25: reconciliação entre o total de CP/RI nesta base "comparada" e a
+# série principal (`capes_serie_anual.rds`). A diferença é reportada ano a ano
+# em vez de afirmada como "bate exatamente" (AUDITORIA §9 dizia isso; era
+# falso). Diagnóstico de 2026-09-02: o resíduo (30 títulos em 12.661, 0,24%,
+# concentrado em 2018 com 15 e 2006 com 4) NÃO vem da deduplicação deste
+# script — a série principal não tem nenhuma duplicata pela chave
+# ano+IES+autor+título, e o bruto comparado de 2018 já traz 793 registros de
+# CP/RI contra 809 na principal. A origem é o pré-filtro `awk` de
+# `12_coleta_capes_comparada.R`, cujo recall é imperfeito em algumas safras.
+# Consequência prática: todos os números da Área 39 no artigo saem da série
+# PRINCIPAL (recall completo); a base comparada é usada só para a comparação
+# entre áreas, em que um viés de -0,24% é irrelevante frente às diferenças
+# medidas. A tabela por ano fica gravada para o leitor conferir.
+serie_principal_path <- file.path(dir_processed, "capes_serie_anual.rds")
+if (file.exists(serie_principal_path)) {
+  principal <- readRDS(serie_principal_path)
+  cp_comparada <- serie_area %>% filter(area_nome == "Ciência Política / RI") %>%
+    select(ano, titulos_comparada = titulos)
+  reconc <- principal %>% select(ano, titulos_principal = titulos) %>%
+    full_join(cp_comparada, by = "ano") %>%
+    replace_na(list(titulos_principal = 0, titulos_comparada = 0)) %>%
+    mutate(diferenca = titulos_principal - titulos_comparada) %>%
+    arrange(ano)
+  write_csv(reconc, file.path(dir_tabelas, "tabela_reconciliacao_cp_series.csv"))
+  saveRDS(list(reconciliacao = reconc,
+               total_principal = sum(reconc$titulos_principal),
+               total_comparada = sum(reconc$titulos_comparada),
+               diferenca_total = sum(reconc$diferenca),
+               anos_com_diferenca = sum(reconc$diferenca != 0),
+               cagr = metricas_cagr, participacao = participacao),
+          file.path(dir_processed, "valores_inline_comparacao_teses.rds"))
+  cat("Reconciliação CP/RI: principal =", sum(reconc$titulos_principal),
+      "| comparada =", sum(reconc$titulos_comparada),
+      "| diferença =", sum(reconc$diferenca), "em", sum(reconc$diferenca != 0), "anos\n")
+}
 
 # Auditoria de cobertura e registros que dependem de fallback textual.
 auditoria <- base %>% count(ano, area_nome, name = "registros")

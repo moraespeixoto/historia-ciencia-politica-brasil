@@ -309,3 +309,185 @@ Auditoria focada nos microdados de pós-graduação (CAPES teses/Sucupira/compar
 **Pipeline re-executado nesta rodada, na ordem:** `08 → 10 → 07 → 05 → 13 → 14 → 15 → 06b` (04 também, para regenerar o relatório EDA com o parser de data corrigido). O modelo STM (script `06`) **não** foi reestimado — o corpus de entrada (CAPES área 39 filtrada) não mudou de tamanho após a correção do filtro (73 exclusões antes e depois), então a reestimação não traria informação nova; só os rótulos (`06b`) foram regenerados.
 
 **Números centrais após a correção (para conferência):** CAPES área 39: 12.661 registros válidos (73 excluídos, 0,57%, 1 discordância entre os dois critérios de filtro); série principal 26 (1987) → 1.002 (2024) títulos/ano; Sucupira 69 programas históricos / 64 ativos em 2024 / 50 IES / 11.600 vínculos docente-programa-ano / 1.670 `id_pessoa` únicos; comparação institucional 2024: CP/RI 64 programas e 1.114 docentes (a menor das seis áreas em escala), com o maior crescimento relativo 1987–2024 entre as seis.
+
+---
+
+## 10. Terceira auditoria — rodada 2026-09-02 (Fases 1 e 2 do `PLANO_OPUS5.md`)
+
+Execução das **Fases 1 e 2** do `PLANO_OPUS5.md`, a partir do parecer técnico
+`REVISAO_CRITICA.md` (IDs F01–F34). As Fases 3 em diante (reescrita, literatura,
+figuras, suplementar, submissão) **não** foram executadas: dependem de decisões
+do autor sobre revista-alvo e enquadramento.
+
+### 10.1 Itens fechados
+
+| ID | Problema | Correção | Efeito no número |
+|---|---|---|---|
+| **F01** | `areas_alvo` em `13_comparacao_sucupira.R` usava 36/38/39/40/41/42. Conferido contra `NM_AREA_AVALIACAO` nas **12** safras brutas, 38/40/41/42 são Educação, História, Linguística e Literatura e Ciências Agrárias I. | Códigos corretos 28/34/35/36/39/40, com asserção `checar_codigos_area()` que aborta o script se a numeração mudar em qualquer safra (verificado: estável em 2013–2024). | **Inverte o achado central.** 2024: Geografia 80, História 80, Economia 76, **CP/RI 64**, Sociologia 52, Antropologia 38. A Área 39 é a **4ª de 6**, não a menor. 2013→2024: CP/RI +100% (32→64), maior crescimento das seis; Sociologia 0%. |
+| **F02** | Profissionais não separados em análise alguma. | `modalidade`/`grau` como tabelas próprias em 13; modalidade em 08; subárea × modalidade em 10; cursos acadêmicos em 18. | CP/RI 2024: 20 de 64 programas profissionais (31,2%), a maior proporção das seis; 4 de 32 em 2013. |
+| **F03** | STM sem `searchK`, sem validação, corpus multilíngue, prevalência sem controle de composição, T7 mal rotulado. | Ver §10.2. | Ver §10.2. |
+| **F04** | `total_programas_unicos` contava `prog` sem filtro de desativação. | `n_distinct(prog_filtrado$cd_programa_ies)`. | **69 → 67.** |
+| **F05** | §4.4 somava 62 programas e 97,5%. | OUTROS e a nova classe SEGPUB entram em todas as tabelas e valores inline. | Soma 64 programas e 100,0%. |
+| **F06** | Regex de front matter com `pref` e `tend[êe]ncia` soltos excluía artigos legítimos. | Padrões ancorados; exclusões gravadas em `TABELAS/openalex_front_matter_excluidos.csv`. | Front matter sinalizado: 199 → 116. |
+| **F07** | 25 duplicatas pt/en na BPSR não removidas por `distinct(id_openalex)`. | Deduplicação em duas passadas: DOI base e depois (periódico, ano, título normalizado). Deduplicar só por DOI **não remove nada** neste caso — os pares têm DOIs SciELO distintos e diferem só na caixa do título. | **111 duplicatas removidas.** |
+| **F08** | Registro da RBCP datado de 2001, oito anos antes da fundação. | Tabela de ano de fundação por periódico; exclusões em `openalex_pre_fundacao_excluidos.csv`. Lacunas anuais documentadas em `openalex_lacunas_anuais.csv` (DADOS 1989–1991; Opinião Pública 1994, 1996, 1998, 1999). | 1 registro removido. Total de artigos ≤2024: **4.539**. |
+| **F09** | "Crescimento relativo desde 1987" sobre base de 26 títulos. | CAGR em janelas 1995–2004, 2005–2014, 2015–2024 e participação anual da área no total das seis. | 2015–2024: CP/RI +7,1% a.a., História +1,7%, Sociologia −0,7%. |
+| **F10** | `area39_ma_2013` contava **todos** os 32 programas e chamava de "programas de mestrado". | Cursos de mestrado e doutorado **acadêmicos**; anos de referência de cada série explicitados; regressão da razão sobre o ano com IC. | **32 → 28** mestrados acadêmicos; 20 doutorados. Tendência da razão 2013–2024 não distinguível de zero. |
+| **F11** | `docentes_por_programa` somava todas as categorias; conceito reportado como média; `"A"` virava `NA` silencioso. | `docentes_por_programa` passa a usar **permanentes** (total em coluna à parte); `tabela_comparacao_conceitos_distribuicao.csv` com proporções por faixa e `n_A`. | CP/RI 2024: 883 docentes permanentes; 13,8 por programa. |
+| **F12** | Regex de subárea com erros; segurança pública classificada como defesa. | `AEROESPACIA(L\|IS)`; "Segurança de Aviação/Aeronavegabilidade" (ITA) sai de DEFESA; nova classe **SEGPUB**. Regras extraídas para `10_classificacao_subareas_fun.R`, compartilhadas por 10, 19 e 06 (antes havia duas cópias divergentes). | DEFESA 10 → 8 programas; SEGPUB 2. |
+| **F13** | "A ciência política mobiliza a menor escala" contradita pelos próprios dados. | Coluna `metrica_comparavel` (só trabalhos aprovados de fonte oficial) e métrica normalizada `trabalhos_por_programa`. Texto reescrito. | ABCP 1.722 inscritos > SBS ≈1.700 > ANPOCS 1.193 credenciados. |
+| **F17** | "1 registro", "(Figura 4)", "Tabela abaixo" escritos à mão. | Inline `v_temp$n_discordantes_area39`; `@fig-ppgs-comparada`; nova âncora `@fig-conceitos`. | — |
+| **F18** | `author = {Leite, Fernando e Codato, Adriano}`. | `and`. | Citação renderiza "Leite e Codato". |
+| **F20** | Crosswalk Sucupira aceitava programa de qualquer safra. | Chave `(an_base, cd_programa)`. | **0 registros** mudam de status — a restrição confirma que não havia contaminação. |
+| **F22/C6** | Anotação "36% (1995-97)" escrita à mão (valor real 38,6%) e repetida truncada nas 8 facetas. | Anotações calculadas de `stm_evolucao_anual.rds`, uma por faceta, gravadas em `tabela_stm_anotacoes_fig05.csv`; `label_wrap_gen(34)`. | — |
+| **F23/C7** | Bin "1980-1999" com corpus desde 1995. | Rótulo "1995-1999". | — |
+| **F24** | Figura 20 inteiramente desenhada à mão. | Reescrita a partir de `AN_INICIO_PROGRAMA` (64 programas ativos em 2024, todos com ano), por subárea e modalidade. Marcos só entram com coluna `fonte`; os 5 sem fonte primária vão para `marcos_institucionais_pendentes.csv` e **não são desenhados**. | — |
+| **F25/C10** | AUDITORIA §9 afirmava que as séries "batem exatamente". Era falso. | `tabela_reconciliacao_cp_series.csv`, ano a ano. **Causa diagnosticada:** não é a deduplicação de `14` (a série principal não tem nenhuma duplicata pela chave ano+IES+autor+título) — é o recall do pré-filtro `awk` de `12`: o bruto comparado de 2018 já traz 793 registros de CP/RI contra 809 na principal. | 12.661 (principal) vs 12.631 (comparada): **30 títulos, 0,24%**, em 12 anos. Todos os números da Área 39 no artigo vêm da série principal. |
+| **F27** | `valores_inline_comparacao_areas.rds` órfão. | Substituído por `valores_inline_comparacao.rds`, gravado por 13 e lido pelo `.qmd`; o órfão é removido pelo próprio script. | — |
+| **F32** | Antropologia sem o código CNPq 7040 (Arqueologia) no layout antigo. | `^7030\|^7040`. | — |
+| **F33** | "Soares [@soares2005calcanhar]" renderizava "Soares (Soares 2005)". | Citação narrativa. | — |
+| **C12** | Rótulos da legenda da Fig. 4 em vetor posicional. | Mapa nome-técnico → nome de exibição, com `stopifnot` de cobertura. | — |
+| **C5** | "restaram 38 safras". | "38 anos-base (1987–2024)". | — |
+
+**Achado novo, não previsto no plano:** o corpus do STM incluía artigos de
+2025–2026 enquanto todas as demais séries do artigo param em 2024. Corrigido
+(`ano <= 2024` em `06`); sem o corte, o *spline* do ano extrapolava para dois
+anos com um punhado de documentos.
+
+### 10.2 Fase 2 — reforço metodológico
+
+**Diagnóstico de K (`06a_stm_searchK.R`, novo).** `searchK` com
+K ∈ {6, 8, 10, 12, 15, 20, 25}, rodado **duas vezes**: corpus completo e corpus
+restrito ao português. Resultados em `stm_searchK.rds` e
+`TABELAS/tabela_stm_searchK.csv`; figuras `figA1_stm_searchK.png` e
+`figA2_stm_fronteira.png`.
+
+**Decisão de corpus (T2.2).** O corpus em português tem coerência semântica
+**mais alta em todos os K testados** (−83,2 contra −87,9 em K=8). Rodado o
+modelo sobre os 14.883 resumos em português (`cld2`), **os dois tópicos-artefato
+desapareceram**: nenhum dos oito tópicos do novo modelo é vocabulário de idioma.
+Verossimilhanças held-out não entraram na decisão de corpus, por não serem
+comparáveis entre corpora com documentos e vocabulários distintos. O modelo
+multilíngue anterior está preservado em `DADOS/processed/stm_modelo_anterior/`.
+
+**Decisão de K (T2.1).** K = 8. No corpus em português a coerência é máxima em
+K=6 (−82,99) e praticamente idêntica em K=8 (−83,15), caindo com clareza a
+partir de K=10 (−88,23); a exclusividade cresce monotonicamente com K. K=8 é o
+ponto da fronteira: ganha 0,19 de exclusividade sobre K=6 por 0,16 de coerência,
+enquanto K=10 custaria 5,1 de coerência por 0,07 de exclusividade. A decisão e
+sua justificativa ficam gravadas em `DADOS/processed/stm_config.rds`.
+
+**Mudança de rótulos (documentada).** Os rótulos deixaram de ser um vetor
+hardcoded em dois scripts e passaram a vir de `DADOS/rotulos_stm.csv`, insumo
+editável conferido contra os termos FREX do modelo vigente. Se o K mudar ou o
+arquivo sumir, os scripts geram rótulos provisórios marcados `[a rotular]` a
+partir dos próprios termos FREX — **nunca** reaproveitam rótulos de outro
+modelo, que foi exatamente o erro da rodada anterior. Um teste em `99` proíbe
+levar rótulos `[a rotular]` para o artigo.
+
+| Modelo anterior (multilíngue) | Modelo atual (português) |
+|---|---|
+| T1: Direitos Humanos, Gênero e Segurança Pública | T1: Políticas Públicas, Educação e Saúde |
+| T2: Relações Internacionais, Política Externa e Cooperação | T2: Política Externa, Cooperação e Integração Regional |
+| T3: Políticas Públicas, Saúde e Educação | T3: Economia Política Internacional e Desenvolvimento |
+| T4: Eleições, Partidos e Instituições Representativas | T4: Defesa, Forças Armadas e Operações de Paz |
+| **T5: Corpus em espanhol (artefato)** | T5: Eleições, Partidos e Instituições Representativas |
+| T6: Teoria Política e Pensamento Político | T6: Teoria e Pensamento Político |
+| **T7: Corpus em inglês (BPSR)** | T7: Direitos, Gênero e Violência |
+| T8: Opinião Pública, Comunicação e Participação | T8: Participação, Movimentos e Arranjos Institucionais |
+
+**Efeitos com controle de composição (`06c_stm_efeitos.R`, novo; T2.3).**
+`estimateEffect` com `uncertainty = "Global"`. Duas armadilhas encontradas e
+resolvidas, ambas registradas em comentário no script:
+
+1. **Colinearidade.** A subárea é propriedade do programa e só existe para
+   teses; todo artigo recebe o nível "ARTIGO". Logo `subarea_f` determina
+   `fonte` perfeitamente e `~ s(ano) + fonte + subarea_f` deixa a matriz
+   singular (o `stm` avisa mas segue com coeficientes não identificados).
+   Solução: modelo A usa `~ s(ano) + subarea_f`, cujo nível "ARTIGO" já absorve
+   a distinção entre fontes.
+2. **Superparametrização.** `s(ano) * fonte` sobre um corpus de artigos cinco
+   vezes menor que o de teses devolvia prevalências esperadas **negativas, de
+   até −1,15**. Solução: modelo B, auxiliar, linear no ano (`~ ano * fonte`),
+   só para testar diferença de inclinação. Após as duas correções, nenhuma
+   prevalência estimada é negativa (mínimo 0,005) — e há um teste em `99`
+   travando isso.
+
+**Resultado substantivo (e mais restrito que o do texto anterior):** um único
+movimento sobrevive ao controle de composição com ICs disjuntos entre as pontas
+da série — a **queda da teoria política, de 38,3% para 16,6% (−21,7 p.p.)**. Os
+demais tópicos se movem na direção esperada, mas com ICs que se sobrepõem: os
+dados **não sustentam** afirmar a ascensão de nenhuma agenda específica. A
+inclinação temporal difere entre teses e artigos nos oito tópicos.
+
+**Validação das subáreas (`10b_validacao_subareas.R`, novo; T2.5).** Amostra
+estratificada de 240 títulos (40 por classe, semente 20260828), gravada por
+`10` em `TABELAS/amostra_validacao_subareas.csv` e codificada por leitura de
+título e programa.
+
+| Classe | Precisão | Recall | F1 |
+|---|---|---|---|
+| CP | 60,0% | 70,6% | 0,65 |
+| RI | 87,5% | 61,4% | 0,72 |
+| PP | 70,0% | 58,3% | 0,64 |
+| DEFESA | 47,5% | 82,6% | 0,60 |
+| SEGPUB | 97,5% | 86,7% | 0,92 |
+| OUTROS | 40,0% | 48,5% | 0,44 |
+
+Acurácia 67,1% na amostra (68,1% reponderada pela composição de 2024); kappa
+(regra automática × leitura humana) 0,605. Achado: os programas de DEFESA
+titulam um volume expressivo de trabalhos que um leitor classifica como RI —
+daí a precisão de 47,5%. **A acurácia da amostra estratificada não é a acurácia
+no corpus** (os estratos têm tamanhos muito diferentes na população); por isso a
+versão reponderada é reportada à parte.
+
+**Concentração (`20_concentracao.R`, novo; T2.6).** HHI e Gini de títulos por
+IES e por UF, seis áreas, 1995/2013/2024. Achado que **contraria** a leitura
+simples de "desconcentração": na Área 39 o HHI por IES cai (0,163 → 0,057 →
+0,034), mas o **Gini por UF sobe** (0,306 → 0,434 → 0,491). A desconcentração é
+institucional, não territorial: os programas novos foram sobretudo para estados
+que já formavam.
+
+**Quebras estruturais (`21_quebras_estruturais.R`, novo; T2.6).**
+`strucchange::breakpoints` em log(títulos) ~ ano, 1995–2024, h = 5 anos, com IC.
+Área 39: **2001, 2006, 2019**. História: 2016. Sociologia: 2001 e 2016.
+Geografia: 2000, 2012, 2019. Descritivo, não causal.
+
+**Testes de regressão (`99_testes_regressao.R`, novo).** 15 blocos, todos
+passando, travando os números canônicos e as decisões da Fase 2 (K na grade
+testada, corpus decidido, ausência de rótulos provisórios, prevalências não
+negativas, kappa entre codificadores obrigatoriamente `NA` enquanto houver um
+só codificador).
+
+### 10.3 Edição do `.qmd` — mínima e apenas factual
+
+Corrigidas as passagens que a correção dos códigos tornou **falsas**: Resumo,
+Introdução, §3 item 4 (códigos), §3.3 (auditoria), §4.1, §4.1.1 inteira, §4.2
+(associações), §4.4 (subáreas + validação), §4.5 (Marenco), §4.7 (STM),
+Discussão e Conclusão. Nenhum número foi escrito à mão: todos entram por
+`` `r ` `` lendo RDS/CSV do pipeline. Não houve reescrita de estilo nem
+reestruturação de seções — isso é Fase 3.
+
+### 10.4 Itens em aberto
+
+| Item | Por que ficou aberto |
+|---|---|
+| **Segundo codificador das subáreas** | A codificação de referência é de **um único codificador**. O kappa entre humanos é reportado como `NA`, nunca como número, e o `.qmd` declara a pendência. Basta preencher `DADOS/validacao/codificacao_subareas_cod2.csv`: `10b` detecta o arquivo sozinho. |
+| **Rotulagem dos tópicos por dois codificadores** (T2.4) | Exemplares gerados (`tabela_stm_exemplares_topicos.csv`, 20 por tópico); a dupla codificação com kappa depende de duas pessoas. |
+| **Resíduo de 30 títulos** entre as duas séries de CP/RI | Causa diagnosticada (recall do `awk` em `12`); fechá-la exige reextrair as safras completas das seis áreas. Custo alto para 0,24%, e não afeta nenhum número da Área 39. |
+| **Datas institucionais sem fonte primária** (F29) | UFRGS 1973, UnB 1984, IUPERJ 1969, USP 1971, 1º Encontro da ABCP 1998. Listadas em `marcos_institucionais_pendentes.csv`, marcadas `[verificar]` no `.qmd` e **não desenhadas** na Fig. 20. Exigem consulta a fonte primária. |
+| **Reconciliação com GeoCapes** | Pendente desde §9. Exige busca externa dedicada. |
+| **Recall do pré-filtro `awk` por safra** (F19) | Pendente desde §9. |
+| **Decisão SEGPUB: categoria própria ou fusão com PP** | Decisão do autor. Implementada como **categoria própria**, que é reversível; a fusão não é. |
+| **Lacuna OpenAlex da DADOS (1989–1991)** | Documentada em `openalex_lacunas_anuais.csv`; completar via SciELO é decisão de escopo. |
+| **F14, F15, F16, F21, F26, F28, F30, F31, F34** | Pertencem às Fases 3–6 (reescrita, literatura, figuras, README/suplementar) ou dependem de decisão editorial. Não executados por escopo. |
+
+**Pipeline reexecutado nesta rodada, na ordem:**
+`03 → 08 → 10 → 10b → 07 → 05 → 13 → 14 → 20 → 21 → 15 → 06 → 06a → 06b → 06c → 18 → 19 → 99 → render`.
+
+**Números canônicos após esta rodada:** 12.661 títulos (1987–2024, pico 1.002 em
+2024); 67 programas únicos / 64 ativos em 2024 / 20 profissionais / 15 UFs /
+11.600 vínculos / 1.670 docentes; 4.539 artigos de pesquisa ≤2024 (111
+duplicatas e 1 registro pré-fundação removidos); comparação 2024 Geografia 80,
+História 80, Economia 76, **CP/RI 64**, Sociologia 52, Antropologia 38; STM K=8
+sobre 14.883 resumos em português.

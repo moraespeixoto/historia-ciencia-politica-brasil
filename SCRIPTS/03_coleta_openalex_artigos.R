@@ -14,6 +14,7 @@
 #   - Flag de front matter (Apresentação, Editorial, Errata, [NO TITLE...]).
 
 source(here::here("SCRIPTS", "00_setup.R"))
+suppressPackageStartupMessages(library(stringi))
 
 dir_raw <- here::here("DADOS", "raw", "artigos_periodicos")
 dir_processed <- here::here("DADOS", "processed")
@@ -116,29 +117,154 @@ for (i in seq_len(nrow(issn_periodicos_cp))) {
 # Consolidação (corrigida e auditada em 2026-08-29)
 # -----------------------------------------------------------------------------
 if (length(lista_artigos) > 0) {
-  df_artigos <- dplyr::bind_rows(lista_artigos) %>%
-    # (1) chave única da obra no OpenAlex (nunca NA para works válidos)
-    dplyr::distinct(id_openalex, .keep_all = TRUE) %>%
-    # (2) apenas artigos de pesquisa
+  dir_tabelas <- here::here("TABELAS")
+  dir.create(dir_tabelas, recursive = TRUE, showWarnings = FALSE)
+
+  # Ano de fundação de cada periódico. Registros anteriores à fundação são
+  # erros de atribuição de ISSN no OpenAlex (caso conhecido: 1 registro da RBCP
+  # datado de 2001, oito anos antes da fundação da revista). Fontes: páginas
+  # oficiais/SciELO das revistas. [verificar] para Opinião Pública e RSP.
+  ano_fundacao <- c(
+    DADOS_Revista_de_Ciencias_Sociais = 1966,
+    Lua_Nova = 1984,
+    Opiniao_Publica = 1993,
+    Revista_de_Sociologia_e_Politica = 1993,
+    Brazilian_Political_Science_Review = 2007,
+    RBCP_Revista_Brasileira_de_Ciencia_Politica = 2009
+  )
+
+  # F06: padrões ANCORADOS. A versão anterior usava "pref" e "tend[êe]ncia"
+  # soltos, o que excluía como front matter 13 artigos começando por
+  # "Tendências..." e 3 por "Preferências...". Cada exclusão é gravada em
+  # TABELAS/openalex_front_matter_excluidos.csv para leitura.
+  front_matter_re <- paste0(
+    "^(apresenta[cC][aA]o|editorial|errata|erratum|prefacio|",
+    "nota (do|da|dos|editorial)|sumario|expediente|tribut[oe]|obituario|",
+    "in memoriam|\\[?no title available\\]?|",
+    "introdu[cC][aA]o (ao|do|a) dossi[eE]|",
+    "tendencias e debates)"
+  )
+  ascii_lower <- function(x) tolower(iconv(x, to = "ASCII//TRANSLIT", sub = ""))
+  # Chave de deduplicação pt/en: mesmo periódico, mesmo ano, mesmo título
+  # normalizado. F07: a BPSR publica versões pt e en da mesma obra com
+  # `id_openalex` distintos, que `distinct(id_openalex)` não remove.
+  norm_titulo <- function(x) {
+    x <- stringi::stri_trans_general(tolower(replace_na(x, "")), "Latin-ASCII")
+    str_squish(gsub("[^a-z0-9 ]", " ", x))
+  }
+  # DOI sem sufixo de versão/idioma (…-en, …x2) para o caso BPSR.
+  doi_base <- function(x) {
+    x <- tolower(replace_na(x, ""))
+    x <- sub("^https?://(dx\\.)?doi\\.org/", "", x)
+    sub("(-en|-pt|x[0-9])$", "", x)
+  }
+
+  bruto <- dplyr::bind_rows(lista_artigos) %>%
+    dplyr::distinct(id_openalex, .keep_all = TRUE)
+  n_bruto <- nrow(bruto)
+  tab_tipos <- bruto %>% dplyr::count(tipo, sort = TRUE)
+
+  df_artigos <- bruto %>%
     dplyr::filter(tipo == "article") %>%
-    # (3) front matter / títulos genéricos
     dplyr::mutate(
-      front_matter = grepl(
-        "^(apresenta|editorial|errata|pref|nota |sum[áa]rio|expediente|tend[êe]ncia|tributo|obitu[áa]rio|\\[?no title available\\]?|introdu[çc][ãa]o do dossi[êe])",
-        tolower(iconv(titulo, to = "ASCII//TRANSLIT", sub = "")),
-        ignore.case = TRUE
-      )
-    ) %>%
-    dplyr::arrange(ano)
+      front_matter = grepl(front_matter_re, ascii_lower(titulo)),
+      titulo_norm = norm_titulo(titulo),
+      doi_norm = doi_base(doi),
+      antes_da_fundacao = !is.na(ano) & ano < ano_fundacao[periodico]
+    )
+  n_pos_article <- nrow(df_artigos)
+
+  # Registros anteriores à fundação
+  pre_fundacao <- df_artigos %>% dplyr::filter(antes_da_fundacao)
+  write_csv(pre_fundacao %>% select(periodico, ano, titulo, doi, id_openalex),
+            file.path(dir_tabelas, "openalex_pre_fundacao_excluidos.csv"))
+  df_artigos <- df_artigos %>% dplyr::filter(!antes_da_fundacao)
+  n_pre_fund <- nrow(pre_fundacao)
+
+  # Deduplicação pt/en (mantém o registro com resumo, e entre esses o de maior
+  # contagem de citações, para não perder o registro mais completo).
+  # Duas passadas. A primeira remove reedições que compartilham DOI base. A
+  # segunda usa (periódico, ano, título normalizado): é ela que pega o caso
+  # BPSR 2007-2008, em que a MESMA obra aparece com dois `id_openalex` e dois
+  # DOIs SciELO distintos, diferindo apenas na caixa do título. Deduplicar só
+  # por DOI (como uma primeira versão fazia) não remove nada nesse caso.
+  antes_dedup <- nrow(df_artigos)
+  ordenar <- function(d) dplyr::arrange(d, is.na(resumo), dplyr::desc(citacoes))
+  df_artigos <- df_artigos %>%
+    dplyr::mutate(tem_doi = doi_norm != "") %>%
+    ordenar() %>%
+    dplyr::group_by(doi_norm) %>%
+    dplyr::filter(!tem_doi | dplyr::row_number() == 1L) %>%
+    dplyr::ungroup()
+  n_dup_doi <- antes_dedup - nrow(df_artigos)
+  apos_doi <- nrow(df_artigos)
+  df_artigos <- df_artigos %>%
+    ordenar() %>%
+    dplyr::distinct(periodico, ano, titulo_norm, .keep_all = TRUE) %>%
+    dplyr::select(-tem_doi)
+  n_dup_titulo <- apos_doi - nrow(df_artigos)
+  n_dup_removidos <- antes_dedup - nrow(df_artigos)
+
+  # Idioma do resumo detectado (cld2), comparado ao campo `idioma` do OpenAlex.
+  if (requireNamespace("cld2", quietly = TRUE)) {
+    df_artigos$idioma_resumo <- cld2::detect_language(df_artigos$resumo)
+  } else {
+    warning("cld2 ausente: idioma_resumo não detectado.")
+    df_artigos$idioma_resumo <- NA_character_
+  }
+
+  df_artigos <- df_artigos %>% dplyr::arrange(ano)
+
+  # Front matter excluído, para leitura e auditoria.
+  write_csv(
+    df_artigos %>% dplyr::filter(front_matter) %>%
+      select(periodico, ano, titulo, tipo, doi, id_openalex),
+    file.path(dir_tabelas, "openalex_front_matter_excluidos.csv"))
+
+  # Amostra aleatória de 100 títulos classificados como `article` para estimar a
+  # proporção de resenhas que o OpenAlex não rotula como book-review (F34/C14).
+  set.seed(20260828)
+  write_csv(
+    df_artigos %>% dplyr::filter(!front_matter) %>% dplyr::slice_sample(n = min(100, nrow(.))) %>%
+      select(periodico, ano, titulo, doi) %>% mutate(e_resenha = NA_character_),
+    file.path(dir_tabelas, "amostra_resenhas.csv"))
+
+  # Cobertura de resumo e lacunas anuais por periódico.
+  cobertura <- df_artigos %>%
+    dplyr::filter(!front_matter, ano <= 2024) %>%
+    dplyr::group_by(periodico) %>%
+    dplyr::summarise(n = dplyr::n(), primeiro_ano = min(ano, na.rm = TRUE),
+                     pct_com_resumo = round(100 * mean(!is.na(resumo)), 1),
+                     .groups = "drop")
+  lacunas <- df_artigos %>%
+    dplyr::filter(!front_matter, ano <= 2024) %>%
+    dplyr::count(periodico, ano) %>%
+    tidyr::complete(tidyr::nesting(periodico), ano = 1966:2024, fill = list(n = 0)) %>%
+    dplyr::group_by(periodico) %>%
+    dplyr::filter(ano >= min(ano[n > 0]), n == 0) %>%
+    dplyr::ungroup()
+  write_csv(cobertura, file.path(dir_tabelas, "openalex_cobertura_periodicos.csv"))
+  write_csv(lacunas, file.path(dir_tabelas, "openalex_lacunas_anuais.csv"))
 
   arq_rds <- file.path(dir_processed, "artigos_periodicos_openalex.rds")
   arq_csv <- file.path(dir_processed, "artigos_periodicos_openalex.csv")
 
   saveRDS(df_artigos, arq_rds)
   write_csv(df_artigos, arq_csv)
+  saveRDS(list(n_bruto = n_bruto, n_pos_article = n_pos_article,
+               n_pre_fundacao_removidos = n_pre_fund,
+               n_dup_removidos = n_dup_removidos,
+               n_dup_doi = n_dup_doi, n_dup_titulo = n_dup_titulo,
+               n_front_matter = sum(df_artigos$front_matter),
+               tipos = tab_tipos, cobertura = cobertura, lacunas = lacunas),
+          file.path(dir_processed, "openalex_auditoria_coleta.rds"))
 
-  message(">>> BASE DE ARTIGOS SALVA: ", arq_rds, " (Total de artigos únicos: ", nrow(df_artigos), ")")
-  message(">>> Front matter (a excluir das análises): ", sum(df_artigos$front_matter))
+  message(">>> BASE DE ARTIGOS SALVA: ", arq_rds, " (obras únicas: ", nrow(df_artigos), ")")
+  message(">>> Bruto: ", n_bruto, " | article: ", n_pos_article,
+          " | pré-fundação removidos: ", n_pre_fund,
+          " | duplicatas pt/en removidas: ", n_dup_removidos,
+          " | front matter sinalizado: ", sum(df_artigos$front_matter))
+  print(cobertura)
 } else {
   message(">>> Nenhum artigo coletado.")
 }

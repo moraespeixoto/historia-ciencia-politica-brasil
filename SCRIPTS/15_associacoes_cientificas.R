@@ -38,8 +38,52 @@ if ("trabalhos_aprovados" %in% names(eventos)) {
 eventos <- eventos %>% select(associacao, area, ano, edicao, local, participantes,
                               trabalhos, trabalhos_aprovados, gt, fonte)
 
+# -----------------------------------------------------------------------------
+# 1b. Comparabilidade das métricas (F13)
+# -----------------------------------------------------------------------------
+# As associações publicam indicadores incomensuráveis: inscritos, credenciados,
+# presentes, propostas recebidas, submetidos, aprovados, publicados, e ainda
+# estimativas pré-evento. Comparar "1.722 inscritos da ABCP" com "1.193
+# credenciados da ANPOCS" induz a erro. `metrica_comparavel` marca TRUE apenas
+# as linhas em que há um número de TRABALHOS APROVADOS de fonte oficial da
+# própria associação (relatório de gestão, anais ou site institucional) — a
+# única base em que uma comparação entre áreas se sustenta.
+fonte_oficial_re <- "(?i)relat[oó]rio|anais|site (oficial|institucional)|associa|abcp|anpocs|anpec|anpege|anpuh|sbs|aba\\b"
+fonte_fraca_re <- "(?i)blog|imprensa|estimativa|not[ií]cia|jornal|previsto"
+eventos <- eventos %>%
+  mutate(
+    fonte_oficial = grepl(fonte_oficial_re, replace_na(fonte, "")) &
+      !grepl(fonte_fraca_re, replace_na(fonte, "")),
+    metrica_comparavel = !is.na(trabalhos_aprovados) & fonte_oficial
+  )
+
 write_csv(eventos, file.path(dir_tabelas, "tabela_associacoes_consolidada.csv"))
 saveRDS(eventos, file.path(dir_processed, "associacoes_consolidado.rds"))
+
+# -----------------------------------------------------------------------------
+# 1c. Métrica normalizada: trabalhos aprovados por programa ativo da área
+# -----------------------------------------------------------------------------
+# Normalizar pelo tamanho do sistema de pós-graduação da área elimina o efeito
+# de escala que faz a comparação bruta de encontros ser trivialmente vencida
+# pelas áreas maiores. Só é calculável na janela 2013-2024 (Sucupira).
+mapa_assoc_area <- c(ABCP = "Ciência Política / RI", ANPOCS = NA_character_,
+                     SBS = "Sociologia", ABA = "Antropologia / Arqueologia",
+                     ANPUH = "História", ANPEC = "Economia", ANPEGE = "Geografia")
+suc_path <- file.path(dir_tabelas, "tabela_comparacao_programas_sucupira.csv")
+if (file.exists(suc_path)) {
+  suc <- read_csv(suc_path, show_col_types = FALSE) %>%
+    select(ano, area_nome, programas_ativos)
+  trabalhos_norm <- eventos %>%
+    mutate(area_avaliacao = unname(mapa_assoc_area[associacao])) %>%
+    filter(!is.na(area_avaliacao), !is.na(trabalhos_aprovados), ano >= 2013, ano <= 2024) %>%
+    left_join(suc, by = c("ano", "area_avaliacao" = "area_nome")) %>%
+    mutate(trabalhos_por_programa = trabalhos_aprovados / programas_ativos) %>%
+    select(associacao, area_avaliacao, ano, trabalhos_aprovados, programas_ativos,
+           trabalhos_por_programa, metrica_comparavel, fonte)
+  write_csv(trabalhos_norm, file.path(dir_tabelas, "tabela_associacoes_trabalhos_por_programa.csv"))
+  saveRDS(trabalhos_norm, file.path(dir_processed, "associacoes_trabalhos_por_programa.rds"))
+  cat(">>> Trabalhos por programa ativo (linhas calculáveis):", nrow(trabalhos_norm), "\n")
+}
 
 # -----------------------------------------------------------------------------
 # 2. Figura A: ANPEGE — trabalhos por edição

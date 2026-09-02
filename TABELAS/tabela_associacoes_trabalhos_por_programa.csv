@@ -1,0 +1,14 @@
+associacao,area_avaliacao,ano,trabalhos_aprovados,programas_ativos,trabalhos_por_programa,metrica_comparavel,fonte
+ANPEC,Economia,2013,241,55,4.381818181818182,FALSE,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2014,240,57,4.2105263157894735,FALSE,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2015,239,61,3.918032786885246,FALSE,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2016,240,66,3.6363636363636362,FALSE,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2017,240,70,3.4285714285714284,FALSE,"Rocha, Pereda & Matsunaga 2021 (submetidos) + contagem oficial (aprovados)"
+ANPEC,Economia,2018,240,69,3.4782608695652173,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2019,240,75,3.2,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2020,270,75,3.6,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2021,264,77,3.4285714285714284,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2022,308,75,4.1066666666666665,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2023,320,74,4.324324324324325,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ANPEC,Economia,2024,321,76,4.223684210526316,TRUE,Contagem das listas oficiais (en.anpec.org.br)
+ABA,Antropologia / Arqueologia,2020,1933,37,52.24324324324324,TRUE,Relatório ABA 2019/2020 (2.707 propostas; 1.933 aprovadas; 81 GTs)

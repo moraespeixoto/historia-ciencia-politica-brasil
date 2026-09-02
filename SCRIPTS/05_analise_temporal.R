@@ -98,10 +98,23 @@ ggsave(file.path(dir_figuras, "fig03_artigos_temporal.png"), p3, width = 7, heig
 ggsave(file.path(dir_figuras, "fig03_artigos_temporal.pdf"), p3, width = 7, height = 4.5)
 
 # Figura 4: Por periódico
+# C12: os rótulos da legenda saem de um mapa nome-técnico -> nome de exibição,
+# não de um vetor posicional (que trocaria os rótulos se a ordem do fator
+# mudasse).
+rotulos_periodico <- c(
+  Brazilian_Political_Science_Review = "BPSR",
+  DADOS_Revista_de_Ciencias_Sociais = "DADOS",
+  Lua_Nova = "Lua Nova",
+  Opiniao_Publica = "Opinião Pública",
+  RBCP_Revista_Brasileira_de_Ciencia_Politica = "RBCP",
+  Revista_de_Sociologia_e_Politica = "RSP"
+)
+stopifnot(all(unique(artigos_ano_per$periodico) %in% names(rotulos_periodico)))
+
 p4 <- ggplot(artigos_ano_per, aes(x = ano, y = artigos, fill = periodico)) +
   geom_area(alpha = 0.7, position = "stack") +
   scale_fill_brewer(palette = "Set2", name = "Periódico",
-                    labels = c("BPSR", "DADOS", "Lua Nova", "Opinião Pública", "RBCP", "RSP")) +
+                    labels = function(x) unname(rotulos_periodico[x])) +
   guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
   scale_y_continuous(name = "Artigos por ano", breaks = scales::pretty_breaks(6), labels = num_ptbr()) +
   scale_x_continuous(breaks = seq(1985, 2025, by = 5)) +
