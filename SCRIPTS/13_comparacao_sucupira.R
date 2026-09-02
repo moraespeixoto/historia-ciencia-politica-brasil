@@ -232,11 +232,28 @@ concentracao_ies <- programas %>%
     .groups = "drop"
   )
 
-# 5. Conceitos CAPES: distribuição anual comparável.
+# 5. Conceitos CAPES: distribuição por quadriênio.
+#    O conceito é atribuído pela avaliação quadrienal e vale para todo o
+#    período, não por ano: verificado nos dados, apenas 20 de 1.054 pares
+#    programa-quadriênio (1,9%) registram mais de um valor na janela, casos de
+#    recurso ou de reclassificação. Uma série anual sugeriria uma variação que
+#    a avaliação não produz -- o que varia entre anos do mesmo quadriênio é a
+#    composição do denominador (entrada e saída de programas), não a nota.
+#    Cada programa entra uma vez por quadriênio, com o conceito do último ano
+#    em que é observado na janela.
+quadrienios <- c("2013-2016", "2017-2020", "2021-2024")
+rotula_quadrienio <- function(ano) {
+  cut(ano, breaks = c(2012, 2016, 2020, 2024), labels = quadrienios)
+}
+
 conceitos <- programas %>%
   filter(!is.na(conceito)) %>%
-  count(ano, area_nome, conceito, name = "programas") %>%
-  group_by(ano, area_nome) %>%
+  mutate(quadrienio = rotula_quadrienio(ano)) %>%
+  group_by(area_nome, quadrienio, programa) %>%
+  slice_max(ano, n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  count(quadrienio, area_nome, conceito, name = "programas") %>%
+  group_by(quadrienio, area_nome) %>%
   mutate(participacao = programas / sum(programas)) %>%
   ungroup()
 
@@ -355,17 +372,25 @@ ggsave(file.path(fig_dir, "fig12_comparacao_docentes_programas.png"), p_docentes
 
 p_conceito <- conceitos %>%
   mutate(conceito = factor(conceito)) %>%
-  ggplot(aes(ano, participacao, fill = conceito)) +
-  geom_col(width = .75, colour = "white", linewidth = .25) +
-  facet_wrap(~area_nome, ncol = 2) +
-  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  ggplot(aes(quadrienio, participacao, fill = conceito)) +
+  geom_col(width = .62, colour = "white", linewidth = .3) +
+  geom_text(aes(label = ifelse(participacao >= .08, scales::percent(participacao, accuracy = 1), "")),
+            position = position_stack(vjust = .5), size = 2.6, colour = "grey15") +
+  facet_wrap(~area_nome, ncol = 3) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1),
+                     expand = expansion(mult = c(0, .02))) +
   scale_fill_brewer(palette = "Blues", direction = 1) +
   labs(title = "Composição dos Conceitos CAPES por Área",
-       subtitle = "Participação dos programas por conceito em cada ano", x = "Ano", y = "Participação",
+       subtitle = "Participação dos programas em cada conceito, por quadriênio de avaliação",
+       x = "Quadriênio de avaliação", y = "Participação dos programas",
        fill = "Conceito",
-       caption = "Fonte: Plataforma Sucupira/CAPES. Programas com conceito \"A\" (nota atribuída a cursos novos, não numérica) e valores ausentes ficam fora do denominador; ver tabela_comparacao_conceitos_distribuicao.csv.") + theme_artigo()
+       caption = "Fonte: Plataforma Sucupira/CAPES. O conceito é atribuído pela avaliação quadrienal e vale para todo o quadriênio; cada programa entra uma vez por quadriênio, com o conceito do último ano observado. Programas com conceito \"A\" (nota atribuída a cursos novos, não numérica) e valores ausentes ficam fora do denominador; ver tabela_comparacao_conceitos_distribuicao.csv.") +
+  guides(fill = guide_legend(nrow = 1)) +
+  theme_artigo() +
+  theme(panel.grid.major.x = element_blank(), legend.position = "bottom")
 
-ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.png"), p_conceito, width = 8.5, height = 7, dpi = 300)
+ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.png"), p_conceito, width = 9, height = 6, dpi = 300)
+ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.pdf"), p_conceito, width = 9, height = 6)
 
 p_geografia <- geografia %>%
   filter(!is.na(regiao), regiao != "") %>%
