@@ -27,10 +27,13 @@ p1 <- ggplot(grau_ano, aes(ano, titulos, colour = grau)) +
   ggrepel::geom_text_repel(data = ultimo, aes(label = paste0(grau, ": ", num_ptbr_slide()(titulos))),
                             hjust = 0, nudge_x = 1.5, direction = "y", segment.size = 0.3,
                             size = 5, fontface = "bold", show.legend = FALSE) +
-  annotate("curve", x = 2013.5, xend = 2019.6, y = 900, yend = 940,
+  # A anotação aponta para o pico de 2019 da série de mestrado (o nível em que
+  # a queda da pandemia aparece). As coordenadas foram reajustadas depois que a
+  # figura passou a mostrar os níveis separados, e não o total.
+  annotate("curve", x = 2012.0, xend = 2018.8, y = 640, yend = 730,
            curvature = -0.25, colour = "grey40", linewidth = 0.4,
            arrow = arrow(length = unit(0.018, "npc"))) +
-  annotate("text", x = 2013.3, y = 900, label = "queda 2019→2020 (pandemia)",
+  annotate("text", x = 2011.8, y = 640, label = "queda 2019→2020 (pandemia)",
            size = 4.2, colour = "grey35", hjust = 1) +
   scale_colour_manual(values = c("Mestrado" = cor_cp_ri, "Doutorado" = cor_destaque2)) +
   scale_x_continuous(breaks = seq(1990, 2024, 5), limits = c(1987, 2034), expand = expansion(mult = c(0.02, 0))) +
@@ -76,7 +79,7 @@ p3 <- ggplot(titulos_comp, aes(ano, titulos, colour = area_nome, linewidth = des
                             show.legend = FALSE) +
   scale_colour_manual(values = cores_areas_slides) +
   scale_linewidth_manual(values = c(`TRUE` = 1.7, `FALSE` = 0.9), guide = "none") +
-  scale_x_continuous(breaks = seq(1990, 2020, 10), limits = c(1987, 2034), expand = expansion(mult = c(0.01, 0))) +
+  scale_x_continuous(breaks = seq(1990, 2020, 10), limits = c(1987, 2039), expand = expansion(mult = c(0.01, 0))) +
   scale_y_continuous(labels = num_ptbr_slide()) +
   labs(subtitle = "Títulos de mestrado e doutorado por área de avaliação, 1987–2024",
        x = NULL, y = "Títulos/ano")
@@ -107,11 +110,18 @@ sub_serie <- readRDS(file.path(dir_processed, "tabela_titulos_subareas.rds")) %>
   group_by(ano) %>% mutate(pct = titulos / sum(titulos)) %>% ungroup() %>%
   mutate(subarea_nome = recode(subarea,
     CP = "Ciência Política", RI = "Relações Internacionais",
-    PP = "Políticas Públicas", DEFESA = "Defesa e Segurança", OUTROS = "Outros"))
+    PP = "Políticas Públicas", DEFESA = "Defesa e Estudos Estratégicos",
+    SEGPUB = "Segurança Pública", OUTROS = "Outros"))
 ultimo_sub <- sub_serie %>% filter(ano == max(ano))
+# SEGPUB entra como faixa própria (e não fundida à DEFESA) porque é assim que o
+# artigo a trata: policiamento e sistema prisional não partilham objeto nem
+# literatura com estudos estratégicos militares. Como as duas menores faixas
+# (Segurança Pública e Outros) somam menos de 4% em 2024, os rótulos diretos
+# passam a usar ggrepel para não colidirem.
 cores_sub <- c("Ciência Política" = cor_cp_ri, "Relações Internacionais" = "#56B4E9",
-               "Políticas Públicas" = cor_destaque2, "Defesa e Segurança" = "#D55E00",
-               "Outros" = "grey75")
+               "Políticas Públicas" = cor_destaque2,
+               "Defesa e Estudos Estratégicos" = "#D55E00",
+               "Segurança Pública" = "#CC79A7", "Outros" = "grey75")
 
 p5 <- ggplot(sub_serie, aes(ano, pct, fill = subarea_nome)) +
   geom_area(position = "stack", alpha = 0.92) +
@@ -125,9 +135,12 @@ p5 <- ggplot(sub_serie, aes(ano, pct, fill = subarea_nome)) +
 lab_pos <- ultimo_sub %>%
   arrange(desc(subarea_nome)) %>%
   mutate(topo = cumsum(pct), base = topo - pct, y_lab = (topo + base) / 2)
-p5 <- p5 + geom_text(data = lab_pos, aes(x = 2024.5, y = y_lab,
+p5 <- p5 + ggrepel::geom_text_repel(data = lab_pos, aes(x = 2024.5, y = y_lab,
                      label = paste0(subarea_nome, ": ", scales::percent(pct, accuracy = 0.1, decimal.mark = ",")),
-                     colour = subarea_nome), inherit.aes = FALSE, hjust = 0, size = 4.0, fontface = "bold") +
+                     colour = subarea_nome), inherit.aes = FALSE, hjust = 0,
+                     size = 4.0, fontface = "bold", direction = "y",
+                     xlim = c(2024.5, NA), segment.size = 0.25,
+                     min.segment.length = 0, box.padding = 0.25, seed = 20260828) +
   scale_colour_manual(values = cores_sub, guide = "none") +
   coord_cartesian(clip = "off")
 salva_fig_slide(p5, file.path(dir_slides, "slide_08_composicao_area39.png"), largura = 11.5, altura = 5.8)
@@ -136,37 +149,36 @@ salva_fig_slide(p5, file.path(dir_slides, "slide_08_composicao_area39.pdf"), lar
 # -----------------------------------------------------------------------------
 # 6. Evolução temática (slope chart 1980-1999 -> 2020-2024), substitui heatmap
 # -----------------------------------------------------------------------------
-rotulos_curtos <- c(
-  "T1: Direitos Humanos, Gênero e Segurança Pública" = "Direitos, gênero e segurança",
-  "T2: Relações Internacionais, Política Externa e Cooperação" = "Relações internacionais",
-  "T3: Políticas Públicas, Saúde e Educação" = "Políticas públicas e saúde",
-  "T4: Eleições, Partidos e Instituições Representativas" = "Eleições e partidos",
-  "T5: Corpus em espanhol (artefato de idioma)" = "Corpus em espanhol (artefato)",
-  "T6: Teoria Política e Pensamento Político" = "Teoria política",
-  "T7: Corpus em inglês (BPSR)" = "Corpus em inglês (artefato)",
-  "T8: Opinião Pública, Comunicação e Participação" = "Opinião pública e comunicação"
-)
-stm_dec <- readRDS(file.path(dir_processed, "stm_evolucao_decada.rds")) %>%
-  filter(decada %in% c("1980-1999", "2020-2024")) %>%
-  mutate(decada = factor(decada, levels = c("1980-1999", "2020-2024")),
-         status = case_when(
-           grepl("artefato de idioma|Corpus em inglês", topico) ~ "artefato",
-           grepl("Teoria Política", topico) ~ "queda",
-           TRUE ~ "outros"
-         ),
-         rotulo = unname(rotulos_curtos[topico]))
+# Rótulos curtos dos oito tópicos do modelo estimado sobre o corpus em
+# português (rodada de 2026-09-02). Os antigos T5/T7, que eram artefatos de
+# idioma, deixaram de existir quando o corpus foi restrito ao português: o
+# slide não tem mais categoria "artefato". Os nomes vêm do próprio arquivo, e
+# o rótulo curto é derivado por regra, não digitado à mão.
+stm_dec_bruto <- readRDS(file.path(dir_processed, "stm_evolucao_decada.rds"))
+periodo_ini <- min(stm_dec_bruto$decada)
+periodo_fim <- max(stm_dec_bruto$decada)
+stm_dec <- stm_dec_bruto %>%
+  filter(decada %in% c(periodo_ini, periodo_fim)) %>%
+  mutate(decada = factor(decada, levels = c(periodo_ini, periodo_fim)),
+         status = if_else(grepl("Teoria", topico), "queda", "outros"),
+         # remove o prefixo "Tn: " e mantém apenas os dois primeiros termos do
+         # rótulo longo, para caber ao lado do ponto sem sobrepor os vizinhos
+         rotulo = sub("^T[0-9]+: ", "", topico),
+         rotulo = sub("^([^,]+, [^,]+),.*$", "\\1", rotulo))
 p6 <- ggplot(stm_dec, aes(decada, prevalencia, group = topico, colour = status)) +
   geom_line(linewidth = 1.1, alpha = 0.85) +
   geom_point(size = 3.2) +
-  ggrepel::geom_text_repel(data = stm_dec %>% filter(decada == "2020-2024"),
+  ggrepel::geom_text_repel(data = stm_dec %>% filter(decada == periodo_fim),
                             aes(label = rotulo),
                             hjust = 0, nudge_x = 0.12, direction = "y", size = 4.6,
                             segment.size = 0.3, show.legend = FALSE, min.segment.length = 0,
                             box.padding = 0.3, force = 2) +
-  scale_colour_manual(values = c(outros = cor_cp_ri, queda = "#D42B2B", artefato = "grey75"), guide = "none") +
+  scale_colour_manual(values = c(outros = cor_cp_ri, queda = "#D42B2B"), guide = "none") +
   scale_y_continuous(labels = pct_ptbr_slide(accuracy = 1)) +
   scale_x_discrete(expand = expansion(mult = c(0.08, 0.85))) +
-  labs(subtitle = "Prevalência média dos 8 tópicos do STM, 1980–1999 vs. 2020–2024\nVermelho = única categoria em queda · Cinza = artefato de idioma",
+  labs(subtitle = paste0("Prevalência média dos 8 tópicos do STM (corpus em português), ",
+                         periodo_ini, " vs. ", periodo_fim,
+                         "\nVermelho = único movimento que sobrevive ao controle de composição do corpus"),
        x = NULL, y = "Prevalência média") +
   coord_cartesian(clip = "off")
 salva_fig_slide(p6, file.path(dir_slides, "slide_10_evolucao_tematica.png"), largura = 12.5, altura = 6.2)
@@ -285,5 +297,60 @@ p9 <- ggplot() +
         panel.grid.major.y = element_blank(), panel.grid.major.x = element_line(colour = "grey90", linewidth = 0.3))
 salva_fig_slide(p9, file.path(dir_slides, "slide_03_tres_idades.png"), largura = 13, altura = 5.8)
 salva_fig_slide(p9, file.path(dir_slides, "slide_03_tres_idades.pdf"), largura = 13, altura = 5.8)
+
+# -----------------------------------------------------------------------------
+# 10. Composição de gênero da autoria — versão de slide da fig23 do artigo.
+#     Mesmos dados (22_genero_autoria.R): série anual com IC de Wilson à
+#     esquerda, mestrado x doutorado por quinquênio à direita. A mensagem única
+#     do slide é a aproximação da paridade com hiato persistente no doutorado.
+# -----------------------------------------------------------------------------
+suppressPackageStartupMessages(library(patchwork))
+gen_ano <- readRDS(file.path(dir_processed, "genero_serie_anual.rds"))
+v_gen_s <- readRDS(file.path(dir_processed, "valores_inline_genero.rds"))
+gen_niv <- v_gen_s$serie_nivel_quinquenio %>%
+  filter(n_classificado >= 30) %>%
+  mutate(nivel = factor(nivel, levels = c("Mestrado", "Doutorado")))
+cores_nivel_slide <- c("Mestrado" = cor_cp_ri, "Doutorado" = cor_destaque2)
+
+gA <- ggplot(gen_ano, aes(ano, prop)) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey55", linewidth = 0.5) +
+  geom_ribbon(aes(ymin = ic_inf, ymax = ic_sup), fill = cor_cp_ri, alpha = 0.18) +
+  geom_line(colour = cor_cp_ri, linewidth = 1.3) +
+  annotate("text", x = 1988, y = 0.515, label = "paridade", hjust = 0,
+           vjust = 0, size = 4.2, colour = "grey40") +
+  scale_y_continuous(labels = pct_ptbr_slide(accuracy = 1),
+                     limits = c(0.15, 0.72), breaks = seq(0.2, 0.7, 0.1)) +
+  scale_x_continuous(breaks = seq(1990, 2020, 10),
+                     labels = function(x) as.character(as.integer(x))) +
+  labs(subtitle = "(a) Todos os trabalhos, por ano de titulação\nFaixa: IC 95% (Wilson)",
+       x = NULL, y = "Autoria feminina")
+
+gB <- ggplot(gen_niv, aes(quinquenio, prop, colour = nivel)) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey55", linewidth = 0.5) +
+  geom_linerange(aes(ymin = ic_inf, ymax = ic_sup), alpha = 0.35, linewidth = 0.8) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.4) +
+  ggrepel::geom_text_repel(
+    data = gen_niv %>% filter(quinquenio == max(quinquenio)),
+    aes(label = paste0(nivel, ": ", scales::percent(prop, accuracy = 0.1, decimal.mark = ","))),
+    hjust = 0, nudge_x = 1.2, direction = "y", size = 4.4, fontface = "bold",
+    segment.size = 0.3, min.segment.length = 0, show.legend = FALSE, seed = 20260828) +
+  scale_colour_manual(values = cores_nivel_slide, guide = "none") +
+  scale_y_continuous(labels = pct_ptbr_slide(accuracy = 1),
+                     limits = c(0.15, 0.72), breaks = seq(0.2, 0.7, 0.1)) +
+  scale_x_continuous(breaks = sort(unique(gen_niv$quinquenio)),
+                     labels = function(x) paste0(x, "-", x + 4),
+                     expand = expansion(mult = c(0.05, 0.72))) +
+  labs(subtitle = "(b) Por nível, por quinquênio\nBarras: IC 95% (Wilson)", x = NULL, y = NULL) +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1)) +
+  coord_cartesian(clip = "off")
+
+p10 <- (gA | gB) +
+  plot_annotation(
+    subtitle = "Proporção de trabalhos cujo primeiro nome é classificado como feminino (genderBR, Censo 2022)",
+    theme = theme_slides()
+  )
+salva_fig_slide(p10, file.path(dir_slides, "slide_09_genero.png"), largura = 12.5, altura = 5.8)
+salva_fig_slide(p10, file.path(dir_slides, "slide_09_genero.pdf"), largura = 12.5, altura = 5.8)
 
 cat(">>> figuras de slide geradas em", dir_slides, "\n")
