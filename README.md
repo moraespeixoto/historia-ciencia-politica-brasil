@@ -1,12 +1,12 @@
-# A Trajetória da Ciência Política no Brasil: Institucionalização, Expansão da Pós-Graduação e Diversificação Temática
+# Sessenta Anos Depois: Teses, Programas e Agendas da Ciência Política no Brasil
 
 Pacote de replicação e estrutura do artigo em R + Quarto.
 
 ## 📁 Estrutura do Repositório
 
 ```
-historia_ciencia_politica_brasil/
-├── historia_ciencia_politica_brasil.Rproj  # R Project
+trajetoria_CP_Brasil/
+├── trajetoria_CP_Brasil.Rproj               # R Project
 ├── artigo_historia_cp_brasil.qmd           # Manuscrito principal em Quarto
 ├── referencias.bib                         # Base bibliográfica (.bib) com DOIs verificados
 ├── AUDITORIA.md                            # Relatório de auditoria de dados e referências
@@ -61,7 +61,7 @@ rebaixar nada. Para reobter os brutos e refazer o pipeline desde a coleta:
 
 ## 🚀 Como Reproduzir
 
-1. Abra o projeto no RStudio através do arquivo `historia_ciencia_politica_brasil.Rproj` ou no terminal via R.
+1. Abra o projeto no RStudio através do arquivo `trajetoria_CP_Brasil.Rproj` ou no terminal via R.
 2. Execute o setup inicial:
    ```r
    source("SCRIPTS/00_setup.R")

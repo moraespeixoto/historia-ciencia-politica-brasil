@@ -1,5 +1,5 @@
 ---
-title: "A Trajetória da Ciência Política no Brasil"
+title: "Sessenta Anos Depois: Teses, Programas e Agendas da Ciência Política no Brasil"
 subtitle: "Institucionalização, expansão da pós-graduação e diversificação temática"
 author: "Vitor Peixoto — UENF"
 date: "2026-09-02"
@@ -131,7 +131,7 @@ E a desconcentração é mais institucional do que territorial. O HHI de título
 `r fmt_int(v_comp$programas_2024[["Ciência Política / RI"]])` programas em 2024: a **`r v_comp$posicao_area39_programas_2024`ª de seis**. Presente em **`r fmt_int(v_comp$ufs_2024[["Ciência Política / RI"]])` UFs**, a menor cobertura do grupo. Cresceu **`r fmt_num(v_comp$var_programas_pct[["Ciência Política / RI"]], 0)`%** em programas entre 2013 e 2024, mais que qualquer irmã.
 
 ::: {.notes}
-Este slide corrige a leitura corrente — e a versão anterior desta própria apresentação. Com os códigos de área de avaliação da Sucupira conferidos contra o campo `NM_AREA_AVALIACAO` (28 Economia, 34 Sociologia, 35 Antropologia/Arqueologia, 36 Geografia, 39 CP/RI, 40 História), a Área 39 aparece à frente de `r lista_areas(prog24[5:6])` e atrás de `r lista_areas(prog24[1:3])`.
+Este slide corrige a leitura corrente. Com os códigos de área de avaliação da Sucupira conferidos contra o campo `NM_AREA_AVALIACAO` (28 Economia, 34 Sociologia, 35 Antropologia/Arqueologia, 36 Geografia, 39 CP/RI, 40 História), a Área 39 aparece à frente de `r lista_areas(prog24[5:6])` e atrás de `r lista_areas(prog24[1:3])`.
 
 Três afirmações distintas, que a versão anterior confundia numa só: (1) em número de programas, a área é intermediária, não a menor; (2) o que ela tem de menor é a cobertura territorial — `r fmt_int(v_comp$ufs_2024[["Ciência Política / RI"]])` UFs contra `r fmt_int(v_comp$ufs_2024[["Geografia"]])` da Geografia e `r fmt_int(v_comp$ufs_2024[["História"]])` da História; (3) foi a que mais cresceu em programas na última década.
 
@@ -228,7 +228,7 @@ Limite a declarar em voz alta: o método é binário por construção e não med
 ![](FIGURAS/slides/slide_10_evolucao_tematica.png){width=94%}
 
 ::: {.fragment .notes}
-Modelo STM com $K = `r v_stm$K`$ sobre `r fmt_int(v_stm$modelo_docs)` resumos **em português**. O acervo bruto tem `r fmt_int(v_stm$corpus_bruto_n)` resumos; `r fmt_int(v_stm$n_descartados_idioma)` não estão em português e ficaram de fora da modelagem lexical (mas seguem nas séries de títulos e artigos). Numa versão anterior, o corpus multilíngue produzia dois tópicos que eram vocabulário de idioma, não linhas de pesquisa. Restringir ao português eliminou os dois artefatos.
+Modelo STM com $K = `r v_stm$K`$ sobre `r fmt_int(v_stm$modelo_docs)` resumos **em português**. O acervo bruto tem `r fmt_int(v_stm$corpus_bruto_n)` resumos; `r fmt_int(v_stm$n_descartados_idioma)` não estão em português e ficaram de fora da modelagem lexical (mas seguem nas séries de títulos e artigos). Um corpus multilíngue produziria dois tópicos que seriam vocabulário de idioma, não linhas de pesquisa; restringir ao português evita esse artefato.
 
 O K foi escolhido por `searchK`, na fronteira entre coerência semântica e exclusividade.
 
@@ -274,8 +274,6 @@ Sessenta anos depois da criação dos primeiros programas, o retrato é de uma d
 
 ::: {.notes}
 Fechamento: reforçar que os achados são descritivos, não causais, e que escala, capilaridade e ritmo são leituras complementares — nenhuma substitui a outra.
-
-Vale dizer em voz alta que o achado do item 1 inverte o que a versão anterior deste trabalho afirmava: os códigos de área de avaliação usados na comparação estavam trocados, e a correção mudou a conclusão.
 :::
 
 ## {background-color="#0B1E33"}

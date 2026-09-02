@@ -1,5 +1,5 @@
 ---
-title: "A Trajetória da Ciência Política no Brasil: Institucionalização, Expansão da Pós-Graduação e Diversificação Temática"
+title: "Sessenta Anos Depois: Teses, Programas e Agendas da Ciência Política no Brasil"
 subtitle: "Uma Análise Empírica e Bibliométrica a partir dos Dados da CAPES, Sucupira e Periódicos (1987–2024)"
 author:
   - name: "Vitor Peixoto"
@@ -362,7 +362,7 @@ Uma terceira rodada, de setembro de 2026, encontrou um erro mais grave e de efei
 
 ## Ambiente de Replicação {.unnumbered}
 
-Todo o pipeline analítico, desde a coleta automatizada de dados abertos até a modelagem estatística e a compilação deste manuscrito, foi executado em ambiente reprodutível em **R (v`r getRversion()`)** e **Quarto (`r system("quarto --version", intern = TRUE)`)**. Os códigos, as sementes aleatórias (fixada em `20260828`) e as rotinas de replicação, incluindo o relatório do protocolo exploratório (Camada 2), estão disponíveis publicamente em <https://github.com/moraespeixoto/historia-ciencia-politica-brasil>.
+Todo o pipeline analítico, desde a coleta automatizada de dados abertos até a modelagem estatística e a compilação deste manuscrito, foi executado em ambiente reprodutível em **R (v`r getRversion()`)** e **Quarto (`r system("quarto --version", intern = TRUE)`)**. Os códigos, as sementes aleatórias (fixada em `20260828`) e as rotinas de replicação, incluindo o relatório do protocolo exploratório (Camada 2), estão disponíveis publicamente em <https://github.com/moraespeixoto/trajetoria_CP_Brasil>.
 
 ```{r session-info, echo=FALSE}
 sessionInfo()
