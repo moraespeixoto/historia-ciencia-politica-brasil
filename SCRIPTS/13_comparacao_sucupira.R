@@ -1,26 +1,43 @@
 #!/usr/bin/env Rscript
 # ==============================================================================
-# 13_comparacao_sucupira.R — Estrutura comparada da pós-graduação (áreas 38–43)
+# 13_comparacao_sucupira.R — Estrutura comparada da pós-graduação
 # ==============================================================================
-# Reutiliza os microdados Sucupira já baixados para comparar Geografia (36),
-# Economia (38), Ciência Política e RI (39), Sociologia (40),
-# Antropologia/Arqueologia (41) e História (42), entre 2013 e 2024.
+# Reutiliza os microdados Sucupira já baixados para comparar Economia (28),
+# Sociologia (34), Antropologia/Arqueologia (35), Geografia (36),
+# Ciência Política e RI (39) e História (40), entre 2013 e 2024.
+#
+# CORREÇÃO 2026-09-02 (P0, REVISAO_CRITICA F01): a versão anterior deste script
+# usava os códigos 36/38/39/40/41/42. Conferido contra `NM_AREA_AVALIACAO` nos
+# 12 arquivos brutos `sucupira_prog_20XX.csv`, esses códigos correspondem, na
+# verdade, a Geografia (36), EDUCAÇÃO (38), CP/RI (39), HISTÓRIA (40),
+# LETRAS/LINGUÍSTICA — depois LINGUÍSTICA E LITERATURA (41) e CIÊNCIAS
+# AGRÁRIAS I (42). Os rótulos de quatro das seis áreas comparadas estavam,
+# portanto, trocados. Os códigos abaixo foram verificados como ESTÁVEIS em
+# todas as safras 2013–2024 (ver asserção `checar_codigos_area()`), o que
+# permite manter o código numérico como chave; a asserção falha se a
+# numeração mudar em alguma safra futura.
 #
 # Unidades de análise:
 # - Programas: programa-ano, deduplicado pelo código do programa;
 # - Docentes: docente-programa-ano, deduplicado por ID_PESSOA;
-# - Conceitos: programa-ano com conceito numérico válido.
+# - Conceitos: programa-ano com conceito numérico válido (o valor "A",
+#   atribuído a programas novos, é reportado à parte, não como NA silencioso).
 # ==============================================================================
 
 source(here::here("SCRIPTS", "00_setup.R"))
 
 areas_alvo <- c(
+  "28" = "Economia",
+  "34" = "Sociologia",
+  "35" = "Antropologia / Arqueologia",
   "36" = "Geografia",
-  "38" = "Economia",
   "39" = "Ciência Política / RI",
-  "40" = "Sociologia",
-  "41" = "Antropologia / Arqueologia",
-  "42" = "História"
+  "40" = "História"
+)
+# Padrão esperado em NM_AREA_AVALIACAO para cada código (asserção de safra).
+padrao_area <- c(
+  "28" = "ECONOMIA", "34" = "SOCIOLOGIA", "35" = "ANTROPOLOGIA",
+  "36" = "GEOGRAFIA", "39" = "CI.NCIA POL.TICA", "40" = "HIST.RIA"
 )
 ordem_areas <- unname(areas_alvo)
 
@@ -45,10 +62,34 @@ pegar <- function(df, col, default = NA_character_) {
   if (col %in% names(df)) as.character(df[[col]]) else rep(default, nrow(df))
 }
 
+# Asserção de estabilidade da numeração das áreas de avaliação. Falha alto e
+# cedo se a CAPES renumerar uma área em alguma safra — nesse caso o script deve
+# passar a usar `nm_area_avaliacao` (texto) em vez do código.
+checar_codigos_area <- function(df, ano) {
+  if (!all(c("cd_area_avaliacao", "nm_area_avaliacao") %in% names(df))) {
+    stop("Safra ", ano, " sem cd/nm_area_avaliacao — impossível validar códigos.")
+  }
+  chk <- df %>%
+    transmute(cd = as.character(cd_area_avaliacao),
+              nm = toupper(as.character(nm_area_avaliacao))) %>%
+    filter(cd %in% names(areas_alvo)) %>%
+    distinct()
+  for (cd in names(padrao_area)) {
+    nms <- chk$nm[chk$cd == cd]
+    if (length(nms) == 0L) stop("Safra ", ano, ": código de área ", cd, " ausente.")
+    if (!all(grepl(padrao_area[[cd]], nms))) {
+      stop("Safra ", ano, ": código ", cd, " esperava /", padrao_area[[cd]],
+           "/ mas encontrou '", paste(nms, collapse = "; "), "'.")
+    }
+  }
+  invisible(TRUE)
+}
+
 padronizar_programas <- function(ano) {
   path <- file.path(raw_dir, paste0("sucupira_prog_", ano, ".csv"))
   if (!file.exists(path)) return(NULL)
   df <- ler_csv_sucupira(path)
+  checar_codigos_area(df, ano)
   df %>%
     transmute(
       ano = suppressWarnings(as.integer(pegar(df, "an_base", ano))),
@@ -62,6 +103,7 @@ padronizar_programas <- function(ano) {
       regiao = pegar(df, "nm_regiao"),
       modalidade = pegar(df, "nm_modalidade_programa"),
       grau = pegar(df, "nm_grau_programa"),
+      conceito_raw = pegar(df, "cd_conceito_programa"),
       conceito = suppressWarnings(as.numeric(pegar(df, "cd_conceito_programa"))),
       ano_inicio = suppressWarnings(as.integer(coalesce(
         na_if(pegar(df, "an_inicio_programa"), ""),
@@ -105,7 +147,16 @@ if (nrow(programas) == 0L) stop("Não foi possível ler programas Sucupira.")
 # Exclui programas com situação "EM DESATIVACAO" (impacto mínimo, mas
 # fecha o item de auditoria sobre desativação contada como ativa).
 programas <- programas %>% filter(is.na(situacao) | situacao != "EM DESATIVACAO")
-programas <- programas %>% mutate(area_nome = factor(area_nome, levels = ordem_areas))
+# Modalidade normalizada (F02): o campo bruto traz "ACADÊMICO"/"PROFISSIONAL"
+# com variações de acento entre safras.
+programas <- programas %>%
+  mutate(
+    area_nome = factor(area_nome, levels = ordem_areas),
+    modalidade_norm = if_else(grepl("PROFISSIONAL",
+                                    toupper(iconv(modalidade, to = "ASCII//TRANSLIT", sub = ""))),
+                              "PROFISSIONAL", "ACADEMICO"),
+    grau_norm = toupper(iconv(grau, to = "ASCII//TRANSLIT", sub = ""))
+  )
 docentes <- docentes %>% mutate(area_nome = factor(area_nome, levels = ordem_areas))
 
 # 1. Programas e composição institucional anual
@@ -115,13 +166,28 @@ programas_ano <- programas %>%
     programas_ativos = n_distinct(programa),
     ies = n_distinct(ies[!is.na(ies) & ies != ""], na.rm = TRUE),
     ufs = n_distinct(uf[!is.na(uf) & uf != ""], na.rm = TRUE),
-    programas_mestrado = sum(grepl("MESTR", toupper(grau)), na.rm = TRUE),
-    programas_doutorado = sum(grepl("DOUTOR", toupper(grau)), na.rm = TRUE),
-    programas_profissionais = sum(grepl("PROFISSIONAL", toupper(modalidade)), na.rm = TRUE),
+    programas_mestrado = sum(grepl("MESTR", grau_norm), na.rm = TRUE),
+    programas_doutorado = sum(grepl("DOUTOR", grau_norm), na.rm = TRUE),
+    programas_academicos = sum(modalidade_norm == "ACADEMICO", na.rm = TRUE),
+    programas_profissionais = sum(modalidade_norm == "PROFISSIONAL", na.rm = TRUE),
+    pct_profissionais = 100 * programas_profissionais / programas_ativos,
     conceito_medio = mean(conceito, na.rm = TRUE),
     conceito_mediano = median(conceito, na.rm = TRUE),
     .groups = "drop"
   )
+
+# 1b. Modalidade e grau: tabelas longas área × ano × categoria (F02)
+modalidade_ano <- programas %>%
+  count(ano, area_nome, modalidade = modalidade_norm, name = "programas") %>%
+  group_by(ano, area_nome) %>%
+  mutate(participacao = programas / sum(programas)) %>%
+  ungroup()
+
+grau_ano <- programas %>%
+  count(ano, area_nome, grau = grau_norm, name = "programas") %>%
+  group_by(ano, area_nome) %>%
+  mutate(participacao = programas / sum(programas)) %>%
+  ungroup()
 
 # 2. Docentes: únicas pessoas e vínculos programa-docente-ano
 docentes_ano <- docentes %>%
@@ -134,11 +200,17 @@ docentes_ano <- docentes %>%
     .groups = "drop"
   )
 
-# 3. Normalização dos indicadores: não infere qualidade; descreve capacidade relativa.
+# 3. Normalização dos indicadores: não infere qualidade; descreve capacidade
+#    relativa. A métrica padrão CAPES é o corpo docente PERMANENTE (F11); o
+#    total (todas as categorias) fica em coluna separada, não é o indicador
+#    principal. Denominadores em programas ACADÊMICOS ficam à parte (F02).
 indicadores_ano <- programas_ano %>%
   left_join(docentes_ano, by = c("ano", "area_nome")) %>%
   mutate(
-    docentes_por_programa = docentes_unicos / programas_ativos,
+    docentes_por_programa = docentes_permanentes / programas_ativos,
+    docentes_totais_por_programa = docentes_unicos / programas_ativos,
+    docentes_perm_por_programa_academico = docentes_permanentes /
+      dplyr::na_if(programas_academicos, 0L),
     vinculos_por_programa = vinculos_docente_programa / programas_ativos
   )
 
@@ -160,13 +232,47 @@ concentracao_ies <- programas %>%
     .groups = "drop"
   )
 
-# 5. Conceitos CAPES: distribuição anual comparável.
+# 5. Conceitos CAPES: distribuição por quadriênio.
+#    O conceito é atribuído pela avaliação quadrienal e vale para todo o
+#    período, não por ano: verificado nos dados, apenas 20 de 1.054 pares
+#    programa-quadriênio (1,9%) registram mais de um valor na janela, casos de
+#    recurso ou de reclassificação. Uma série anual sugeriria uma variação que
+#    a avaliação não produz -- o que varia entre anos do mesmo quadriênio é a
+#    composição do denominador (entrada e saída de programas), não a nota.
+#    Cada programa entra uma vez por quadriênio, com o conceito do último ano
+#    em que é observado na janela.
+quadrienios <- c("2013-2016", "2017-2020", "2021-2024")
+rotula_quadrienio <- function(ano) {
+  cut(ano, breaks = c(2012, 2016, 2020, 2024), labels = quadrienios)
+}
+
 conceitos <- programas %>%
   filter(!is.na(conceito)) %>%
-  count(ano, area_nome, conceito, name = "programas") %>%
-  group_by(ano, area_nome) %>%
+  mutate(quadrienio = rotula_quadrienio(ano)) %>%
+  group_by(area_nome, quadrienio, programa) %>%
+  slice_max(ano, n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  count(quadrienio, area_nome, conceito, name = "programas") %>%
+  group_by(quadrienio, area_nome) %>%
   mutate(participacao = programas / sum(programas)) %>%
   ungroup()
+
+# 5b. Distribuição de conceitos como perfil (F11): a média de uma escala
+#     ordinal não é comparável entre áreas com distribuições distintas. Reporta
+#     proporções por faixa e o n de programas com conceito "A" (programas novos,
+#     sem nota numérica), que a média silenciosamente descartava.
+conceitos_dist <- programas %>%
+  group_by(ano, area_nome) %>%
+  summarise(
+    n_programas = n(),
+    n_A = sum(toupper(trimws(conceito_raw)) == "A", na.rm = TRUE),
+    n_conceito_numerico = sum(!is.na(conceito)),
+    prop_3 = mean(conceito == 3, na.rm = TRUE),
+    prop_4 = mean(conceito == 4, na.rm = TRUE),
+    prop_5 = mean(conceito == 5, na.rm = TRUE),
+    prop_6_7 = mean(conceito >= 6, na.rm = TRUE),
+    .groups = "drop"
+  )
 
 # 6. Entradas líquidas por código de programa, observadas na janela.
 entradas <- programas %>%
@@ -180,17 +286,64 @@ entradas <- programas %>%
 write_csv(indicadores_ano, file.path(tab_dir, "tabela_comparacao_programas_sucupira.csv"))
 write_csv(geografia, file.path(tab_dir, "tabela_comparacao_geografia_sucupira.csv"))
 write_csv(conceitos, file.path(tab_dir, "tabela_comparacao_conceitos_sucupira.csv"))
+write_csv(conceitos_dist, file.path(tab_dir, "tabela_comparacao_conceitos_distribuicao.csv"))
 write_csv(concentracao_ies, file.path(tab_dir, "tabela_comparacao_concentracao_ies.csv"))
 write_csv(entradas, file.path(tab_dir, "tabela_comparacao_entradas_programas.csv"))
+write_csv(modalidade_ano, file.path(tab_dir, "tabela_comparacao_modalidade.csv"))
+write_csv(grau_ano, file.path(tab_dir, "tabela_comparacao_grau.csv"))
 # Mantém a tabela original como compatibilidade com o manuscrito já existente.
 write_csv(select(programas_ano, ano, area_nome, programas_ativos),
           file.path(tab_dir, "tabela_comparacao_areas_sucupira_prog.csv"))
 
-saveRDS(
-  list(programas = programas, docentes = docentes, indicadores = indicadores_ano,
-       geografia = geografia, conceitos = conceitos, concentracao_ies = concentracao_ies),
-  file.path(proc_dir, "comparacao_areas_sucupira.rds")
+# Objeto canônico da comparação. Os nomes `area`/`programas` em `$programas_ano`
+# e `$modalidade` são os que `SCRIPTS/99_testes_regressao.R` verifica.
+comp_obj <- list(
+  programas = programas, docentes = docentes, indicadores = indicadores_ano,
+  geografia = geografia, conceitos = conceitos, conceitos_dist = conceitos_dist,
+  concentracao_ies = concentracao_ies,
+  programas_ano = programas_ano %>%
+    transmute(ano, area = as.character(area_nome), programas = programas_ativos),
+  modalidade = modalidade_ano %>%
+    transmute(ano, area = as.character(area_nome), modalidade, programas, participacao),
+  grau = grau_ano %>%
+    transmute(ano, area = as.character(area_nome), grau, programas, participacao)
 )
+saveRDS(comp_obj, file.path(proc_dir, "comparacao_areas_sucupira.rds"))
+
+# -----------------------------------------------------------------------------
+# Valores inline do manuscrito (substitui o órfão
+# `valores_inline_comparacao_areas.rds`, que não era lido por nenhum .qmd e
+# fora computado antes do filtro de desativação — ver REVISAO_CRITICA F27).
+# -----------------------------------------------------------------------------
+ano_max <- max(indicadores_ano$ano)
+ind_max <- indicadores_ano %>% filter(ano == ano_max)
+ind_min <- indicadores_ano %>% filter(ano == min(ano))
+get_v <- function(df, col, area) df[[col]][as.character(df$area_nome) == area]
+
+v_comp <- list(
+  ano_inicial = min(indicadores_ano$ano),
+  ano_final = ano_max,
+  programas_2024 = setNames(ind_max$programas_ativos, as.character(ind_max$area_nome)),
+  programas_2013 = setNames(ind_min$programas_ativos, as.character(ind_min$area_nome)),
+  docentes_perm_2024 = setNames(ind_max$docentes_permanentes, as.character(ind_max$area_nome)),
+  ufs_2024 = setNames(ind_max$ufs, as.character(ind_max$area_nome)),
+  pct_prof_2024 = setNames(round(ind_max$pct_profissionais, 1), as.character(ind_max$area_nome)),
+  pct_prof_2013 = setNames(round(ind_min$pct_profissionais, 1), as.character(ind_min$area_nome)),
+  # Variação relativa de programas entre a primeira e a última safra Sucupira.
+  var_programas_pct = setNames(
+    round(100 * (ind_max$programas_ativos[match(as.character(ind_min$area_nome),
+                                                as.character(ind_max$area_nome))] /
+                   ind_min$programas_ativos - 1), 1),
+    as.character(ind_min$area_nome)),
+  n_areas = length(ordem_areas)
+)
+v_comp$posicao_area39_programas_2024 <- unname(
+  rank(-v_comp$programas_2024, ties.method = "min")[["Ciência Política / RI"]])
+v_comp$area_maior_crescimento <- names(which.max(v_comp$var_programas_pct))
+saveRDS(v_comp, file.path(proc_dir, "valores_inline_comparacao.rds"))
+# Remove o artefato órfão da rodada anterior, se ainda existir.
+orfao <- file.path(proc_dir, "valores_inline_comparacao_areas.rds")
+if (file.exists(orfao)) file.remove(orfao)
 
 # Figuras: a identidade de cada área permanece constante na paleta Dark2;
 # escalas e facetas evitam duplo eixo e mostram magnitude sem ocultar a CP.
@@ -219,16 +372,25 @@ ggsave(file.path(fig_dir, "fig12_comparacao_docentes_programas.png"), p_docentes
 
 p_conceito <- conceitos %>%
   mutate(conceito = factor(conceito)) %>%
-  ggplot(aes(ano, participacao, fill = conceito)) +
-  geom_col(width = .75, colour = "white", linewidth = .25) +
-  facet_wrap(~area_nome, ncol = 2) +
-  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  ggplot(aes(quadrienio, participacao, fill = conceito)) +
+  geom_col(width = .62, colour = "white", linewidth = .3) +
+  geom_text(aes(label = ifelse(participacao >= .08, scales::percent(participacao, accuracy = 1), "")),
+            position = position_stack(vjust = .5), size = 2.6, colour = "grey15") +
+  facet_wrap(~area_nome, ncol = 3) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1),
+                     expand = expansion(mult = c(0, .02))) +
   scale_fill_brewer(palette = "Blues", direction = 1) +
   labs(title = "Composição dos Conceitos CAPES por Área",
-       subtitle = "Participação dos programas por conceito em cada ano", x = "Ano", y = "Participação",
-       fill = "Conceito", caption = "Fonte: Plataforma Sucupira/CAPES. Valores ausentes excluídos.") + theme_artigo()
+       subtitle = "Participação dos programas em cada conceito, por quadriênio de avaliação",
+       x = "Quadriênio de avaliação", y = "Participação dos programas",
+       fill = "Conceito",
+       caption = "Fonte: Plataforma Sucupira/CAPES. O conceito é atribuído pela avaliação quadrienal e vale para todo o quadriênio; cada programa entra uma vez por quadriênio, com o conceito do último ano observado. Programas com conceito \"A\" (nota atribuída a cursos novos, não numérica) e valores ausentes ficam fora do denominador; ver tabela_comparacao_conceitos_distribuicao.csv.") +
+  guides(fill = guide_legend(nrow = 1)) +
+  theme_artigo() +
+  theme(panel.grid.major.x = element_blank(), legend.position = "bottom")
 
-ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.png"), p_conceito, width = 8.5, height = 7, dpi = 300)
+ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.png"), p_conceito, width = 9, height = 6, dpi = 300)
+ggsave(file.path(fig_dir, "fig13_comparacao_conceitos_capes.pdf"), p_conceito, width = 9, height = 6)
 
 p_geografia <- geografia %>%
   filter(!is.na(regiao), regiao != "") %>%

@@ -1,4 +1,25 @@
 area_nome,ano,novos_programas_observados
+Economia,2013,55
+Economia,2014,3
+Economia,2015,5
+Economia,2016,5
+Economia,2017,3
+Economia,2019,6
+Economia,2021,1
+Economia,2024,2
+Sociologia,2013,52
+Sociologia,2016,2
+Sociologia,2018,1
+Sociologia,2019,2
+Sociologia,2024,2
+Antropologia / Arqueologia,2013,26
+Antropologia / Arqueologia,2014,1
+Antropologia / Arqueologia,2015,1
+Antropologia / Arqueologia,2016,1
+Antropologia / Arqueologia,2017,2
+Antropologia / Arqueologia,2018,2
+Antropologia / Arqueologia,2019,4
+Antropologia / Arqueologia,2024,2
 Geografia,2013,52
 Geografia,2014,4
 Geografia,2015,6
@@ -8,18 +29,6 @@ Geografia,2019,11
 Geografia,2021,3
 Geografia,2023,1
 Geografia,2024,4
-Economia,2013,142
-Economia,2014,13
-Economia,2015,8
-Economia,2016,7
-Economia,2017,6
-Economia,2018,1
-Economia,2019,9
-Economia,2020,4
-Economia,2021,5
-Economia,2022,2
-Economia,2023,1
-Economia,2024,4
 Ciência Política / RI,2013,32
 Ciência Política / RI,2014,5
 Ciência Política / RI,2015,3
@@ -30,27 +39,10 @@ Ciência Política / RI,2019,8
 Ciência Política / RI,2020,1
 Ciência Política / RI,2021,2
 Ciência Política / RI,2024,4
-Sociologia,2013,63
-Sociologia,2014,6
-Sociologia,2016,2
-Sociologia,2017,1
-Sociologia,2018,1
-Sociologia,2019,9
-Sociologia,2021,3
-Antropologia / Arqueologia,2013,136
-Antropologia / Arqueologia,2014,4
-Antropologia / Arqueologia,2015,7
-Antropologia / Arqueologia,2016,7
-Antropologia / Arqueologia,2017,2
-Antropologia / Arqueologia,2019,9
-Antropologia / Arqueologia,2021,3
-Antropologia / Arqueologia,2022,2
-Antropologia / Arqueologia,2024,4
-História,2013,208
-História,2014,8
-História,2015,4
-História,2016,6
-História,2017,2
-História,2019,1
-História,2021,1
-História,2023,3
+História,2013,63
+História,2014,6
+História,2016,2
+História,2017,1
+História,2018,1
+História,2019,9
+História,2021,3

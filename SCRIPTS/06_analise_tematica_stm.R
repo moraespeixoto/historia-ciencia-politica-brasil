@@ -38,43 +38,88 @@ limpar_texto <- function(txt) {
   txt
 }
 
+# O idioma é detectado no resumo ORIGINAL (com acentos), antes da
+# transliteração, e a subárea vem do nome do programa — ambos viram covariáveis
+# do modelo e critérios da decisão de corpus (Fase 2).
+if (!requireNamespace("cld2", quietly = TRUE)) stop("Pacote cld2 necessário.")
+source(here::here("SCRIPTS", "10_classificacao_subareas_fun.R"))
+
 # Corpus CAPES
 df_capes_txt <- capes %>%
   mutate(
     resumo_raw = coalesce(ds_resumo, resumo_tese),
-    ano = as.integer(coalesce(an_base, ano_base))
+    ano = as.integer(coalesce(an_base, ano_base)),
+    subarea = classificar_programa(coalesce(nm_programa, nome_programa))
   ) %>%
   filter(!is.na(resumo_raw), !is.na(ano)) %>%
   mutate(
     doc_id = paste0("CAPES_", row_number()),
     fonte = "CAPES",
+    idioma_resumo = cld2::detect_language(resumo_raw),
+    texto_original = resumo_raw,
     texto = limpar_texto(resumo_raw)
   ) %>%
   filter(nchar(texto) > 60) %>%
-  select(doc_id, fonte, ano, texto)
+  select(doc_id, fonte, ano, subarea, idioma_resumo, texto, texto_original)
 
 # Corpus OpenAlex (apenas artigos de pesquisa, sem front matter)
+# O corte em 2024 é o mesmo da série de artigos (08): 2025-2026 têm indexação
+# incompleta no OpenAlex. Sem ele, o corpus do STM ia até 2026 enquanto todas
+# as demais séries do artigo paravam em 2024, e o spline do ano extrapolava
+# para dois anos com um punhado de documentos.
 df_oa_txt <- openalex %>%
-  filter(!is.na(resumo), !is.na(ano), tipo == "article", !front_matter) %>%
+  filter(!is.na(resumo), !is.na(ano), ano <= 2024, tipo == "article", !front_matter) %>%
   mutate(
     doc_id = paste0("OA_", row_number()),
     fonte = "OpenAlex",
+    subarea = "ARTIGO",
+    idioma_resumo = if ("idioma_resumo" %in% names(.)) idioma_resumo else cld2::detect_language(resumo),
+    texto_original = resumo,
     texto = limpar_texto(resumo)
   ) %>%
   filter(nchar(texto) > 60) %>%
-  select(doc_id, fonte, ano, texto)
+  select(doc_id, fonte, ano, subarea, idioma_resumo, texto, texto_original)
 
 corpus_total <- bind_rows(df_capes_txt, df_oa_txt) %>%
   mutate(
+    # C7/F23: o corpus modelado começa em 1995; o rótulo "1980-1999" prometia
+    # uma década que não existe nos dados.
     decada = case_when(
-      ano < 2000 ~ "1980-1999",
+      ano < 2000 ~ "1995-1999",
       ano >= 2000 & ano < 2010 ~ "2000-2009",
       ano >= 2010 & ano < 2020 ~ "2010-2019",
       ano >= 2020 ~ "2020-2024"
     )
   )
 
+# ---------------------------------------------------------------------------
+# 1b. Idioma do resumo e subárea do documento (covariáveis do modelo)
+# ---------------------------------------------------------------------------
+# O corpus é multilíngue (resumos em pt, en e es). Dois dos oito tópicos do
+# modelo anterior eram artefatos de idioma, não linhas substantivas de
+# pesquisa. Detectar o idioma permite (i) usá-lo como critério de corpus e
+# (ii) reportar quantos documentos cada decisão descarta.
 message(">>> Corpus total: ", nrow(corpus_total), " documentos.")
+message(">>> Idioma dos resumos: ",
+        paste(names(table(corpus_total$idioma_resumo, useNA = "ifany")),
+              table(corpus_total$idioma_resumo, useNA = "ifany"),
+              sep = "=", collapse = " "))
+
+# ---------------------------------------------------------------------------
+# 1c. DECISÃO DE CORPUS (Fase 2, T2.2)
+# ---------------------------------------------------------------------------
+# `stm_config.rds` é gravado por 06a_stm_searchK.R e carrega K e o recorte de
+# idioma escolhidos. Sem o arquivo, o script roda no padrão histórico
+# (corpus completo, K = 8), para continuar reproduzível sozinho.
+cfg_path <- file.path(dir_processed, "stm_config.rds")
+cfg <- if (file.exists(cfg_path)) readRDS(cfg_path) else list(K = 8, idioma = "todos")
+corpus_modelado <- if (identical(cfg$idioma, "pt")) {
+  corpus_total %>% filter(!is.na(idioma_resumo), idioma_resumo == "pt")
+} else corpus_total
+n_descartados_idioma <- nrow(corpus_total) - nrow(corpus_modelado)
+message(">>> Corpus modelado (", cfg$idioma, "): ", nrow(corpus_modelado),
+        " documentos (", n_descartados_idioma, " descartados por idioma).")
+corpus_total <- corpus_modelado
 
 # -----------------------------------------------------------------------------
 # 2. STOPWORDS MULTILÍNGUES + ACADÊMICAS (TRANSLITERADAS)
@@ -120,13 +165,25 @@ out <- prepDocuments(
   lower.thresh = 20 # Aparece em no mínimo 20 documentos
 )
 
-message(">>> Vocabulário final: ", length(out$vocab), " termos em ", length(out$documents), " documentos.")
+# C: `corpus_stm_n` (documentos ANTES de prepDocuments) e `modelo_docs`
+# (depois) são grandezas diferentes; a versão anterior sobrescrevia as duas com
+# o mesmo valor.
+n_corpus_antes <- nrow(corpus_total)
+n_modelo_docs <- length(out$documents)
+message(">>> Vocabulário final: ", length(out$vocab), " termos em ", n_modelo_docs,
+        " documentos (", n_corpus_antes - n_modelo_docs, " descartados por prepDocuments).")
+
+# Objeto de entrada preservado para `searchK` e `estimateEffect` (06a/06c).
+saveRDS(list(documents = out$documents, vocab = out$vocab, meta = out$meta,
+             n_corpus_antes = n_corpus_antes, n_modelo_docs = n_modelo_docs,
+             config = cfg, n_descartados_idioma = n_descartados_idioma),
+        file.path(dir_processed, "stm_prep.rds"))
 
 # -----------------------------------------------------------------------------
-# 3. ESTIMATIVA DO MODELO STM (K = 8 tópicos substantivos)
+# 3. ESTIMATIVA DO MODELO STM
 # -----------------------------------------------------------------------------
 set.seed(20260828)
-K <- 8
+K <- cfg$K
 message(">>> Estimando modelo STM com K = ", K, " tópicos...")
 
 stm_model <- stm(
@@ -145,20 +202,18 @@ stm_model <- stm(
 # -----------------------------------------------------------------------------
 top_terms <- labelTopics(stm_model, n = 8)
 
-# Rótulos revisados em auditoria (2026-08-29). IMPORTANTE: os rótulos dependem
-# da ordem dos tópicos do modelo estimado; conferir com os termos FREX impressos
-# abaixo após cada re-estimação. Para o modelo reestimado no corpus corrigido
-# (16.457 documentos), a ordem é:
-topicos_nomes <- c(
-  "T1: Direitos Humanos, Gênero e Segurança Pública",
-  "T2: Relações Internacionais, Política Externa e Cooperação",
-  "T3: Políticas Públicas, Saúde e Educação",
-  "T4: Eleições, Partidos e Instituições Representativas",
-  "T5: Corpus em espanhol (artefato de idioma)",
-  "T6: Teoria Política e Pensamento Político",
-  "T7: Corpus em inglês (BPSR)",
-  "T8: Opinião Pública, Comunicação e Participação"
-)
+# Os rótulos NÃO são hardcodados aqui: dependem da ordem dos tópicos do modelo
+# estimado e mudam a cada re-estimação. `stm_topicos_nomes.rds` guarda os
+# rótulos vigentes; se o K mudar ou o arquivo não existir, o script gera
+# rótulos provisórios com os próprios termos FREX, para que nenhuma figura
+# saia com um rótulo herdado de outro modelo (foi o erro da rodada anterior).
+nomes_path <- file.path(dir_processed, "stm_topicos_nomes.rds")
+topicos_nomes <- if (file.exists(nomes_path)) readRDS(nomes_path) else NULL
+if (is.null(topicos_nomes) || length(topicos_nomes) != K) {
+  topicos_nomes <- sprintf("T%d: %s [a rotular]", 1:K,
+                           apply(top_terms$frex[, 1:4, drop = FALSE], 1, paste, collapse = ", "))
+  message(">>> Rótulos provisórios gerados (K mudou ou não havia rótulos salvos).")
+}
 
 message(">>> Tópicos identificados:")
 for (k in 1:K) {
@@ -210,11 +265,11 @@ p_topicos <- ggplot(df_evolucao_anual, aes(x = ano, y = prevalencia, colour = to
   scale_colour_brewer(palette = "Dark2", guide = "none") +
   labs(
     title = "Evolução Temática da Ciência Política no Brasil (1995–2024)",
-    subtitle = "Prevalência média anual dos 8 tópicos modelados via Structural Topic Model (STM)",
+    subtitle = paste0("Prevalência média anual dos ", K, " tópicos modelados via Structural Topic Model (STM)"),
     x = "Ano de Defesa / Publicação",
     y = "Proporção média no corpus",
     caption = paste0("Fonte: Corpus integrado CAPES e periódicos OpenAlex (N = ",
-                     format(nrow(out$documents), big.mark = "."), "). Elaboração própria.")
+                     format(n_modelo_docs, big.mark = "."), "). Elaboração própria.")
   ) +
   theme_artigo() +
   theme(strip.text = element_text(size = 8.5, face = "bold"))
@@ -246,14 +301,21 @@ ggsave(file.path(dir_figuras, "fig06_stm_heatmap_decadas.pdf"), p_heatmap, width
 # -----------------------------------------------------------------------------
 # 7. SALVAMENTO DE RESULTADOS
 # -----------------------------------------------------------------------------
-saveRDS(stm_model, file.path(dir_processed, "stm_model_k8.rds"))
+saveRDS(stm_model, file.path(dir_processed, "stm_modelo.rds"))
+saveRDS(stm_model, file.path(dir_processed, paste0("stm_model_k", K, ".rds")))
+saveRDS(df_theta, file.path(dir_processed, "stm_theta.rds"))
 saveRDS(df_evolucao_anual, file.path(dir_processed, "stm_evolucao_anual.rds"))
 saveRDS(df_evolucao_decada, file.path(dir_processed, "stm_evolucao_decada.rds"))
 saveRDS(topicos_nomes, file.path(dir_processed, "stm_topicos_nomes.rds"))
 
-# Valores inline para o manuscrito (corrige o "N = 16.589" fixo da legenda)
+# Valores inline para o manuscrito. `corpus_stm_n` e `modelo_docs` são
+# grandezas DISTINTAS (antes e depois de prepDocuments).
 saveRDS(
-  list(corpus_stm_n = nrow(corpus_total), modelo_docs = length(out$documents)),
+  list(corpus_stm_n = n_corpus_antes, modelo_docs = n_modelo_docs,
+       corpus_bruto_n = n_corpus_antes + n_descartados_idioma,
+       K = K, corpus_idioma = cfg$idioma,
+       n_descartados_idioma = n_descartados_idioma,
+       n_vocab = length(out$vocab)),
   file.path(dir_processed, "valores_inline_stm.rds")
 )
 

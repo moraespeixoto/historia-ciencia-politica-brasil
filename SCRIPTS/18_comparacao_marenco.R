@@ -73,11 +73,39 @@ write_csv(marenco_estados_phd, file.path(dir_tabelas, "tabela_marenco_estados_ph
 # (exclui programas "EM DESATIVACAO"; ver AUDITORIA.md §9)
 prog <- readRDS(file.path(dir_processed, "sucupira_programas_cp_2013_2024.rds")) %>%
   filter(is.na(ds_situacao_programa) | ds_situacao_programa != "EM DESATIVACAO")
+norm <- function(x) toupper(iconv(x, to = "ASCII//TRANSLIT", sub = ""))
+prog <- prog %>%
+  mutate(
+    grau_n = norm(nm_grau_programa),
+    modalidade_n = if_else(grepl("PROFISSIONAL", norm(nm_modalidade_programa)),
+                           "PROFISSIONAL", "ACADEMICO"),
+    tem_mestrado_acad = grepl("MESTRADO", grau_n) & modalidade_n == "ACADEMICO",
+    tem_doutorado_acad = grepl("DOUTORADO", grau_n) & modalidade_n == "ACADEMICO"
+  )
+
+# F10: Marenco conta CURSOS de mestrado e de doutorado ACADÊMICOS aprovados
+# (Ciência Política estrita). A versão anterior deste script comparava o total
+# de PROGRAMAS da Área 39, inclusive os só-doutorado e os profissionais, e
+# chamava isso de "programas de mestrado". Aqui a contagem passa a ser de
+# cursos acadêmicos, o recorte comparável.
+contar_cursos <- function(ano_alvo) {
+  p <- prog %>% filter(ano_base == as.character(ano_alvo))
+  list(
+    ma = n_distinct(p$cd_programa_ies[p$tem_mestrado_acad]),
+    phd = n_distinct(p$cd_programa_ies[p$tem_doutorado_acad]),
+    mp = n_distinct(p$cd_programa_ies[grepl("MESTRADO", p$grau_n) & p$modalidade_n == "PROFISSIONAL"]),
+    estados_phd = n_distinct(p$sg_uf_programa[p$tem_doutorado_acad]),
+    ufs_phd = sort(unique(p$sg_uf_programa[p$tem_doutorado_acad])),
+    total_programas = n_distinct(p$cd_programa_ies)
+  )
+}
+c13 <- contar_cursos(2013)
+c24 <- contar_cursos(2024)
 p13 <- prog %>% filter(ano_base == "2013")
-n_ma_area39_2013 <- n_distinct(p13$cd_programa_ies)
-p13_doc <- p13 %>% filter(grepl("DOUTORADO", toupper(nm_grau_programa)))
-n_phd_area39_2013 <- n_distinct(p13_doc$cd_programa_ies)
-n_estados_area39_2013 <- n_distinct(p13_doc$sg_uf_programa)
+n_ma_area39_2013 <- c13$ma
+n_phd_area39_2013 <- c13$phd
+n_estados_area39_2013 <- c13$estados_phd
+p13_doc <- p13 %>% filter(tem_doutorado_acad)
 cat("Área 39 completa (Sucupira), UFs com doutorado em 2013:", n_estados_area39_2013,
     "—", paste(sort(unique(p13_doc$sg_uf_programa)), collapse = ", "), "\n")
 cat("Ciência Política estrita (Marenco), UFs com doutorado em 2010:",
@@ -151,13 +179,33 @@ ggsave(file.path(dir_figuras, "fig19_marenco_continuidade_razao_doutores.pdf"), 
 # -----------------------------------------------------------------------------
 # 4. Valores inline para o artigo
 # -----------------------------------------------------------------------------
+# Tendência da razão doutores/docentes permanentes, 2013-2024 (F10): teste
+# simples de inclinação, com IC, para não descrever como "estagnação" ou
+# "crescimento" o que é ruído.
+mod_tend <- lm(ratio ~ I(ano - 2013), data = razao_area39)
+ic_tend <- confint(mod_tend)["I(ano - 2013)", ]
+
 v_marenco <- list(
   marenco_ma_2013 = 38, marenco_phd_2013 = 17,
+  # Cursos ACADÊMICOS na Área 39 (recorte comparável ao de Marenco).
   area39_ma_2013 = n_ma_area39_2013, area39_phd_2013 = n_phd_area39_2013,
+  area39_ma_2024 = c24$ma, area39_phd_2024 = c24$phd,
+  area39_mp_2013 = c13$mp, area39_mp_2024 = c24$mp,
+  area39_programas_2013 = c13$total_programas, area39_programas_2024 = c24$total_programas,
   marenco_estados_phd_2010 = 6, area39_estados_phd_2013 = n_estados_area39_2013,
+  area39_estados_phd_2024 = c24$estados_phd,
   marenco_ratio_2004 = 0.11, marenco_ratio_2012 = 0.21,
   area39_ratio_2013 = round(razao_area39$ratio[razao_area39$ano == 2013], 2),
-  area39_ratio_2024 = round(razao_area39$ratio[razao_area39$ano == 2024], 2)
+  area39_ratio_2024 = round(razao_area39$ratio[razao_area39$ano == 2024], 2),
+  tendencia_ratio_coef = round(unname(coef(mod_tend)[2]), 4),
+  tendencia_ratio_ic_inf = round(unname(ic_tend[1]), 4),
+  tendencia_ratio_ic_sup = round(unname(ic_tend[2]), 4),
+  # Ano de referência de cada série: Marenco reporta estados com doutorado em
+  # 2010; a Sucupira, a partir de 2013. Anos DISTINTOS, explicitados no texto.
+  marenco_ano_estados = 2010, este_ano_estados = 2013,
+  proveniencia = paste("Valores de Marenco (2014) lidos das figuras do artigo",
+                       "(Gráficos 1-4, tabelas impressas nas próprias figuras);",
+                       "o banco de replicação do autor não resolveu por DNS.")
 )
 saveRDS(v_marenco, file.path(dir_processed, "valores_inline_marenco.rds"))
 
