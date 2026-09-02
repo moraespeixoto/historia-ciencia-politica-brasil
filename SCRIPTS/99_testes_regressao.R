@@ -201,4 +201,101 @@ test_that("Fase 2: concentracao e quebras", {
   expect_true(nrow(qb$quebras) > 0)
 })
 
+# ---------------------------------------------------------------------------
+test_that("genero: imputacao por nome, cobertura e serie estaveis", {
+  skip_if_not(file.exists(P("valores_inline_genero.rds")), "22 ainda não rodado")
+  vg <- readRDS(P("valores_inline_genero.rds"))
+
+  # Escopo: a análise cobre TODOS os trabalhos titulados da Área 39, porque
+  # `autor` (1987-2012) e `nm_discente` (2013-2024) são complementares. Se este
+  # número cair, alguém trocou o coalesce por uma coluna só.
+  expect_equal(vg$n_trabalhos, 12661)
+  expect_equal(vg$ano_inicio, 1987L)
+  expect_equal(vg$ano_fim, 2024L)
+  expect_equal(vg$censo_ano, 2022)
+  expect_equal(vg$limiar, 0.90)
+  expect_equal(vg$n_nome_ausente, 0)
+  expect_equal(vg$n_sem_token, 0)
+
+  # Cobertura da classificação: 12.582 de 12.661 (99,4%), 79 não classificados.
+  expect_equal(vg$n_classificado, 12582)
+  expect_equal(vg$n_nao_classificado, 79)
+  expect_gt(vg$taxa_classificacao, 0.99)
+
+  # NÃO HÁ VIÉS TEMPORAL DE COBERTURA: a taxa de classificação varia menos de
+  # 2 pontos entre quinquênios e a deriva por década é praticamente nula. Se
+  # isto quebrar, a série deixa de ser comparável ao longo do tempo e o texto
+  # precisa declarar o viés, não ignorá-lo.
+  expect_lt(vg$amplitude_taxa_pp, 2)
+  expect_lt(abs(vg$deriva_cobertura_pp_decada), 0.5)
+  expect_gt(vg$taxa_min_quinquenio, 0.98)
+
+  # Resultado principal: 40,3% (1987-1991) -> 49,1% (2020-2024), +8,8 pp.
+  expect_equal(round(100 * vg$fem_1987_1991, 1), 40.3)
+  expect_equal(round(100 * vg$fem_2020_2024, 1), 49.1)
+  expect_equal(round(vg$variacao_pp, 1), 8.8)
+  expect_equal(round(100 * vg$fem_geral, 1), 45.2)
+  expect_gt(vg$or_decada, 1)
+  expect_gt(vg$or_decada_ic[1], 1)   # IC da tendência não cruza 1
+
+  # A série NÃO cruza a paridade com confiança estatística em ano nenhum: só
+  # há maioria feminina como estimativa pontual (2017, 2019, 2023, 2024). O
+  # texto não pode anunciar um "ano da virada".
+  expect_false(vg$houve_maioria_fem_ic)
+  expect_true(is.na(vg$primeiro_ano_maioria_fem_ic))
+  expect_equal(vg$anos_maioria_fem_pontual, c(2017L, 2019L, 2023L, 2024L))
+})
+
+test_that("genero: recortes por nivel, subarea e regiao", {
+  skip_if_not(file.exists(P("valores_inline_genero.rds")), "22 ainda não rodado")
+  vg <- readRDS(P("valores_inline_genero.rds"))
+
+  # Nível: o doutorado é sistematicamente menos feminino que o mestrado.
+  expect_lt(vg$fem_nivel_total[["Doutorado"]], vg$fem_nivel_total[["Mestrado"]])
+  expect_equal(unname(vg$n_nivel_total[["Doutorado"]] + vg$n_nivel_total[["Mestrado"]]),
+               vg$n_classificado)
+  expect_gt(vg$hiato_nivel_2020_2024_pp, 0)
+  # Em 2020-2024 o mestrado chega à paridade (IC contém 50%: 48,6%-52,0%) e o
+  # doutorado fica ABAIXO dela (IC inteiramente < 50%). O texto não pode dizer
+  # que o mestrado "ultrapassou" a paridade — o IC não sustenta isso.
+  expect_lt(vg$fem_mestrado_2020_2024_ic[1], 0.5)
+  expect_gt(vg$fem_mestrado_2020_2024_ic[2], 0.5)
+  expect_lt(vg$fem_doutorado_2020_2024_ic[2], 0.5)
+
+  # Subáreas: PP é a mais feminina e DEFESA a menos feminina, com folga.
+  expect_equal(names(which.max(vg$fem_subarea)), "PP")
+  expect_equal(names(which.min(vg$fem_subarea)), "DEFESA")
+  expect_gt(vg$fem_subarea[["PP"]] - vg$fem_subarea[["DEFESA"]], 0.20)
+  # SEGPUB fica de fora da figura por n insuficiente (84 trabalhos).
+  expect_equal(vg$subareas_n_insuficiente, "SEGPUB")
+  expect_true(all(vg$n_subarea[vg$subareas_plotadas] >= vg$n_min_recorte))
+
+  # Região só existe no layout novo: o recorte começa em 2013, não em 1987.
+  expect_equal(vg$regiao_periodo_inicio, 2013L)
+  expect_equal(sum(vg$n_regiao), 8609)   # classificados de 2013-2024
+  expect_equal(vg$regiao_max, "NORDESTE")
+  expect_equal(vg$regiao_menor_n, "NORTE")
+})
+
+test_that("genero: unidade de analise e sensibilidade da regra de nome", {
+  skip_if_not(file.exists(P("valores_inline_genero.rds")), "22 ainda não rodado")
+  vg <- readRDS(P("valores_inline_genero.rds"))
+
+  # Trabalho x pessoa (só 2013-2024, onde há id_pessoa_discente): 8.663
+  # trabalhos de 7.979 pessoas. A diferença na proporção feminina é menor que
+  # meio ponto — a dupla titulação não distorce a série.
+  expect_equal(vg$n_trabalhos_2013_2024, 8663)
+  expect_equal(vg$n_pessoas_2013_2024, 7979)
+  expect_equal(vg$n_pessoas_repetidas, 684)
+  expect_lt(abs(vg$dif_trabalho_pessoa_pp), 0.5)
+
+  # Sensibilidade: sem a regra de recuperação (só o primeiro token), a
+  # cobertura cai de 99,4% para 97,1% e a proporção feminina global muda menos
+  # de meio ponto percentual. O achado não depende da regra.
+  expect_lt(vg$taxa_classificacao_sem_rec, vg$taxa_classificacao)
+  expect_gt(vg$taxa_classificacao_sem_rec, 0.96)
+  expect_lt(vg$dif_sensibilidade_pp, 0.5)
+  expect_equal(vg$n_usou_recuperacao, 283)
+})
+
 cat("\n>>> TODOS OS TESTES DE REGRESSÃO PASSARAM.\n")

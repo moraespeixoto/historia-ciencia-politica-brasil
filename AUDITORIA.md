@@ -491,3 +491,149 @@ reestruturação de seções — isso é Fase 3.
 duplicatas e 1 registro pré-fundação removidos); comparação 2024 Geografia 80,
 História 80, Economia 76, **CP/RI 64**, Sociologia 52, Antropologia 38; STM K=8
 sobre 14.883 resumos em português.
+
+---
+
+## 11. Nova análise — composição de gênero da autoria discente (2026-09-02)
+
+Análise nova, não prevista nas fases anteriores: a evolução da distribuição de
+gênero entre autores e autoras de teses e dissertações da Área 39, 1987–2024.
+Script: `SCRIPTS/22_genero_autoria.R`. Texto pronto para colagem no `.qmd`:
+`SECAO_GENERO.md` (o `.qmd` **não** foi editado nesta rodada).
+
+**Numeração.** A tarefa pedia `20_genero_autoria.R` e `fig21_genero_temporal`,
+mas `20_concentracao.R`, `21_quebras_estruturais.R`, `fig21_concentracao` e
+`fig22_quebras_estruturais` já existiam. Para não criar dois artefatos com o
+mesmo prefixo, o script é o **22** e as figuras são **fig23** (corpo) e
+**fig23b** (apêndice). Renomear é trivial, mas exigiria decidir o que fazer com
+os arquivos homônimos existentes — decisão do autor.
+
+### 11.1 Coluna de nome: `autor` e `nm_discente` são complementares
+
+Inspeção antes de qualquer decisão (o item que o protocolo exploratório exige):
+
+| Layout | Registros | `autor` preenchido | `nm_discente` preenchido | `id_pessoa_discente` |
+|---|---|---|---|---|
+| antigo (1987–2012) | 3.998 | 3.998 | 0 | 0 |
+| novo (2013–2024) | 8.663 | 0 | 8.663 | 8.663 |
+
+**Nenhum** registro tem as duas colunas preenchidas. Usar só uma delas
+truncaria a série pela metade. A base da análise é, portanto,
+`coalesce(nm_discente, autor)`, e o script tem um `stopifnot()` que falha se a
+disjunção deixar de valer numa reextração futura. O ano vem de
+`coalesce(an_base, ano_base)`, a mesma regra de `08_auditoria_series_temporais.R`.
+
+Consequência de escopo: `id_pessoa_discente`, `nm_regiao` e `sg_uf_ies` só
+existem no layout novo. Por isso a contagem **por pessoa** e o recorte
+**regional** são reportados apenas para 2013–2024, e o texto declara isso em
+vez de apresentar a série como se fosse completa.
+
+### 11.2 Método
+
+`genderBR` 1.4.0 (CRAN; Fernando Meireles), `get_gender(prob = TRUE,
+internal = TRUE, year = 2022)` — frequências por sexo dos primeiros nomes no
+**Censo Demográfico 2022 do IBGE**, embutidas no pacote (sem chamada de rede).
+Limiar de 0,9: `p_fem ≥ 0,9` → feminino, `p_fem ≤ 0,1` → masculino, entre os
+dois → não classificado. Normalização do nome: remoção de acentos, caixa alta,
+remoção de pontuação (abreviaturas do tipo `A.FARIAS`), descarte de partículas
+(`DE`, `DA`, `DOS`, …), sufixos (`JUNIOR`, `NETO`, `FILHO`, …) e iniciais de
+uma letra. 8.466 nomes únicos consultados.
+
+**Regra de recuperação.** Em uma minoria dos registros de 1987–2012 o nome vem
+com o sobrenome à frente (`MENEGUELLO RACHEL`, `SAMIOS EVA MACHADO BARBOSA`,
+`CRUZ SEBASTIAO CARLOS VELASCO`). Quando o primeiro elemento não decide, a
+rotina percorre os elementos seguintes e usa o primeiro que decida. Isso
+recuperou **283** registros. A série sem a regra é preservada e reportada como
+sensibilidade: 45,6% de autoria feminina no agregado contra 45,2% da série
+principal — **0,41 pp** de diferença. O achado não depende da regra.
+
+### 11.3 Cobertura da classificação — e por que ela não vicia a série
+
+12.582 de 12.661 trabalhos classificados (**99,4%**); 79 não classificados,
+sendo 62 com primeiro nome ausente da base do Censo e 17 com probabilidade
+intermediária (nomes unissex). Zero nomes ausentes ou vazios na base.
+
+O risco real desta análise seria uma cobertura que variasse com o tempo, o que
+produziria tendência artificial. **Não é o caso:** por quinquênio a taxa vai de
+98,9% (1990–1994) a 100% (1985–1989), amplitude de **1,1 pp**, e a regressão da
+taxa anual contra o ano dá deriva de **0,03 pp por década**. Os dois fatos
+estão travados em `99_testes_regressao.R`
+(`expect_lt(amplitude_taxa_pp, 2)`, `expect_lt(abs(deriva), 0.5)`); se uma
+reextração quebrar isso, o viés passa a existir e o texto tem de declará-lo.
+
+### 11.4 Resultados
+
+- **Série:** 40,3% de autoria feminina em 1987–1991 → 49,1% em 2020–2024
+  (+8,8 pp). Agregado da série: 45,2%. Razão de chances de 1,25 por década
+  (IC 95%: 1,20–1,31).
+- **Sem ano de virada.** Em **nenhum** ano o IC 95% (Wilson) ficou inteiramente
+  acima de 50%. A maioria feminina aparece só como estimativa pontual em 2017,
+  2019, 2023 e 2024. 2024: 50,3% (IC 47,2–53,4). O texto diz "aproximação da
+  paridade", não "superação", e há teste travando isso
+  (`expect_false(houve_maioria_fem_ic)`).
+- **Nível:** mestrado 46,5% e doutorado 40,1% na série inteira. Partiam juntos
+  (37,0% e 36,0% em 1987–1999) e se afastaram. Em 2020–2024, mestrado 50,3%
+  (IC 48,6–52,0, **indistinguível da paridade**, não acima dela) e doutorado
+  44,3% (IC 41,0–47,7, abaixo dela). Hiato de 6,0 pp.
+- **Subárea** (regra de `10_classificacao_subareas_fun.R`, com checagem de que
+  a classificação reproduz registro a registro a série do script 10): PP 58,3%
+  (n = 1.596), RI 47,9% (3.427), CP 42,6% (6.218), DEFESA 31,9% (1.025).
+  Amplitude de 26,4 pp entre PP e DEFESA.
+- **Região** (só 2013–2024): Nordeste 54,5%, Sul 49,3%, Norte 48,2%,
+  Sudeste 46,0%, Centro-Oeste 43,4%.
+- **Trabalho × pessoa:** em 2013–2024, 8.663 trabalhos de 7.979 pessoas
+  distintas (684 pessoas com mestrado e doutorado na área). Proporção feminina
+  por pessoa 48,1% contra 47,8% por trabalho — 0,33 pp de diferença. A dupla
+  titulação não distorce a série.
+
+### 11.5 Recortes com n insuficiente (declarados, não plotados)
+
+- **SEGPUB** (segurança pública): 84 trabalhos classificados em toda a série.
+  Fora da figura de subáreas e do texto desagregado.
+- **OUTROS**: 233 trabalhos, acima do piso de 200, mas é categoria residual
+  (programas interdisciplinares heterogêneos). A média de um resíduo não é
+  grandeza interpretável — excluída da figura por decisão explícita.
+- **Doutorado antes de 1995**: entre 2 e 28 titulados por ano; a série anual
+  por nível oscilava entre 0% e 67% só por tamanho de amostra. Por isso o
+  painel (b) da fig23 é **por quinquênio**, com piso de 30 trabalhos
+  classificados por ponto, e não anual.
+- **Norte**: 227 trabalhos em 2013–2024. Reportado com a ressalva no texto,
+  não plotado isoladamente.
+
+### 11.6 Limites declarados no texto
+
+Imputação **probabilística** a partir do Censo do IBGE, não medida de
+identidade de gênero; **binária por construção** do método, portanto não capta
+pessoas trans nem não binárias; erra mais em nomes raros, estrangeiros e
+unissex — que são exatamente os que concentram as 79 não classificações. A
+unidade é o **trabalho titulado**, não a pessoa. Tudo isso está no parágrafo
+metodológico da seção e na nota de rodapé das duas figuras.
+
+### 11.7 Contradição corrigida na §3 do `.qmd`
+
+A §3 afirmava: *"Os microdados docentes não contêm sexo ou gênero; nenhuma
+dessas características é inferida por nome."* A frase é verdadeira para os
+**docentes** e falsa como afirmação geral depois desta seção, que infere gênero
+por nome para os **discentes**. `SECAO_GENERO.md` traz a redação substituta
+exata (duas versões, longa e curta). **O `.qmd` não foi editado** — a aplicação
+é do autor.
+
+### 11.8 Artefatos e testes
+
+Criados: `SCRIPTS/22_genero_autoria.R`, `SECAO_GENERO.md`,
+`DADOS/processed/genero_autoria_registros.rds`,
+`DADOS/processed/genero_serie_anual.rds`,
+`DADOS/processed/valores_inline_genero.rds`,
+`TABELAS/tabela_genero_{serie_anual,por_nivel,por_subarea,por_regiao,cobertura_periodo}.csv`,
+`FIGURAS/fig23_genero_temporal.{png,pdf}`,
+`FIGURAS/fig23b_genero_subarea.{png,pdf}`.
+
+`99_testes_regressao.R` passou de 15 para **18 blocos**, todos passando. Os três
+novos travam escopo e cobertura, ausência de deriva temporal na taxa de
+classificação, os números da série e dos recortes, a não superação da paridade,
+a equivalência trabalho × pessoa e a sensibilidade à regra de recuperação.
+
+Nota lateral: `write_csv` emite `NAs introduzidos por coerção` neste projeto
+porque `usa_locale_ptbr()` fixa `OutDec = ","` globalmente. O CSV gravado sai
+correto (decimal com ponto) — verificado contra as tabelas dos scripts
+anteriores. É aviso pré-existente e comum a todos os scripts, não desta análise.
